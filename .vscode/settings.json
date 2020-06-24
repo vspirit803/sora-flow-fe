@@ -1,0 +1,11 @@
+{
+    "prettier.packageManager": "yarn",
+    "vetur.validation.template": false,
+    "vetur.format.defaultFormatter.html": "prettier",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+    "eslint.codeAction.disableRuleComment": {},
+    "files.eol": "\n",
+}
