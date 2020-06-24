@@ -12,9 +12,39 @@ interface Organization {
   name: string;
 }
 
+interface Role {
+  id: string;
+  name: string;
+  text: string;
+}
+
+interface Profile {
+  id: string;
+  name: string;
+  nickname: string;
+  roles?: Array<Role>;
+  organizationId?: string;
+  organizationName?: string;
+}
+
+interface MenuItem {
+  name: string;
+  namePath: Array<string>;
+  idPath: Array<string>;
+  parentId: string;
+  parentName: string;
+  icon: string;
+  enable: boolean;
+  type: 'directory' | 'item';
+  visible: boolean;
+  children: Array<MenuItem>;
+}
+
 interface StoreType {
   token: string;
   organizations: Array<Organization>;
+  profile?: Profile;
+  menus: Array<MenuItem>;
 }
 
 function generateStore() {
@@ -23,6 +53,8 @@ function generateStore() {
     state: {
       token: '',
       organizations: [],
+      profile: undefined,
+      menus: [],
     },
     getters: {},
     mutations: {
@@ -32,6 +64,12 @@ function generateStore() {
       },
       setOrganizations: function (state, organizations: Array<Organization>) {
         state.organizations = organizations;
+      },
+      setProfile: function (state, profile: Profile) {
+        state.profile = profile;
+      },
+      setMenus: function (state, menus: Array<MenuItem>) {
+        state.menus = menus;
       },
     },
     actions: {},
