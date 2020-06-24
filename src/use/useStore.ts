@@ -1,4 +1,4 @@
-import { inject, provide } from '@vue/composition-api';
+import { provide } from '@vue/composition-api';
 import axios from 'axios';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
@@ -45,16 +45,20 @@ interface StoreType {
   organizations: Array<Organization>;
   profile?: Profile;
   menus: Array<MenuItem>;
+  loading: boolean;
 }
 
+let store: Store<StoreType> | undefined;
+
 function generateStore() {
-  return new Store<StoreType>({
+  store = new Store<StoreType>({
     // plugins: [createPersistedState({ paths: [] })],
     state: {
       token: '',
       organizations: [],
       profile: undefined,
       menus: [],
+      loading: false,
     },
     getters: {},
     mutations: {
@@ -71,6 +75,9 @@ function generateStore() {
       setMenus: function (state, menus: Array<MenuItem>) {
         state.menus = menus;
       },
+      setLoading: function (state, loading: boolean) {
+        state.loading = loading;
+      },
     },
     actions: {},
     modules: {},
@@ -82,7 +89,7 @@ export function provideStore() {
 }
 
 export function useStore() {
-  const store = inject(StoreSymbol);
+  // const store = inject(StoreSymbol);
   if (!store) {
     throw new Error('没有获取到Store实例');
   }

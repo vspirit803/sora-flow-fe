@@ -4,7 +4,7 @@
       <Menu />
     </v-navigation-drawer>
 
-    <v-app-bar app clipped-left dark>
+    <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <v-btn to="/">Home</v-btn>
@@ -21,6 +21,7 @@
         <span class="mr-2">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
+      <v-progress-linear :active="loading" :indeterminate="loading" absolute bottom></v-progress-linear>
     </v-app-bar>
 
     <v-main>
@@ -32,16 +33,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 
-import { provideStore } from '@/use';
+import { provideStore, useStore } from '@/use';
 import Menu from '@/views/Menu.vue';
 export default defineComponent({
   name: 'App',
   components: { Menu },
   setup() {
     provideStore();
-    return { drawer: ref(true) };
+    const store = useStore();
+    const loading = computed(() => store.state.loading);
+    return { drawer: ref(true), loading };
   },
 });
 </script>
