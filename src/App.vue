@@ -41,7 +41,7 @@ export default defineComponent({
   components: { Menu },
   setup() {
     provideStore();
-    return { drawer: ref(false) };
+    return { drawer: ref(true) };
   },
 });
 </script>
