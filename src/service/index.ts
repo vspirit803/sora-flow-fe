@@ -8,7 +8,7 @@ axios.defaults.baseURL = '/api';
 axios.interceptors.request.use(
   function (config) {
     // 对请求数据做些什么
-    useStore().commit('setLoading', true);
+    useStore().commit('requestStart');
     return config;
   },
   function (error) {
@@ -21,11 +21,12 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   function (response) {
     // 对响应数据做点什么
-    useStore().commit('setLoading', false);
+    useStore().commit('requestEnd');
     return response;
   },
-  function (error) {
+  function (error: Error) {
     // 对响应错误做点什么
+    useStore().commit('requestError', error);
     return Promise.reject(error);
   },
 );

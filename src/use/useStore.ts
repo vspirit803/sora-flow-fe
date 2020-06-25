@@ -46,9 +46,14 @@ interface StoreType {
   profile?: Profile;
   menus: Array<MenuItem>;
   loading: boolean;
+  requestCount: number;
+  errorMsg: string;
+  isError: boolean;
 }
 
 let store: Store<StoreType> | undefined;
+
+let stopLoadingTimeout: number;
 
 function generateStore() {
   store = new Store<StoreType>({
@@ -59,6 +64,9 @@ function generateStore() {
       profile: undefined,
       menus: [],
       loading: false,
+      requestCount: 0,
+      errorMsg: '',
+      isError: false,
     },
     getters: {},
     mutations: {
@@ -77,6 +85,34 @@ function generateStore() {
       },
       setLoading: function (state, loading: boolean) {
         state.loading = loading;
+      },
+      requestStart: function (state) {
+        state.requestCount++;
+        state.loading = true;
+        if (stopLoadingTimeout) {
+          clearTimeout(stopLoadingTimeout);
+        }
+      },
+      requestEnd: function (state) {
+        state.requestCount--;
+        if (state.requestCount <= 0) {
+          stopLoadingTimeout = setTimeout(() => {
+            state.loading = false;
+          });
+        }
+      },
+      requestError: function (state, error: Error) {
+        state.errorMsg = error.message;
+        state.isError = true;
+        state.requestCount--;
+        if (state.requestCount <= 0) {
+          stopLoadingTimeout = setTimeout(() => {
+            state.loading = false;
+          });
+        }
+      },
+      setIsError: function (state, isError: boolean) {
+        state.isError = isError;
       },
     },
     actions: {},

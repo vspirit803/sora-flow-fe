@@ -3,11 +3,14 @@
     <v-navigation-drawer v-model="drawer" app clipped>
       <Menu />
     </v-navigation-drawer>
-
+    <v-snackbar v-model="snackbar" :timeout="3000" top>
+      {{ errorMsg }}
+    </v-snackbar>
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <v-btn to="/">Home</v-btn>
+      <v-btn to="/login">Login</v-btn>
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
@@ -33,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from '@vue/composition-api';
+import { computed, defineComponent, ref, watch } from '@vue/composition-api';
 
 import { provideStore, useStore } from '@/use';
 import Menu from '@/views/Menu.vue';
@@ -44,7 +47,19 @@ export default defineComponent({
     provideStore();
     const store = useStore();
     const loading = computed(() => store.state.loading);
-    return { drawer: ref(true), loading };
+    const errorMsg = computed(() => store.state.errorMsg);
+    const isError = computed(() => store.state.isError);
+    const snackbar = ref(false);
+    watch(isError, () => {
+      snackbar.value = isError.value;
+    });
+    watch(snackbar, (value) => {
+      if (!value) {
+        store.commit('setIsError', false);
+      }
+    });
+
+    return { drawer: ref(true), loading, errorMsg, snackbar };
   },
 });
 </script>
