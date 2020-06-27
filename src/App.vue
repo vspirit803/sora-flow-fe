@@ -29,7 +29,9 @@
 
     <v-main>
       <vue-custom-scrollbar>
-        <keep-alive> <router-view></router-view> </keep-alive>
+        <!-- <keep-alive> -->
+        <router-view></router-view>
+        <!-- </keep-alive> -->
       </vue-custom-scrollbar>
     </v-main>
   </v-app>
