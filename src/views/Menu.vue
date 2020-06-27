@@ -2,7 +2,7 @@
   <v-list expand>
     <!--一级菜单-->
     <template v-for="each of menus">
-      <v-list-item v-if="each.type === 'item'" :key="each.id" link @click="onSelect(each)">
+      <v-list-item v-if="each.type === 'item'" :key="each.id" link @click="onSelect(each)" :to="each.url">
         <v-list-item-title>{{ each.name }}</v-list-item-title>
       </v-list-item>
       <v-list-group v-else :key="each.id">
@@ -12,7 +12,13 @@
 
         <!--二级菜单-->
         <template v-for="eachSub of each.children">
-          <v-list-item v-if="eachSub.type === 'item'" :key="eachSub.id" link @click="onSelect(eachSub)">
+          <v-list-item
+            v-if="eachSub.type === 'item'"
+            :key="eachSub.id"
+            link
+            @click="onSelect(eachSub)"
+            :to="eachSub.url"
+          >
             <v-list-item-title>{{ eachSub.name }}</v-list-item-title>
           </v-list-item>
           <v-list-group sub-group v-else :key="eachSub.id">
@@ -27,6 +33,7 @@
               :input-value="eachSubSub.name === currMenu"
               link
               @click="onSelect(eachSubSub)"
+              :to="eachSubSub.url"
             >
               <v-list-item-title>{{ eachSubSub.name }}</v-list-item-title>
             </v-list-item>
