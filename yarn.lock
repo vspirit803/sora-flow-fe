@@ -6271,11 +6271,6 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-perfect-scrollbar@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.npm.taobao.org/perfect-scrollbar/download/perfect-scrollbar-1.5.0.tgz#821d224ed8ff61990c23f26db63048cdc75b6b83"
-  integrity sha1-gh0iTtj/YZkMI/JttjBIzcdba4M=
-
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npm.taobao.org/performance-now/download/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
@@ -8469,14 +8464,6 @@ vue-cli-plugin-vuetify@~2.0.5:
   dependencies:
     semver "^7.1.2"
     shelljs "^0.8.3"
-
-vue-custom-scrollbar@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npm.taobao.org/vue-custom-scrollbar/download/vue-custom-scrollbar-1.2.0.tgz#3579e1745016795c081e48f20a98a5d80d240626"
-  integrity sha1-NXnhdFAWeVwIHkjyCpil2A0kBiY=
-  dependencies:
-    perfect-scrollbar "^1.5.0"
-    vue "^2.6.11"
 
 vue-eslint-parser@^7.0.0:
   version "7.1.0"

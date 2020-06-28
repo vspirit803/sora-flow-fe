@@ -28,11 +28,7 @@
     </v-app-bar>
 
     <v-main>
-      <vue-custom-scrollbar>
-        <!-- <keep-alive> -->
-        <router-view></router-view>
-        <!-- </keep-alive> -->
-      </vue-custom-scrollbar>
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
@@ -65,3 +61,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="less" scoped>
+.scroller-container {
+  max-height: calc(100vh - 64px);
+}
+</style>
