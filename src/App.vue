@@ -24,6 +24,7 @@
         <span class="mr-2">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
+      <OrganizationsSelector />
       <v-progress-linear :active="loading" :indeterminate="loading" absolute bottom></v-progress-linear>
     </v-app-bar>
 
@@ -38,9 +39,11 @@ import { computed, defineComponent, onMounted, ref, watch } from '@vue/compositi
 
 import { provideStore, useStore } from '@/use';
 import Menu from '@/views/Menu.vue';
+import OrganizationsSelector from '@/views/OrganizationsSelector.vue';
+
 export default defineComponent({
   name: 'App',
-  components: { Menu },
+  components: { Menu, OrganizationsSelector },
   setup() {
     provideStore();
     const store = useStore();
