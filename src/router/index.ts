@@ -19,6 +19,11 @@ const routes = [
     name: 'SystemMenus',
     component: () => import(/* webpackChunkName: "system" */ '@/views/System/Menu.vue'),
   },
+  {
+    path: '/system/roles',
+    name: 'SystemRoles',
+    component: () => import(/* webpackChunkName: "system" */ '@/views/System/Roles.vue'),
+  },
 ];
 
 const router = new VueRouter({
