@@ -37,3 +37,27 @@ export interface UpdateMenuDto {
 export interface DeleteMenuDto {
   readonly id: string;
 }
+
+export interface Menu {
+  id: string;
+  name: string;
+  namePath: Array<string>;
+  idPath: Array<string>;
+  parentId: string;
+  parentName: string;
+  icon: string;
+  url: string;
+  enable: boolean;
+  type: 'directory' | 'item';
+  visible: boolean;
+}
+
+export interface MenuTreeItem extends Menu {
+  children: Array<MenuTreeItem>;
+}
+
+// export type MenuTreeItem = {
+//   children: Array<MenuTreeItem>;
+// } & {
+//   [P in keyof Menu]: Menu[P];
+// };

@@ -7,16 +7,6 @@
           <v-text-field v-model="password" type="password" label="密码" required></v-text-field>
           <v-btn class="mr-4" @click="submit">登录</v-btn>
         </v-form>
-        <!-- <v-list v-else>
-          <v-subheader>组织</v-subheader>
-          <v-list-item-group>
-            <v-list-item v-for="each of organizations" :key="each.id" @click="() => selectOrganization(each)">
-              <v-list-item-content>
-                <v-list-item-title v-text="each.name"></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list> -->
       </v-col>
     </v-row>
   </div>
@@ -24,9 +14,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
-import axios from 'axios';
 
-import { AuthService, ProfileService } from '@/service';
 import { useRouter, useStore } from '@/use';
 
 export default defineComponent({
@@ -42,26 +30,13 @@ export default defineComponent({
     });
 
     async function selectOrganization({ id }: { id: string; name: string }) {
-      const {
-        data: { access_token: token },
-      } = await AuthService.loginOrganization({ organizationId: id });
-      store.commit('setToken', token);
-
-      const { data: profile } = await axios.get('profile/organization');
-      store.commit('setProfile', profile);
-
-      const { data: menus } = await ProfileService.getMenus();
-      store.commit('setMenus', menus);
+      store.dispatch('authOrganization', { id });
     }
 
     async function submit() {
-      const {
-        data: { access_token: token },
-      } = await AuthService.login({ name: name.value, password: password.value });
-      store.commit('setToken', token);
+      await store.dispatch('auth', { name: name.value, password: password.value });
 
-      const { data: organizations } = await ProfileService.getOrganizations();
-      store.commit('setOrganizations', organizations);
+      const organizations = store.state.organizations;
       if (organizations.length === 0) {
         console.log('没有组织');
       } /*if (organizations.length === 1) */ else {

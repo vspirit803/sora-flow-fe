@@ -83,7 +83,8 @@
 import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 
 import Confirm from '@/components/Confirm.vue';
-import { CreateRoleDto, MenuService, RoleService, UpdateRoleDto } from '@/service';
+import { CreateRoleDto, MenuService, MenuTreeItem, Role, RoleService, UpdateRoleDto } from '@/service';
+import { useStore } from '@/use';
 
 type test = 'directory' | 'item';
 
@@ -91,12 +92,13 @@ export default defineComponent({
   name: 'Roles',
   components: { Confirm },
   setup() {
-    const roleList: Ref<Array<any>> = ref([]);
+    const roleList: Ref<Array<Role>> = ref([]);
     const selectedRole = ref('');
     const authorizedOperations: Ref<Array<string>> = ref([]);
-    const menuTree: Ref<Array<any>> = ref([]);
+    const menuTree: Ref<Array<MenuTreeItem>> = ref([]);
     const dialogVisible = ref(false);
     const roleModel: Ref<UpdateRoleDto | CreateRoleDto> = ref({});
+    const store = useStore();
     function isCreateRoleDto(dto: UpdateRoleDto | CreateRoleDto): dto is CreateRoleDto {
       return !('id' in dto);
     }
@@ -127,6 +129,7 @@ export default defineComponent({
     async function submitAuthorizedOperations() {
       const id = selectedRole.value;
       await RoleService.updateRole({ id, authorizedOperations: authorizedOperations.value });
+      store.dispatch('refreshMenus');
     }
 
     async function submitRole() {

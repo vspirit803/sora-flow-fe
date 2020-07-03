@@ -8,4 +8,8 @@ export class ProfileService {
   static getMenus() {
     return axios.get('profile/menus');
   }
+
+  static getProfileOrganization() {
+    return axios.get('profile/organization');
+  }
 }

@@ -38,3 +38,13 @@ export interface UpdateRoleDto {
 export interface DeleteRoleDto {
   readonly id: string;
 }
+
+export interface Role {
+  id: string;
+  name: string;
+  text: string;
+  /**授权操作列表 */
+  authorizedOperations: Array<string>;
+  type: 'normal' | 'version';
+  organizationId: string;
+}

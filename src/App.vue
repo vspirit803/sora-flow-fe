@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from '@vue/composition-api';
+import { computed, defineComponent, onMounted, ref, watch } from '@vue/composition-api';
 
 import { provideStore, useStore } from '@/use';
 import Menu from '@/views/Menu.vue';
@@ -54,6 +54,17 @@ export default defineComponent({
     watch(snackbar, (value) => {
       if (!value) {
         store.commit('setIsError', false);
+      }
+    });
+
+    onMounted(() => {
+      const { token, organizationId } = store.state;
+      if (token) {
+        store.commit('setToken', token);
+        store.dispatch('getOrganizations');
+      }
+      if (organizationId) {
+        store.dispatch('authOrganization', { id: organizationId });
       }
     });
 
