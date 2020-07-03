@@ -3,11 +3,11 @@
     <v-list-item>
       <v-list-item-title> 菜单 </v-list-item-title>
       <v-list-item-action class="flex-row">
-        <v-btn icon text color="primary" title="添加子菜单" @click.stop="createMenu(undefined, 'directory')">
-          <v-icon>mdi-folder-plus</v-icon>
-        </v-btn>
         <v-btn icon text color="primary" title="添加菜单项" @click.stop="createMenu(undefined, 'item')">
           <v-icon>mdi-file-plus</v-icon>
+        </v-btn>
+        <v-btn icon text color="primary" title="添加子菜单" @click.stop="createMenu(undefined, 'directory')">
+          <v-icon>mdi-folder-plus</v-icon>
         </v-btn>
       </v-list-item-action>
     </v-list-item>
