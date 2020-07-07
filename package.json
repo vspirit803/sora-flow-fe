@@ -12,6 +12,7 @@
     "@vue/composition-api": "0.6.6",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
+    "vee-validate": "^3.3.7",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.2",
     "vue-property-decorator": "^9.0.0",

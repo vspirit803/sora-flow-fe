@@ -22,54 +22,78 @@
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="primary" dark class="mb-2" v-bind="attrs" @click="onCreateAccount">新增账号</v-btn>
             </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">{{ dialogTitle }}</span>
-              </v-card-title>
-              <v-card-text>
-                <v-container>
-                  <v-form ref="form">
-                    <v-row>
-                      <v-col cols="12">
-                        <v-text-field
-                          label="账号"
-                          :rules="[required]"
-                          :readonly="!isCreateAccount"
-                          v-model="accountModel.name"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12">
-                        <v-text-field label="昵称" :rules="[required]" v-model="accountModel.nickname"></v-text-field>
-                      </v-col>
-                      <v-col cols="12">
-                        <v-text-field
-                          label="密码"
-                          :rules="isCreateAccount ? [required] : []"
-                          type="password"
-                          v-model="accountModel.password"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12">
-                        <v-select
-                          chips
-                          :rules="[required]"
-                          v-model="accountModel.roles"
-                          item-value="id"
-                          :items="roleList"
-                          label="角色"
-                          multiple
-                        ></v-select>
-                      </v-col>
-                    </v-row>
-                  </v-form>
-                </v-container>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="dialogVisible = false">取消</v-btn>
-                <v-btn color="blue darken-1" text @click="submitAccount">提交</v-btn>
-              </v-card-actions>
-            </v-card>
+            <ValidationObserver ref="obs" v-slot="{ invalid, validated, passes }">
+              <v-card>
+                <v-card-title>
+                  <span class="headline">{{ dialogTitle }}</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-form>
+                      <v-row>
+                        <v-col cols="12">
+                          <ValidationProvider name="name" rules="required" v-slot="{ errors, valid }">
+                            <v-text-field
+                              label="账号"
+                              :error-messages="errors"
+                              :success="valid"
+                              :readonly="!isCreateAccount"
+                              v-model="accountModel.name"
+                            ></v-text-field>
+                          </ValidationProvider>
+                        </v-col>
+                        <v-col cols="12">
+                          <ValidationProvider name="nickname" rules="required" v-slot="{ errors, valid }">
+                            <v-text-field
+                              label="昵称"
+                              :error-messages="errors"
+                              :success="valid"
+                              v-model="accountModel.nickname"
+                            ></v-text-field>
+                          </ValidationProvider>
+                        </v-col>
+                        <v-col cols="12">
+                          <ValidationProvider
+                            name="password"
+                            :rules="isCreateAccount ? 'required' : null"
+                            v-slot="{ errors, valid }"
+                          >
+                            <v-text-field
+                              label="密码"
+                              :error-messages="errors"
+                              :success="valid"
+                              type="password"
+                              v-model="accountModel.password"
+                            ></v-text-field>
+                          </ValidationProvider>
+                        </v-col>
+                        <v-col cols="12">
+                          <ValidationProvider name="roles" rules="required" v-slot="{ errors, valid }">
+                            <v-select
+                              chips
+                              :error-messages="errors"
+                              :success="valid"
+                              v-model="accountModel.roles"
+                              item-value="id"
+                              :items="roleList"
+                              label="角色"
+                              multiple
+                            ></v-select>
+                          </ValidationProvider>
+                        </v-col>
+                      </v-row>
+                    </v-form>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" text @click="dialogVisible = false">取消</v-btn>
+                  <v-btn color="primary" text :disabled="invalid || !validated" @click="passes(submitAccount)">
+                    提交
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </ValidationObserver>
           </v-dialog>
         </v-toolbar>
       </template>
@@ -92,16 +116,16 @@ import {
   UpdateAccountDto,
 } from '@/service';
 
-type Form = {
-  resetValidation: () => void;
-  validate: () => boolean;
+type Obs = {
+  reset: () => void;
+  validate: () => Promise<boolean>;
 };
 
 export default defineComponent({
   name: 'Accounts',
   components: { Confirm },
-  setup() {
-    const form: Ref<Form> = (ref(undefined) as unknown) as Ref<Form>;
+  setup(props, { root }) {
+    const obs: Ref<Obs> = ref() as Ref<Obs>;
     const accountList: Ref<Array<Account>> = ref([]);
     const authorizedOperations: Ref<Array<string>> = ref([]);
     const menuTree: Ref<Array<MenuTreeItem>> = ref([]);
@@ -126,13 +150,6 @@ export default defineComponent({
     const isCreateAccount = computed(() => isCreateAccountDto(accountModel.value));
     const dialogTitle = computed(() => (isCreateAccount.value ? '新增账号' : '修改账号'));
 
-    function required(value: unknown): boolean | string {
-      if (Array.isArray(value)) {
-        return value.length ? true : '必填项';
-      }
-      return value ? true : '必填项';
-    }
-
     async function refreshAccountList() {
       const { data } = await ProfileService.getAccounts();
       accountList.value = data;
@@ -145,15 +162,16 @@ export default defineComponent({
     });
 
     async function submitAccount() {
-      if (!form.value.validate()) {
-        return;
-      }
       if (isCreateAccountDto(accountModel.value)) {
         //新增账号
         await AccountsService.createAccount(accountModel.value);
       } else {
         //修改账号
-        await AccountsService.updateAccount(accountModel.value);
+        const { ...data } = accountModel.value;
+        if (!data.password) {
+          data.password = undefined;
+        }
+        await AccountsService.updateAccount(data);
       }
       dialogVisible.value = false;
       refreshAccountList();
@@ -172,13 +190,13 @@ export default defineComponent({
     }) {
       accountModel.value = { id, name, nickname, roles: roles.map((each) => each.id) };
       dialogVisible.value = true;
-      form.value.resetValidation();
+      root.$nextTick().then(obs.value.validate);
     }
 
     async function onCreateAccount() {
       accountModel.value = { name: '', nickname: '', roles: [], password: '' };
       dialogVisible.value = true;
-      form.value.resetValidation();
+      obs.value.reset();
     }
 
     async function onDeleteAccount({ id }: Account) {
@@ -189,7 +207,7 @@ export default defineComponent({
       accountList,
       accountModel,
       authorizedOperations,
-      form,
+      obs,
       menuTree,
       onUpdateAccount,
       onCreateAccount,
@@ -200,7 +218,6 @@ export default defineComponent({
       roleList,
       headers,
       isCreateAccount,
-      required,
     };
   },
 });

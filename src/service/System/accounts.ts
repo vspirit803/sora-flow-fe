@@ -34,6 +34,7 @@ export interface UpdateAccountDto {
   readonly name?: string;
   readonly nickname?: string;
   readonly roles?: Array<string>;
+  readonly password?: string;
 }
 
 export interface DeleteAccountDto {

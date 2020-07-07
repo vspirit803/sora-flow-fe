@@ -1,9 +1,11 @@
+import '@/plugins/vee-validate';
+
 import VueCompositionApi from '@vue/composition-api';
 import Vue from 'vue';
 
-import App from './App.vue';
-import vuetify from './plugins/vuetify';
-import router from './router';
+import App from '@/App.vue';
+import vuetify from '@/plugins/vuetify';
+import router from '@/router';
 
 Vue.config.productionTip = false;
 Vue.use(VueCompositionApi);
