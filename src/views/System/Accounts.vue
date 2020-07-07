@@ -18,9 +18,14 @@
       </template>
       <template v-slot:top>
         <v-toolbar flat>
+          <v-btn icon text color="primary" title="刷新列表" @click="refreshAccountList">
+            <v-icon>mdi-refresh</v-icon>
+          </v-btn>
           <v-dialog eager persistent v-model="dialogVisible" max-width="500px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" dark class="mb-2" v-bind="attrs" @click="onCreateAccount">新增账号</v-btn>
+              <v-btn color="primary" @v-bind="attrs" @click="onCreateAccount">
+                <v-icon class="mr-2">mdi-account-plus</v-icon>新增账号
+              </v-btn>
             </template>
             <ValidationObserver ref="obs" v-slot="{ invalid, validated, passes }">
               <v-card>
@@ -218,6 +223,7 @@ export default defineComponent({
       roleList,
       headers,
       isCreateAccount,
+      refreshAccountList,
     };
   },
 });
