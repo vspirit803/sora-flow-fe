@@ -12,4 +12,8 @@ export class ProfileService {
   static getProfileOrganization() {
     return axios.get('profile/organization');
   }
+
+  static getAccounts() {
+    return axios.get('profile/accounts');
+  }
 }

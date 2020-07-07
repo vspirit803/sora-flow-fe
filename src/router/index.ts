@@ -24,6 +24,11 @@ const routes = [
     name: 'SystemRoles',
     component: () => import(/* webpackChunkName: "system" */ '@/views/System/Roles.vue'),
   },
+  {
+    path: '/system/accounts',
+    name: 'SystemAccounts',
+    component: () => import(/* webpackChunkName: "system" */ '@/views/System/Accounts.vue'),
+  },
 ];
 
 const router = new VueRouter({
