@@ -7,12 +7,15 @@
         </v-chip>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon color="primary" class="mr-2" @click="onUpdateAccount(item)" title="修改账号">
-          mdi-account-edit
-        </v-icon>
+        <v-btn color="primary" @click="onUpdateAccount(item)">
+          <v-icon class="mr-2">
+            mdi-account-edit
+          </v-icon>
+          修改账号
+        </v-btn>
         <Confirm v-slot="{ on, attrs }" :message="`确认删除账号[${item.nickname}]吗`" @confirm="onDeleteAccount(item)">
-          <v-btn icon text color="error" title="删除账号" v-bind="attrs" v-on="on">
-            <v-icon>mdi-account-remove</v-icon>
+          <v-btn class="ml-2" color="error" v-bind="attrs" v-on="on">
+            <v-icon>mdi-account-remove</v-icon>删除账号
           </v-btn>
         </Confirm>
       </template>
@@ -76,6 +79,7 @@
                           <ValidationProvider name="roles" rules="required" v-slot="{ errors, valid }">
                             <v-select
                               chips
+                              color="primary"
                               :error-messages="errors"
                               :success="valid"
                               v-model="accountModel.roles"
@@ -143,10 +147,10 @@ export default defineComponent({
     });
     const roleList: Ref<Array<Role>> = ref([]);
     const headers = [
-      { text: '账号', value: 'name' },
-      { text: '昵称', value: 'nickname' },
-      { text: '角色', value: 'roles' },
-      { text: '操作', value: 'actions' },
+      { text: '账号', value: 'name', divider: true },
+      { text: '昵称', value: 'nickname', divider: true },
+      { text: '角色', value: 'roles', divider: true },
+      { text: '操作', value: 'actions', width: 300 },
     ];
     function isCreateAccountDto(dto: CreateAccountDto | UpdateAccountDto): dto is CreateAccountDto {
       return !('id' in dto);
