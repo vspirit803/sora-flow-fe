@@ -1,8 +1,18 @@
 <template>
-  <v-menu v-model="showList" offset-y :disabled="!organizations.length">
+  <v-menu
+    v-model="showList"
+    offset-y
+    :disabled="!organizations.length"
+  >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn text v-bind="attrs" v-on="on">
-        {{ organizationName || '选择组织' }}<v-icon v-if="organizations.length">mdi-menu-down</v-icon>
+      <v-btn
+        text
+        v-bind="attrs"
+        v-on="on"
+      >
+        {{ organizationName || '选择组织' }}<v-icon v-if="organizations.length">
+          mdi-menu-down
+        </v-icon>
       </v-btn>
     </template>
     <v-list>

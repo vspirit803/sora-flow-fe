@@ -1,16 +1,31 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app clipped>
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+      clipped
+    >
       <Menu />
     </v-navigation-drawer>
-    <v-snackbar v-model="snackbar" :timeout="3000" top>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="3000"
+      top
+    >
       {{ errorMsg }}
     </v-snackbar>
-    <v-app-bar app clipped-left>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-spacer></v-spacer>
-      <v-btn to="/">Home</v-btn>
-      <v-btn to="/login">Login</v-btn>
+    <v-app-bar
+      app
+      clipped-left
+    >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-spacer />
+      <v-btn to="/">
+        Home
+      </v-btn>
+      <v-btn to="/login">
+        Login
+      </v-btn>
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
@@ -20,16 +35,25 @@
       <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
-      <v-btn href="https://github.com/vuetifyjs/vuetify/releases/latest" target="_blank" text>
+      <v-btn
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+        text
+      >
         <span class="mr-2">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
       <OrganizationsSelector />
-      <v-progress-linear :active="loading" :indeterminate="loading" absolute bottom></v-progress-linear>
+      <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        absolute
+        bottom
+      />
     </v-app-bar>
 
     <v-main>
-      <router-view></router-view>
+      <router-view />
     </v-main>
   </v-app>
 </template>

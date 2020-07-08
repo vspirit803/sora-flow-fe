@@ -1,16 +1,32 @@
 <template>
-  <v-menu v-model="visible" :close-on-content-click="false">
+  <v-menu
+    v-model="visible"
+    :close-on-content-click="false"
+  >
     <template v-slot:activator="{ on, attrs }">
-      <slot v-bind="{ on, attrs }"></slot>
+      <slot v-bind="{ on, attrs }" />
     </template>
 
     <v-card>
       <v-card-subtitle> {{ message }}</v-card-subtitle>
-      <v-divider></v-divider>
+      <v-divider />
       <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text x-small @click="cancel">取消</v-btn>
-        <v-btn color="primary" text x-small @click="confirm">确认</v-btn>
+        <v-spacer />
+        <v-btn
+          text
+          x-small
+          @click="cancel"
+        >
+          取消
+        </v-btn>
+        <v-btn
+          color="primary"
+          text
+          x-small
+          @click="confirm"
+        >
+          确认
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-menu>

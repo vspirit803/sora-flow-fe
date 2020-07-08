@@ -1,5 +1,4 @@
-import { ValidationObserver, ValidationProvider } from 'vee-validate';
-import { extend } from 'vee-validate';
+import { extend, ValidationObserver, ValidationProvider } from 'vee-validate';
 import { email, max, required } from 'vee-validate/dist/rules';
 import Vue from 'vue';
 

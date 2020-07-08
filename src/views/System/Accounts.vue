@@ -1,36 +1,80 @@
 <template>
-  <v-card class="accounts-container ma-4" outlined>
-    <v-data-table :headers="headers" fixed-header :items="accountList">
+  <v-card
+    class="accounts-container ma-4"
+    outlined
+  >
+    <v-data-table
+      :headers="headers"
+      fixed-header
+      :items="accountList"
+    >
       <template v-slot:item.roles="{ item }">
-        <v-chip color="primary" class="mr-2" v-for="eachRole of item.roles" :key="eachRole.id">
+        <v-chip
+          v-for="eachRole of item.roles"
+          :key="eachRole.id"
+          color="primary"
+          class="mr-2"
+        >
           {{ eachRole.text }}
         </v-chip>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn color="primary" @click="onUpdateAccount(item)">
+        <v-btn
+          color="primary"
+          @click="onUpdateAccount(item)"
+        >
           <v-icon class="mr-2">
             mdi-account-edit
           </v-icon>
           修改账号
         </v-btn>
-        <Confirm v-slot="{ on, attrs }" :message="`确认删除账号[${item.nickname}]吗`" @confirm="onDeleteAccount(item)">
-          <v-btn class="ml-2" color="error" v-bind="attrs" v-on="on">
+        <Confirm
+          v-slot="{ on, attrs }"
+          :message="`确认删除账号[${item.nickname}]吗`"
+          @confirm="onDeleteAccount(item)"
+        >
+          <v-btn
+            class="ml-2"
+            color="error"
+            v-bind="attrs"
+            v-on="on"
+          >
             <v-icon>mdi-account-remove</v-icon>删除账号
           </v-btn>
         </Confirm>
       </template>
       <template v-slot:top>
         <v-toolbar flat>
-          <v-btn icon text color="primary" title="刷新列表" @click="refreshAccountList">
+          <v-btn
+            icon
+            text
+            color="primary"
+            title="刷新列表"
+            @click="refreshAccountList"
+          >
             <v-icon>mdi-refresh</v-icon>
           </v-btn>
-          <v-dialog eager persistent v-model="dialogVisible" max-width="500px">
+          <v-dialog
+            v-model="dialogVisible"
+            eager
+            persistent
+            max-width="500px"
+          >
             <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" @v-bind="attrs" @click="onCreateAccount">
-                <v-icon class="mr-2">mdi-account-plus</v-icon>新增账号
+              <v-btn
+                color="primary"
+                @v-bind="attrs"
+                @click="onCreateAccount"
+              >
+                <v-icon class="mr-2">
+                  mdi-account-plus
+                </v-icon>新增账号
               </v-btn>
             </template>
-            <ValidationObserver ref="obs" v-slot="{ invalid, validated, passes }">
+            <ValidationObserver
+              ref="obs"
+              v-slot="{ invalid, validated, passes }"
+            >
               <v-card>
                 <v-card-title>
                   <span class="headline">{{ dialogTitle }}</span>
@@ -40,54 +84,66 @@
                     <v-form>
                       <v-row>
                         <v-col cols="12">
-                          <ValidationProvider name="name" rules="required" v-slot="{ errors, valid }">
+                          <ValidationProvider
+                            v-slot="{ errors, valid }"
+                            name="name"
+                            rules="required"
+                          >
                             <v-text-field
+                              v-model="accountModel.name"
                               label="账号"
                               :error-messages="errors"
                               :success="valid"
                               :readonly="!isCreateAccount"
-                              v-model="accountModel.name"
-                            ></v-text-field>
-                          </ValidationProvider>
-                        </v-col>
-                        <v-col cols="12">
-                          <ValidationProvider name="nickname" rules="required" v-slot="{ errors, valid }">
-                            <v-text-field
-                              label="昵称"
-                              :error-messages="errors"
-                              :success="valid"
-                              v-model="accountModel.nickname"
-                            ></v-text-field>
+                            />
                           </ValidationProvider>
                         </v-col>
                         <v-col cols="12">
                           <ValidationProvider
-                            name="password"
-                            :rules="isCreateAccount ? 'required' : null"
                             v-slot="{ errors, valid }"
+                            name="nickname"
+                            rules="required"
                           >
                             <v-text-field
+                              v-model="accountModel.nickname"
+                              label="昵称"
+                              :error-messages="errors"
+                              :success="valid"
+                            />
+                          </ValidationProvider>
+                        </v-col>
+                        <v-col cols="12">
+                          <ValidationProvider
+                            v-slot="{ errors, valid }"
+                            name="password"
+                            :rules="isCreateAccount ? 'required' : null"
+                          >
+                            <v-text-field
+                              v-model="accountModel.password"
                               label="密码"
                               :error-messages="errors"
                               :success="valid"
                               type="password"
-                              v-model="accountModel.password"
-                            ></v-text-field>
+                            />
                           </ValidationProvider>
                         </v-col>
                         <v-col cols="12">
-                          <ValidationProvider name="roles" rules="required" v-slot="{ errors, valid }">
+                          <ValidationProvider
+                            v-slot="{ errors, valid }"
+                            name="roles"
+                            rules="required"
+                          >
                             <v-select
+                              v-model="accountModel.roles"
                               chips
                               color="primary"
                               :error-messages="errors"
                               :success="valid"
-                              v-model="accountModel.roles"
                               item-value="id"
                               :items="roleList"
                               label="角色"
                               multiple
-                            ></v-select>
+                            />
                           </ValidationProvider>
                         </v-col>
                       </v-row>
@@ -95,9 +151,20 @@
                   </v-container>
                 </v-card-text>
                 <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" text @click="dialogVisible = false">取消</v-btn>
-                  <v-btn color="primary" text :disabled="invalid || !validated" @click="passes(submitAccount)">
+                  <v-spacer />
+                  <v-btn
+                    color="primary"
+                    text
+                    @click="dialogVisible = false"
+                  >
+                    取消
+                  </v-btn>
+                  <v-btn
+                    color="primary"
+                    text
+                    :disabled="invalid || !validated"
+                    @click="passes(submitAccount)"
+                  >
                     提交
                   </v-btn>
                 </v-card-actions>

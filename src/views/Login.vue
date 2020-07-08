@@ -1,11 +1,32 @@
 <template>
   <div class="login">
-    <v-row justify="center" class="ma-0">
-      <v-col :lg="3" :md="6" :sm="12">
+    <v-row
+      justify="center"
+      class="ma-0"
+    >
+      <v-col
+        :lg="3"
+        :md="6"
+        :sm="12"
+      >
         <v-form class="login-form">
-          <v-text-field v-model="name" label="账号" required></v-text-field>
-          <v-text-field v-model="password" type="password" label="密码" required></v-text-field>
-          <v-btn class="mr-4" @click="submit">登录</v-btn>
+          <v-text-field
+            v-model="name"
+            label="账号"
+            required
+          />
+          <v-text-field
+            v-model="password"
+            type="password"
+            label="密码"
+            required
+          />
+          <v-btn
+            class="mr-4"
+            @click="submit"
+          >
+            登录
+          </v-btn>
         </v-form>
       </v-col>
     </v-row>

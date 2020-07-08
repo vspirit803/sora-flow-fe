@@ -1,23 +1,39 @@
 <template>
   <div class="roles-container d-flex ma-4">
-    <v-card outlined class="role-list-card flex-grow-0">
+    <v-card
+      outlined
+      class="role-list-card flex-grow-0"
+    >
       <v-card-title class="d-flex justify-space-between">
         <span>版本列表</span>
-        <v-btn color="primary" @click="onCreateVersion"> <v-icon class="mr-2">mdi-puzzle-plus</v-icon>新增版本</v-btn>
+        <v-btn
+          color="primary"
+          @click="onCreateVersion"
+        >
+          <v-icon class="mr-2">
+            mdi-puzzle-plus
+          </v-icon>新增版本
+        </v-btn>
       </v-card-title>
       <v-list class="py-2 role-list">
         <v-list-item
           v-for="eachVersion of versionList"
           :key="eachVersion.id"
           link
-          @click="onSelectVersion(eachVersion)"
           :input-value="selectedVersionId === eachVersion.id"
+          @click="onSelectVersion(eachVersion)"
         >
           <v-list-item-content>
-            <v-list-item-title v-text="eachVersion.name"></v-list-item-title>
+            <v-list-item-title v-text="eachVersion.name" />
           </v-list-item-content>
           <v-list-item-action class="flex-row">
-            <v-btn icon text color="primary" title="编辑版本" @click.stop="onUpdateVersion(eachVersion)">
+            <v-btn
+              icon
+              text
+              color="primary"
+              title="编辑版本"
+              @click.stop="onUpdateVersion(eachVersion)"
+            >
               <v-icon>mdi-puzzle-edit</v-icon>
             </v-btn>
             <Confirm
@@ -25,7 +41,14 @@
               :message="`确认删除版本[${eachVersion.name}]吗`"
               @confirm="onDeleteVersion(eachVersion)"
             >
-              <v-btn icon text color="error" title="删除版本" v-bind="attrs" v-on="on">
+              <v-btn
+                icon
+                text
+                color="error"
+                title="删除版本"
+                v-bind="attrs"
+                v-on="on"
+              >
                 <v-icon>mdi-puzzle-remove</v-icon>
               </v-btn>
             </Confirm>
@@ -33,25 +56,38 @@
         </v-list-item>
       </v-list>
     </v-card>
-    <v-card outlined class="role-detail">
+    <v-card
+      outlined
+      class="role-detail"
+    >
       <v-card-title class="d-flex justify-space-between">
         <span>版本权限</span>
-        <v-btn v-if="selectedVersionId" color="primary" @click="submitAuthorizedOperations">确定</v-btn>
+        <v-btn
+          v-if="selectedVersionId"
+          color="primary"
+          @click="submitAuthorizedOperations"
+        >
+          确定
+        </v-btn>
       </v-card-title>
       <div class="py-2 menu-tree">
         <v-treeview
-          :items="menuTree"
           v-model="authorizedOperations"
+          :items="menuTree"
           open-all
           open-on-click
           selectable
           selection-type="leaf"
           transition
-        ></v-treeview>
+        />
       </div>
     </v-card>
 
-    <v-dialog v-model="dialogVisible" persistent max-width="600px">
+    <v-dialog
+      v-model="dialogVisible"
+      persistent
+      max-width="600px"
+    >
       <v-card>
         <v-card-title>
           <span class="headline">{{ dialogTitle }}</span>
@@ -60,15 +96,31 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="名称" required v-model="versionModel.name"></v-text-field>
+                <v-text-field
+                  v-model="versionModel.name"
+                  label="名称"
+                  required
+                />
               </v-col>
             </v-row>
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialogVisible = false">取消</v-btn>
-          <v-btn color="blue darken-1" text @click="submitRole">提交</v-btn>
+          <v-spacer />
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="dialogVisible = false"
+          >
+            取消
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="submitRole"
+          >
+            提交
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

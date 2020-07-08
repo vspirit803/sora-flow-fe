@@ -1,23 +1,39 @@
 <template>
   <div class="roles-container d-flex ma-4">
-    <v-card outlined class="role-list-card flex-grow-0">
+    <v-card
+      outlined
+      class="role-list-card flex-grow-0"
+    >
       <v-card-title class="d-flex justify-space-between">
         <span>角色列表</span>
-        <v-btn color="primary" @click="onCreateRole"> <v-icon class="mr-2">mdi-account-plus</v-icon>新增角色</v-btn>
+        <v-btn
+          color="primary"
+          @click="onCreateRole"
+        >
+          <v-icon class="mr-2">
+            mdi-account-plus
+          </v-icon>新增角色
+        </v-btn>
       </v-card-title>
       <v-list class="py-2 role-list">
         <v-list-item
           v-for="eachRole of roleList"
           :key="eachRole.id"
           link
-          @click="onSelectRole(eachRole)"
           :input-value="selectedRole === eachRole.id"
+          @click="onSelectRole(eachRole)"
         >
           <v-list-item-content>
-            <v-list-item-title v-text="eachRole.text"></v-list-item-title>
+            <v-list-item-title v-text="eachRole.text" />
           </v-list-item-content>
           <v-list-item-action class="flex-row">
-            <v-btn icon text color="primary" title="编辑角色" @click.stop="onUpdateRole(eachRole)">
+            <v-btn
+              icon
+              text
+              color="primary"
+              title="编辑角色"
+              @click.stop="onUpdateRole(eachRole)"
+            >
               <v-icon>mdi-account-edit</v-icon>
             </v-btn>
             <Confirm
@@ -25,7 +41,14 @@
               :message="`确认删除角色[${eachRole.name}]吗`"
               @confirm="onDeleteRole(eachRole)"
             >
-              <v-btn icon text color="error" title="删除角色" v-bind="attrs" v-on="on">
+              <v-btn
+                icon
+                text
+                color="error"
+                title="删除角色"
+                v-bind="attrs"
+                v-on="on"
+              >
                 <v-icon>mdi-account-remove</v-icon>
               </v-btn>
             </Confirm>
@@ -33,25 +56,38 @@
         </v-list-item>
       </v-list>
     </v-card>
-    <v-card outlined class="role-detail">
+    <v-card
+      outlined
+      class="role-detail"
+    >
       <v-card-title class="d-flex justify-space-between">
         <span>角色权限</span>
-        <v-btn v-if="selectedRole" color="primary" @click="submitAuthorizedOperations">确定</v-btn>
+        <v-btn
+          v-if="selectedRole"
+          color="primary"
+          @click="submitAuthorizedOperations"
+        >
+          确定
+        </v-btn>
       </v-card-title>
       <div class="py-2 menu-tree">
         <v-treeview
-          :items="menuTree"
           v-model="authorizedOperations"
+          :items="menuTree"
           open-all
           open-on-click
           selectable
           selection-type="leaf"
           transition
-        ></v-treeview>
+        />
       </div>
     </v-card>
 
-    <v-dialog v-model="dialogVisible" persistent max-width="600px">
+    <v-dialog
+      v-model="dialogVisible"
+      persistent
+      max-width="600px"
+    >
       <v-card>
         <v-card-title>
           <span class="headline">{{ dialogTitle }}</span>
@@ -60,18 +96,37 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="名称" required v-model="roleModel.name"></v-text-field>
+                <v-text-field
+                  v-model="roleModel.name"
+                  label="名称"
+                  required
+                />
               </v-col>
               <v-col cols="12">
-                <v-text-field label="显示名称" v-model="roleModel.text"></v-text-field>
+                <v-text-field
+                  v-model="roleModel.text"
+                  label="显示名称"
+                />
               </v-col>
             </v-row>
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialogVisible = false">取消</v-btn>
-          <v-btn color="blue darken-1" text @click="submitRole">提交</v-btn>
+          <v-spacer />
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="dialogVisible = false"
+          >
+            取消
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="submitRole"
+          >
+            提交
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

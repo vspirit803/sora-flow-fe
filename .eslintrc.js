@@ -6,9 +6,11 @@ module.exports = {
     node: true,
     es6: true,
   },
-  plugins: ['simple-import-sort'],
+  plugins: ['simple-import-sort', 'import'],
   extends: [
-    'plugin:vue/essential',
+    // 'plugin:vue/essential',
+    'plugin:vue/strongly-recommended',
+    'plugin:import/typescript',
     'eslint:recommended',
     '@vue/typescript/recommended',
     '@vue/prettier/@typescript-eslint',
@@ -43,5 +45,12 @@ module.exports = {
     // 'computed-property-even-spacing': 'off',
     // 'standard/computed-property-even-spacing': 'off'
     'simple-import-sort/sort': 'error',
+
+    'import/order': 'off',
+    'import/first': 'error',
+    'import/newline-after-import': 'error',
+    'import/no-duplicates': 'error',
+
+    'vue/attributes-order': 'error',
   },
 };
