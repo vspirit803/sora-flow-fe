@@ -2,31 +2,31 @@
   <div class="roles-container d-flex ma-4">
     <v-card outlined class="role-list-card flex-grow-0">
       <v-card-title class="d-flex justify-space-between">
-        <span>角色列表</span>
-        <v-btn color="primary" @click="onCreateRole"> <v-icon class="mr-2">mdi-account-plus</v-icon>新增角色</v-btn>
+        <span>版本列表</span>
+        <v-btn color="primary" @click="onCreateVersion"> <v-icon class="mr-2">mdi-puzzle-plus</v-icon>新增版本</v-btn>
       </v-card-title>
       <v-list class="py-2 role-list">
         <v-list-item
-          v-for="eachRole of roleList"
-          :key="eachRole.id"
+          v-for="eachVersion of versionList"
+          :key="eachVersion.id"
           link
-          @click="onSelectRole(eachRole)"
-          :input-value="selectedRole === eachRole.id"
+          @click="onSelectVersion(eachVersion)"
+          :input-value="selectedVersionId === eachVersion.id"
         >
           <v-list-item-content>
-            <v-list-item-title v-text="eachRole.text"></v-list-item-title>
+            <v-list-item-title v-text="eachVersion.name"></v-list-item-title>
           </v-list-item-content>
           <v-list-item-action class="flex-row">
-            <v-btn icon text color="primary" title="编辑角色" @click.stop="onUpdateRole(eachRole)">
-              <v-icon>mdi-account-edit</v-icon>
+            <v-btn icon text color="primary" title="编辑版本" @click.stop="onUpdateVersion(eachVersion)">
+              <v-icon>mdi-puzzle-edit</v-icon>
             </v-btn>
             <Confirm
               v-slot="{ on, attrs }"
-              :message="`确认删除角色[${eachRole.name}]吗`"
-              @confirm="onDeleteRole(eachRole)"
+              :message="`确认删除版本[${eachVersion.name}]吗`"
+              @confirm="onDeleteVersion(eachVersion)"
             >
-              <v-btn icon text color="error" title="删除角色" v-bind="attrs" v-on="on">
-                <v-icon>mdi-account-remove</v-icon>
+              <v-btn icon text color="error" title="删除版本" v-bind="attrs" v-on="on">
+                <v-icon>mdi-puzzle-remove</v-icon>
               </v-btn>
             </Confirm>
           </v-list-item-action>
@@ -35,8 +35,8 @@
     </v-card>
     <v-card outlined class="role-detail">
       <v-card-title class="d-flex justify-space-between">
-        <span>角色权限</span>
-        <v-btn v-if="selectedRole" color="primary" @click="submitAuthorizedOperations">确定</v-btn>
+        <span>版本权限</span>
+        <v-btn v-if="selectedVersionId" color="primary" @click="submitAuthorizedOperations">确定</v-btn>
       </v-card-title>
       <div class="py-2 menu-tree">
         <v-treeview
@@ -60,10 +60,7 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="名称" required v-model="roleModel.name"></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="显示名称" v-model="roleModel.text"></v-text-field>
+                <v-text-field label="名称" required v-model="versionModel.name"></v-text-field>
               </v-col>
             </v-row>
           </v-container>
@@ -82,34 +79,42 @@
 import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 
 import Confirm from '@/components/Confirm.vue';
-import { CreateRoleDto, MenusService, MenuTreeItem, Role, RolesService, UpdateRoleDto } from '@/service';
+import {
+  CreateVersionDto,
+  MenusService,
+  MenuTreeItem,
+  RolesService,
+  UpdateVersionDto,
+  Version,
+  VersionsService,
+} from '@/service';
 import { useStore } from '@/use';
 
 export default defineComponent({
-  name: 'Roles',
+  name: 'Versions',
   components: { Confirm },
   setup() {
-    const roleList: Ref<Array<Role>> = ref([]);
-    const selectedRole = ref('');
+    const versionList: Ref<Array<Version>> = ref([]);
+    const selectedVersionId = ref('');
     const authorizedOperations: Ref<Array<string>> = ref([]);
     const menuTree: Ref<Array<MenuTreeItem>> = ref([]);
     const dialogVisible = ref(false);
-    const roleModel: Ref<UpdateRoleDto | CreateRoleDto> = ref({});
+    const versionModel: Ref<UpdateVersionDto | CreateVersionDto> = ref({ name: '', authorizedOperations: [] });
     const store = useStore();
-    function isCreateRoleDto(dto: UpdateRoleDto | CreateRoleDto): dto is CreateRoleDto {
+    function isCreateVersionDto(dto: UpdateVersionDto | CreateVersionDto): dto is CreateVersionDto {
       return !('id' in dto);
     }
 
-    const dialogTitle = computed(() => (isCreateRoleDto(roleModel.value) ? '新增角色' : '修改角色'));
+    const dialogTitle = computed(() => (isCreateVersionDto(versionModel.value) ? '新增版本' : '修改版本'));
 
     async function refreshRoleList() {
-      const { data } = await RolesService.getRoles();
-      roleList.value = data;
+      const { data } = await VersionsService.getVersions();
+      versionList.value = data;
     }
 
-    async function onSelectRole(role: { id: string; name: string }) {
-      selectedRole.value = role.id;
-      const { data } = await RolesService.getRoleDetail(role.id);
+    async function onSelectVersion(version: Version) {
+      selectedVersionId.value = version.id;
+      const { data } = await RolesService.getRoleDetail(version.roleId);
       authorizedOperations.value = data.authorizedOperations;
     }
 
@@ -118,58 +123,57 @@ export default defineComponent({
       menuTree.value = menuTreeData;
 
       await refreshRoleList();
-      if (roleList.value.length) {
-        onSelectRole(roleList.value[0]);
+      if (versionList.value.length) {
+        onSelectVersion(versionList.value[0]);
       }
     });
 
     async function submitAuthorizedOperations() {
-      const id = selectedRole.value;
-      await RolesService.updateRole({ id, authorizedOperations: authorizedOperations.value });
+      const id = selectedVersionId.value;
+      await VersionsService.updateVersion({ id, authorizedOperations: authorizedOperations.value });
       store.dispatch('refreshMenus');
     }
 
     async function submitRole() {
-      if (isCreateRoleDto(roleModel.value)) {
-        //新增角色
-        await RolesService.createRole(roleModel.value);
+      if (isCreateVersionDto(versionModel.value)) {
+        //新增版本
+        await VersionsService.createVersion(versionModel.value);
       } else {
-        //更新角色
-        await RolesService.updateRole(roleModel.value);
+        //更新版本
+        await VersionsService.updateVersion(versionModel.value);
       }
       dialogVisible.value = false;
       refreshRoleList();
     }
 
-    async function onUpdateRole({ id, name, text }: { id: string; name?: string; text?: string }) {
-      roleModel.value = { id, name, text };
+    async function onUpdateVersion({ id, name }: Version) {
+      versionModel.value = { id, name };
       dialogVisible.value = true;
     }
 
-    async function onCreateRole() {
-      roleModel.value = { name: '', text: '' };
+    async function onCreateVersion() {
+      versionModel.value = { name: '', authorizedOperations: [] };
       dialogVisible.value = true;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async function onDeleteRole({ id, name, text }: { id: string; name?: string; text?: string }) {
-      await RolesService.deleteRole({ id });
+    async function onDeleteVersion({ id }: Version) {
+      await VersionsService.deleteVersion({ id });
       refreshRoleList();
     }
     return {
-      roleList,
-      onSelectRole,
-      selectedRole,
+      versionList,
+      onSelectVersion,
+      selectedVersionId,
       authorizedOperations,
       menuTree,
       submitAuthorizedOperations,
-      onUpdateRole,
-      onCreateRole,
-      onDeleteRole,
+      onUpdateVersion,
+      onCreateVersion,
+      onDeleteVersion,
       submitRole,
       dialogVisible,
       dialogTitle,
-      roleModel,
+      versionModel,
     };
   },
 });

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export class MenuService {
+export class MenusService {
   static getMenus() {
     return axios.get('menus');
   }
@@ -55,9 +55,3 @@ export interface Menu {
 export interface MenuTreeItem extends Menu {
   children: Array<MenuTreeItem>;
 }
-
-// export type MenuTreeItem = {
-//   children: Array<MenuTreeItem>;
-// } & {
-//   [P in keyof Menu]: Menu[P];
-// };

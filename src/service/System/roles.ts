@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export class RoleService {
+export class RolesService {
   static getRoles() {
     return axios.get('profile/roles');
   }

@@ -121,7 +121,7 @@ import {
   MenuTreeItem,
   ProfileService,
   Role,
-  RoleService,
+  RolesService,
   UpdateAccountDto,
 } from '@/service';
 
@@ -165,7 +165,7 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      const { data: roles } = await RoleService.getRoles();
+      const { data: roles } = await RolesService.getRoles();
       roleList.value = roles;
       await refreshAccountList();
     });

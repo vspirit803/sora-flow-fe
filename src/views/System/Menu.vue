@@ -163,7 +163,7 @@
 import { defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 
 import Confirm from '@/components/Confirm.vue';
-import { CreateMenuDto, MenuService, UpdateMenuDto } from '@/service';
+import { CreateMenuDto, MenusService, UpdateMenuDto } from '@/service';
 
 type test = 'directory' | 'item';
 
@@ -182,7 +182,7 @@ export default defineComponent({
     }) as Ref<CreateMenuDto | UpdateMenuDto>;
 
     async function refresh() {
-      const { data } = await MenuService.getMenus();
+      const { data } = await MenusService.getMenus();
       menus.value = data;
       dialogVisible.value = false;
     }
@@ -228,16 +228,16 @@ export default defineComponent({
     }
 
     async function deleteMenu({ id }: { id: string }) {
-      await MenuService.deleteMenu({ id });
+      await MenusService.deleteMenu({ id });
       refresh();
     }
 
     async function submit() {
       if ('id' in menuModel.value) {
-        await MenuService.updateMenu(menuModel.value);
+        await MenusService.updateMenu(menuModel.value);
         refresh();
       } else {
-        await MenuService.createMenu(menuModel.value);
+        await MenusService.createMenu(menuModel.value);
         refresh();
       }
     }
