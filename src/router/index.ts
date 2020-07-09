@@ -34,6 +34,11 @@ const routes = [
     name: 'SystemVersions',
     component: () => import(/* webpackChunkName: "system" */ '@/views/System/Versions.vue'),
   },
+  {
+    path: '/system/organizations',
+    name: 'SystemOrganizations',
+    component: () => import(/* webpackChunkName: "system" */ '@/views/System/Organizations.vue'),
+  },
 ];
 
 const router = new VueRouter({
