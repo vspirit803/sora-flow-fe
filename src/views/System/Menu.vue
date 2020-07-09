@@ -25,50 +25,16 @@
     </v-list-item>
     <v-divider />
     <v-list expand>
-      <!--一级菜单-->
-      <template v-for="each of menus">
-        <v-list-item
-          v-if="each.type === 'item'"
-          :key="each.id"
-          link
-        >
-          <v-list-item-icon v-if="each.icon">
-            <v-icon>{{ each.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>{{ each.name }}</v-list-item-title>
-          <v-list-item-action class="flex-row">
-            <v-btn
-              icon
-              text
-              color="primary"
-              title="编辑菜单项"
-              @click.stop="updateMenu(each)"
-            >
-              <v-icon>mdi-file-document-edit</v-icon>
-            </v-btn>
-            <Confirm
-              v-slot="{ on, attrs }"
-              :message="`确认删除菜单[${each.name}]吗`"
-              @confirm="deleteMenu(each)"
-            >
-              <v-btn
-                icon
-                text
-                color="error"
-                title="删除菜单项"
-                v-bind="attrs"
-                v-on="on"
-              >
-                <v-icon>mdi-file-remove</v-icon>
-              </v-btn>
-            </Confirm>
-          </v-list-item-action>
-        </v-list-item>
-        <v-list-group
-          v-else
-          :key="each.id"
-        >
-          <template v-slot:activator>
+      <v-list-item-group
+        color="primary"
+      >
+        <!--一级菜单-->
+        <template v-for="each of menus">
+          <v-list-item
+            v-if="each.type === 'item'"
+            :key="each.id"
+            link
+          >
             <v-list-item-icon v-if="each.icon">
               <v-icon>{{ each.icon }}</v-icon>
             </v-list-item-icon>
@@ -78,28 +44,10 @@
                 icon
                 text
                 color="primary"
-                title="添加菜单项"
-                @click.stop="createMenu(each, 'item')"
-              >
-                <v-icon>mdi-file-plus</v-icon>
-              </v-btn>
-              <v-btn
-                icon
-                text
-                color="primary"
-                title="添加子菜单"
-                @click.stop="createMenu(each, 'directory')"
-              >
-                <v-icon>mdi-folder-plus</v-icon>
-              </v-btn>
-              <v-btn
-                icon
-                text
-                color="primary"
-                title="编辑菜单"
+                title="编辑菜单项"
                 @click.stop="updateMenu(each)"
               >
-                <v-icon>mdi-folder-edit</v-icon>
+                <v-icon>mdi-file-document-edit</v-icon>
               </v-btn>
               <Confirm
                 v-slot="{ on, attrs }"
@@ -110,61 +58,78 @@
                   icon
                   text
                   color="error"
-                  title="删除菜单"
+                  title="删除菜单项"
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon>mdi-folder-remove</v-icon>
+                  <v-icon>mdi-file-remove</v-icon>
                 </v-btn>
               </Confirm>
             </v-list-item-action>
-          </template>
-
-          <!--二级菜单-->
-          <template v-for="eachSub of each.children">
-            <v-list-item
-              v-if="eachSub.type === 'item'"
-              :key="eachSub.id"
-              link
-            >
-              <v-list-item-icon v-if="eachSub.icon">
-                <v-icon>{{ eachSub.icon }}</v-icon>
+          </v-list-item>
+          <v-list-group
+            v-else
+            :key="each.id"
+          >
+            <template v-slot:activator>
+              <v-list-item-icon v-if="each.icon">
+                <v-icon>{{ each.icon }}</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>{{ eachSub.name }}</v-list-item-title>
+              <v-list-item-title>{{ each.name }}</v-list-item-title>
               <v-list-item-action class="flex-row">
                 <v-btn
                   icon
                   text
                   color="primary"
-                  title="编辑菜单项"
-                  @click.stop="updateMenu(eachSub)"
+                  title="添加菜单项"
+                  @click.stop="createMenu(each, 'item')"
                 >
-                  <v-icon>mdi-file-document-edit</v-icon>
+                  <v-icon>mdi-file-plus</v-icon>
+                </v-btn>
+                <v-btn
+                  icon
+                  text
+                  color="primary"
+                  title="添加子菜单"
+                  @click.stop="createMenu(each, 'directory')"
+                >
+                  <v-icon>mdi-folder-plus</v-icon>
+                </v-btn>
+                <v-btn
+                  icon
+                  text
+                  color="primary"
+                  title="编辑菜单"
+                  @click.stop="updateMenu(each)"
+                >
+                  <v-icon>mdi-folder-edit</v-icon>
                 </v-btn>
                 <Confirm
                   v-slot="{ on, attrs }"
-                  :message="`确认删除菜单[${eachSub.name}]吗`"
-                  @confirm="deleteMenu(eachSub)"
+                  :message="`确认删除菜单[${each.name}]吗`"
+                  @confirm="deleteMenu(each)"
                 >
                   <v-btn
                     icon
                     text
                     color="error"
-                    title="删除菜单项"
+                    title="删除菜单"
                     v-bind="attrs"
                     v-on="on"
                   >
-                    <v-icon>mdi-file-remove</v-icon>
+                    <v-icon>mdi-folder-remove</v-icon>
                   </v-btn>
                 </Confirm>
               </v-list-item-action>
-            </v-list-item>
-            <v-list-group
-              v-else
-              :key="eachSub.id"
-              sub-group
-            >
-              <template v-slot:activator>
+            </template>
+
+            <!--二级菜单-->
+            <template v-for="eachSub of each.children">
+              <v-list-item
+                v-if="eachSub.type === 'item'"
+                :key="eachSub.id"
+                link
+              >
                 <v-list-item-icon v-if="eachSub.icon">
                   <v-icon>{{ eachSub.icon }}</v-icon>
                 </v-list-item-icon>
@@ -174,63 +139,15 @@
                     icon
                     text
                     color="primary"
-                    title="添加菜单项"
-                    @click.stop="createMenu(eachSub, 'item')"
-                  >
-                    <v-icon>mdi-file-plus</v-icon>
-                  </v-btn>
-                  <v-btn
-                    icon
-                    text
-                    color="primary"
-                    title="编辑菜单"
-                    @click.stop="updateMenu(eachSub)"
-                  >
-                    <v-icon>mdi-folder-edit</v-icon>
-                  </v-btn>
-                  <Confirm
-                    v-slot="{ on, attrs }"
-                    :message="`确认删除菜单[${eachSub.name}]吗`"
-                    @confirm="deleteMenu(eachSub)"
-                  >
-                    <v-btn
-                      icon
-                      text
-                      color="error"
-                      title="删除菜单"
-                      v-bind="attrs"
-                      v-on="on"
-                    >
-                      <v-icon>mdi-folder-remove</v-icon>
-                    </v-btn>
-                  </Confirm>
-                </v-list-item-action>
-              </template>
-
-              <!--三级菜单-->
-              <v-list-item
-                v-for="eachSubSub of eachSub.children"
-                :key="eachSubSub.id"
-                link
-              >
-                <v-list-item-icon v-if="eachSubSub.icon">
-                  <v-icon>{{ eachSubSub.icon }}</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title>{{ eachSubSub.name }}</v-list-item-title>
-                <v-list-item-action class="flex-row">
-                  <v-btn
-                    icon
-                    text
-                    color="primary"
                     title="编辑菜单项"
-                    @click.stop="updateMenu(eachSubSub)"
+                    @click.stop="updateMenu(eachSub)"
                   >
                     <v-icon>mdi-file-document-edit</v-icon>
                   </v-btn>
                   <Confirm
                     v-slot="{ on, attrs }"
-                    :message="`确认删除菜单[${eachSubSub.name}]吗`"
-                    @confirm="deleteMenu(eachSubSub)"
+                    :message="`确认删除菜单[${eachSub.name}]吗`"
+                    @confirm="deleteMenu(eachSub)"
                   >
                     <v-btn
                       icon
@@ -245,10 +162,97 @@
                   </Confirm>
                 </v-list-item-action>
               </v-list-item>
-            </v-list-group>
-          </template>
-        </v-list-group>
-      </template>
+              <v-list-group
+                v-else
+                :key="eachSub.id"
+                sub-group
+              >
+                <template v-slot:activator>
+                  <v-list-item-icon v-if="eachSub.icon">
+                    <v-icon>{{ eachSub.icon }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>{{ eachSub.name }}</v-list-item-title>
+                  <v-list-item-action class="flex-row">
+                    <v-btn
+                      icon
+                      text
+                      color="primary"
+                      title="添加菜单项"
+                      @click.stop="createMenu(eachSub, 'item')"
+                    >
+                      <v-icon>mdi-file-plus</v-icon>
+                    </v-btn>
+                    <v-btn
+                      icon
+                      text
+                      color="primary"
+                      title="编辑菜单"
+                      @click.stop="updateMenu(eachSub)"
+                    >
+                      <v-icon>mdi-folder-edit</v-icon>
+                    </v-btn>
+                    <Confirm
+                      v-slot="{ on, attrs }"
+                      :message="`确认删除菜单[${eachSub.name}]吗`"
+                      @confirm="deleteMenu(eachSub)"
+                    >
+                      <v-btn
+                        icon
+                        text
+                        color="error"
+                        title="删除菜单"
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        <v-icon>mdi-folder-remove</v-icon>
+                      </v-btn>
+                    </Confirm>
+                  </v-list-item-action>
+                </template>
+
+                <!--三级菜单-->
+                <v-list-item
+                  v-for="eachSubSub of eachSub.children"
+                  :key="eachSubSub.id"
+                  link
+                >
+                  <v-list-item-icon v-if="eachSubSub.icon">
+                    <v-icon>{{ eachSubSub.icon }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>{{ eachSubSub.name }}</v-list-item-title>
+                  <v-list-item-action class="flex-row">
+                    <v-btn
+                      icon
+                      text
+                      color="primary"
+                      title="编辑菜单项"
+                      @click.stop="updateMenu(eachSubSub)"
+                    >
+                      <v-icon>mdi-file-document-edit</v-icon>
+                    </v-btn>
+                    <Confirm
+                      v-slot="{ on, attrs }"
+                      :message="`确认删除菜单[${eachSubSub.name}]吗`"
+                      @confirm="deleteMenu(eachSubSub)"
+                    >
+                      <v-btn
+                        icon
+                        text
+                        color="error"
+                        title="删除菜单项"
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        <v-icon>mdi-file-remove</v-icon>
+                      </v-btn>
+                    </Confirm>
+                  </v-list-item-action>
+                </v-list-item>
+              </v-list-group>
+            </template>
+          </v-list-group>
+        </template>
+      </v-list-item-group>
     </v-list>
 
     <v-dialog
