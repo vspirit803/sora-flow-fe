@@ -7,5 +7,8 @@
     "source.fixAll": true
   },
   "eslint.codeAction.disableRuleComment": {},
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "[vue]": {
+    "editor.defaultFormatter": "octref.vetur"
+  }
 }
