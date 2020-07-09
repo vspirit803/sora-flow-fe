@@ -24,7 +24,7 @@ axios.interceptors.response.use(
     useStore().commit('requestEnd');
     return response;
   },
-  function (error: Error) {
+  function (error) {
     // 对响应错误做点什么
     useStore().commit('requestError', error);
     return Promise.reject(error);
