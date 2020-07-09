@@ -12,7 +12,7 @@
         {{ item.version.name }}
       </template>
       <template v-slot:item.supervisor="{ item }">
-        {{ item.supervisor.name }}
+        {{ item.supervisor && item.supervisor.name }}
       </template>
       <template v-slot:item.actions="{ item }">
         <v-btn
