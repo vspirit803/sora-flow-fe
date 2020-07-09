@@ -5,6 +5,10 @@ export class ProfileService {
     return axios.get('profile/organizations');
   }
 
+  static leaveOrganization() {
+    return axios.delete('profile/organizations');
+  }
+
   static getMenus() {
     return axios.get('profile/menus');
   }
