@@ -318,14 +318,12 @@
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 
-import Confirm from '@/components/Confirm.vue';
 import { CreateMenuDto, MenusService, UpdateMenuDto } from '@/service';
 
 type test = 'directory' | 'item';
 
 export default defineComponent({
   name: 'Menu',
-  components: { Confirm },
   setup() {
     const menus = ref([]);
     const dialogVisible = ref(false);

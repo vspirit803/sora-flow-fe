@@ -162,7 +162,6 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 
-import Confirm from '@/components/Confirm.vue';
 import {
   Account,
   AccountsService,
@@ -183,7 +182,6 @@ type Obs = {
 
 export default defineComponent({
   name: 'Organizations',
-  components: { Confirm },
   setup(props, { root }) {
     const obs: Ref<Obs> = ref() as Ref<Obs>;
     const organizationList: Ref<Array<Organization>> = ref([]);

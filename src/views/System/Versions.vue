@@ -130,7 +130,6 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 
-import Confirm from '@/components/Confirm.vue';
 import {
   CreateVersionDto,
   MenusService,
@@ -144,7 +143,6 @@ import { useStore } from '@/use';
 
 export default defineComponent({
   name: 'Versions',
-  components: { Confirm },
   setup() {
     const versionList: Ref<Array<Version>> = ref([]);
     const selectedVersionId = ref('');

@@ -136,13 +136,11 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 
-import Confirm from '@/components/Confirm.vue';
 import { CreateRoleDto, MenusService, MenuTreeItem, Role, RolesService, UpdateRoleDto } from '@/service';
 import { useStore } from '@/use';
 
 export default defineComponent({
   name: 'Roles',
-  components: { Confirm },
   setup() {
     const roleList: Ref<Array<Role>> = ref([]);
     const selectedRole = ref('');

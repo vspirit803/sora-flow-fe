@@ -24,15 +24,11 @@
 <script lang="ts">
 import { computed, defineComponent } from '@vue/composition-api';
 
-import Confirm from '@/components/Confirm.vue';
 import { ProfileService } from '@/service';
 import { useRouter, useStore } from '@/use';
 
 export default defineComponent({
   name: 'Organization',
-  components: {
-    Confirm,
-  },
   setup() {
     const store = useStore();
     const router = useRouter();

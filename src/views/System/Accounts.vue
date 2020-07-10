@@ -19,28 +19,29 @@
         </v-chip>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn
+        <IconButton
           color="primary"
+          title="修改账号"
           @click="onUpdateAccount(item)"
         >
           <v-icon class="mr-2">
             mdi-account-edit
           </v-icon>
-          修改账号
-        </v-btn>
+        </IconButton>
         <Confirm
           v-slot="{ on, attrs }"
           :message="`确认删除账号[${item.nickname}]吗`"
           @confirm="onDeleteAccount(item)"
         >
-          <v-btn
+          <IconButton
             class="ml-2"
             color="error"
             v-bind="attrs"
+            title="删除账号"
             v-on="on"
           >
-            <v-icon>mdi-account-remove</v-icon>删除账号
-          </v-btn>
+            <v-icon>mdi-account-remove</v-icon>
+          </IconButton>
         </Confirm>
       </template>
       <template v-slot:top>
@@ -63,7 +64,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 color="primary"
-                @v-bind="attrs"
+                v-bind="attrs"
                 @click="onCreateAccount"
               >
                 <v-icon class="mr-2">
@@ -180,7 +181,6 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 
-import Confirm from '@/components/Confirm.vue';
 import {
   Account,
   AccountsService,
@@ -199,7 +199,6 @@ type Obs = {
 
 export default defineComponent({
   name: 'Accounts',
-  components: { Confirm },
   setup(props, { root }) {
     const obs: Ref<Obs> = ref() as Ref<Obs>;
     const accountList: Ref<Array<Account>> = ref([]);
