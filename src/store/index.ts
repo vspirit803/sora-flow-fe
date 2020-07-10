@@ -50,6 +50,7 @@ interface StoreType {
   errorMsg: string;
   isError: boolean;
   organizationId: string;
+  settings: { iconMode: boolean };
 }
 
 let stopLoadingTimeout: number;
@@ -70,6 +71,7 @@ const store: Store<StoreType> = new Store<StoreType>({
     requestCount: 0,
     errorMsg: '',
     isError: false,
+    settings: { iconMode: false },
   },
   getters: {},
   mutations: {
