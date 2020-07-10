@@ -6,9 +6,10 @@
     v-on="$listeners"
   >
     <slot />
-    <template v-if="!iconMode">
-      {{ $attrs.title }}
-    </template>
+    <span
+      v-if="!iconMode" 
+      class="ml-2"
+    >{{ $attrs.title }}</span>
   </v-btn>
 </template>
 
