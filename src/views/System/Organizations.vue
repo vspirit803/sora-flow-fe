@@ -15,28 +15,29 @@
         {{ item.supervisor && item.supervisor.name }}
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn
+        <IconButton
+          title="修改组织"
           color="primary"
           @click="onUpdateOrganization(item)"
         >
-          <v-icon class="mr-2">
+          <v-icon>
             mdi-home-edit
           </v-icon>
-          修改组织
-        </v-btn>
+        </IconButton>
         <Confirm
           v-slot="{ on, attrs }"
           :message="`确认删除组织[${item.name}]吗`"
           @confirm="onDeleteOrganization(item)"
         >
-          <v-btn
+          <IconButton
             class="ml-2"
             color="error"
             v-bind="attrs"
+            title="删除组织"
             v-on="on"
           >
-            <v-icon>mdi-home-remove</v-icon>删除组织
-          </v-btn>
+            <v-icon>mdi-home-remove</v-icon>
+          </IconButton>
         </Confirm>
       </template>
       <template v-slot:top>

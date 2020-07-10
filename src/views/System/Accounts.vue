@@ -24,7 +24,7 @@
           title="修改账号"
           @click="onUpdateAccount(item)"
         >
-          <v-icon class="mr-2">
+          <v-icon>
             mdi-account-edit
           </v-icon>
         </IconButton>

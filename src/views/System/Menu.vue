@@ -2,8 +2,8 @@
   <div>
     <v-list-item>
       <v-list-item-title> 菜单 </v-list-item-title>
-      <v-list-item-action class="flex-row">
-        <v-btn
+      <v-list-item-action class="flex-row justify-end flex-basis-100">
+        <IconButton
           icon
           text
           color="primary"
@@ -11,8 +11,8 @@
           @click.stop="createMenu(undefined, 'item')"
         >
           <v-icon>mdi-file-plus</v-icon>
-        </v-btn>
-        <v-btn
+        </IconButton>
+        <IconButton
           icon
           text
           color="primary"
@@ -20,7 +20,7 @@
           @click.stop="createMenu(undefined, 'directory')"
         >
           <v-icon>mdi-folder-plus</v-icon>
-        </v-btn>
+        </IconButton>
       </v-list-item-action>
     </v-list-item>
     <v-divider />
@@ -39,8 +39,8 @@
               <v-icon>{{ each.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>{{ each.name }}</v-list-item-title>
-            <v-list-item-action class="flex-row">
-              <v-btn
+            <v-list-item-action class="flex-row justify-end flex-basis-100">
+              <IconButton
                 icon
                 text
                 color="primary"
@@ -48,13 +48,13 @@
                 @click.stop="updateMenu(each)"
               >
                 <v-icon>mdi-file-document-edit</v-icon>
-              </v-btn>
+              </IconButton>
               <Confirm
                 v-slot="{ on, attrs }"
                 :message="`确认删除菜单[${each.name}]吗`"
                 @confirm="deleteMenu(each)"
               >
-                <v-btn
+                <IconButton
                   icon
                   text
                   color="error"
@@ -63,7 +63,7 @@
                   v-on="on"
                 >
                   <v-icon>mdi-file-remove</v-icon>
-                </v-btn>
+                </IconButton>
               </Confirm>
             </v-list-item-action>
           </v-list-item>
@@ -76,8 +76,8 @@
                 <v-icon>{{ each.icon }}</v-icon>
               </v-list-item-icon>
               <v-list-item-title>{{ each.name }}</v-list-item-title>
-              <v-list-item-action class="flex-row">
-                <v-btn
+              <v-list-item-action class="flex-row justify-end flex-basis-100">
+                <IconButton
                   icon
                   text
                   color="primary"
@@ -85,8 +85,8 @@
                   @click.stop="createMenu(each, 'item')"
                 >
                   <v-icon>mdi-file-plus</v-icon>
-                </v-btn>
-                <v-btn
+                </IconButton>
+                <IconButton
                   icon
                   text
                   color="primary"
@@ -94,8 +94,8 @@
                   @click.stop="createMenu(each, 'directory')"
                 >
                   <v-icon>mdi-folder-plus</v-icon>
-                </v-btn>
-                <v-btn
+                </IconButton>
+                <IconButton
                   icon
                   text
                   color="primary"
@@ -103,13 +103,13 @@
                   @click.stop="updateMenu(each)"
                 >
                   <v-icon>mdi-folder-edit</v-icon>
-                </v-btn>
+                </IconButton>
                 <Confirm
                   v-slot="{ on, attrs }"
                   :message="`确认删除菜单[${each.name}]吗`"
                   @confirm="deleteMenu(each)"
                 >
-                  <v-btn
+                  <IconButton
                     icon
                     text
                     color="error"
@@ -118,7 +118,7 @@
                     v-on="on"
                   >
                     <v-icon>mdi-folder-remove</v-icon>
-                  </v-btn>
+                  </IconButton>
                 </Confirm>
               </v-list-item-action>
             </template>
@@ -134,8 +134,8 @@
                   <v-icon>{{ eachSub.icon }}</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>{{ eachSub.name }}</v-list-item-title>
-                <v-list-item-action class="flex-row">
-                  <v-btn
+                <v-list-item-action class="flex-row justify-end flex-basis-100">
+                  <IconButton
                     icon
                     text
                     color="primary"
@@ -143,13 +143,13 @@
                     @click.stop="updateMenu(eachSub)"
                   >
                     <v-icon>mdi-file-document-edit</v-icon>
-                  </v-btn>
+                  </IconButton>
                   <Confirm
                     v-slot="{ on, attrs }"
                     :message="`确认删除菜单[${eachSub.name}]吗`"
                     @confirm="deleteMenu(eachSub)"
                   >
-                    <v-btn
+                    <IconButton
                       icon
                       text
                       color="error"
@@ -158,7 +158,7 @@
                       v-on="on"
                     >
                       <v-icon>mdi-file-remove</v-icon>
-                    </v-btn>
+                    </IconButton>
                   </Confirm>
                 </v-list-item-action>
               </v-list-item>
@@ -172,8 +172,8 @@
                     <v-icon>{{ eachSub.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title>{{ eachSub.name }}</v-list-item-title>
-                  <v-list-item-action class="flex-row">
-                    <v-btn
+                  <v-list-item-action class="flex-row justify-end flex-basis-100">
+                    <IconButton
                       icon
                       text
                       color="primary"
@@ -181,8 +181,8 @@
                       @click.stop="createMenu(eachSub, 'item')"
                     >
                       <v-icon>mdi-file-plus</v-icon>
-                    </v-btn>
-                    <v-btn
+                    </IconButton>
+                    <IconButton
                       icon
                       text
                       color="primary"
@@ -190,13 +190,13 @@
                       @click.stop="updateMenu(eachSub)"
                     >
                       <v-icon>mdi-folder-edit</v-icon>
-                    </v-btn>
+                    </IconButton>
                     <Confirm
                       v-slot="{ on, attrs }"
                       :message="`确认删除菜单[${eachSub.name}]吗`"
                       @confirm="deleteMenu(eachSub)"
                     >
-                      <v-btn
+                      <IconButton
                         icon
                         text
                         color="error"
@@ -205,7 +205,7 @@
                         v-on="on"
                       >
                         <v-icon>mdi-folder-remove</v-icon>
-                      </v-btn>
+                      </IconButton>
                     </Confirm>
                   </v-list-item-action>
                 </template>
@@ -220,8 +220,8 @@
                     <v-icon>{{ eachSubSub.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title>{{ eachSubSub.name }}</v-list-item-title>
-                  <v-list-item-action class="flex-row">
-                    <v-btn
+                  <v-list-item-action class="flex-row justify-end flex-basis-100">
+                    <IconButton
                       icon
                       text
                       color="primary"
@@ -229,13 +229,13 @@
                       @click.stop="updateMenu(eachSubSub)"
                     >
                       <v-icon>mdi-file-document-edit</v-icon>
-                    </v-btn>
+                    </IconButton>
                     <Confirm
                       v-slot="{ on, attrs }"
                       :message="`确认删除菜单[${eachSubSub.name}]吗`"
                       @confirm="deleteMenu(eachSubSub)"
                     >
-                      <v-btn
+                      <IconButton
                         icon
                         text
                         color="error"
@@ -244,7 +244,7 @@
                         v-on="on"
                       >
                         <v-icon>mdi-file-remove</v-icon>
-                      </v-btn>
+                      </IconButton>
                     </Confirm>
                   </v-list-item-action>
                 </v-list-item>
@@ -403,4 +403,7 @@ export default defineComponent({
 
 <style lang="less" scoped>
 /** */
+.flex-basis-100 {
+  flex-basis: 100%;
+}
 </style>
