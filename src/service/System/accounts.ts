@@ -25,7 +25,7 @@ export class AccountsService {
 export interface CreateAccountDto {
   readonly name: string;
   readonly nickname: string;
-  readonly roles: Array<string>;
+  readonly roles?: Array<string>;
   readonly password: string;
 }
 

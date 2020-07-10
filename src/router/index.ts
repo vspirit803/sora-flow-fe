@@ -15,11 +15,6 @@ const routes = [
     component: () => import(/* webpackChunkName: "home" */ '@/views/Login.vue'),
   },
   {
-    path: '/organization',
-    name: 'organization',
-    component: () => import(/* webpackChunkName: "home" */ '@/views/Organization.vue'),
-  },
-  {
     path: '/system/menus',
     name: 'SystemMenus',
     component: () => import(/* webpackChunkName: "system" */ '@/views/System/Menu.vue'),
@@ -43,6 +38,17 @@ const routes = [
     path: '/system/organizations',
     name: 'SystemOrganizations',
     component: () => import(/* webpackChunkName: "system" */ '@/views/System/Organizations.vue'),
+  },
+  //组织相关
+  {
+    path: '/organization/home',
+    name: 'Organization',
+    component: () => import(/* webpackChunkName: "organization" */ '@/views/Organization.vue'),
+  },
+  {
+    path: '/organization/accounts',
+    name: 'OrganizationAccounts',
+    component: () => import(/* webpackChunkName: "organization" */ '@/views/Organization/Accounts.vue'),
   },
 ];
 
