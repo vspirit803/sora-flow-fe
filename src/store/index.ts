@@ -58,7 +58,7 @@ let stopLoadingTimeout: number;
 const store: Store<StoreType> = new Store<StoreType>({
   plugins: [
     createPersistedState({
-      paths: ['token', 'organizationId'],
+      paths: ['token', 'organizationId', 'settings'],
     }),
   ],
   state: {
