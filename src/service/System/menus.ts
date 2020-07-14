@@ -16,6 +16,10 @@ export class MenusService {
   static deleteMenu(deleteMenuDto: DeleteMenuDto) {
     return axios.delete('menus', { data: deleteMenuDto });
   }
+
+  static updateOrder(updateOrderDto: { menus: Array<string> }) {
+    return axios.patch('menus/order', updateOrderDto);
+  }
 }
 
 export interface CreateMenuDto {

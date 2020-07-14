@@ -32,6 +32,7 @@
             <v-list-item
               v-if="eachSub.type === 'item'"
               :key="eachSub.id"
+              class="pl-8"
               link
               :to="eachSub.url"
             >
