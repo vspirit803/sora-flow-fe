@@ -51,7 +51,7 @@
                   :key="index"
                   class="tool-item pa-0"
                   :class="{ 'tool-item-selected': eachItem.isSelected }"
-                  :cols="eachItem.size"
+                  :cols="draggingType === 'component' ? 3 : eachItem.size"
                   @click="select(eachItem)"
                 >
                   <div
@@ -79,7 +79,7 @@
 <script lang="ts">
 import './Form';
 
-import { computed, defineComponent, onMounted, Ref, ref, watch } from '@vue/composition-api';
+import { defineComponent, Ref, ref } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
 import { useStore } from '@/use';
@@ -93,11 +93,9 @@ export default defineComponent({
   components: { draggable },
   setup() {
     const store = useStore();
-    // const form = new Form();
     const form = ref(new Form());
     const newRow = new FormRow();
     const firstDescription = new DescriptionModel();
-    // let selectedItem: null | FormComponentModel = null;
     const selectedItem: Ref<FormComponentModel | null> = ref(null);
     const draggingType = '';
     firstDescription.toggleSelect();
@@ -159,7 +157,6 @@ export default defineComponent({
     function formRowsChange({
       added,
       moved,
-      ...others
     }: {
       added?: { element: { name: string } | FormComponentModel; newIndex: number };
       moved?: { element: FormRow; oldIndex: number; newIndex: number };
@@ -188,6 +185,20 @@ export default defineComponent({
     }
 
     /**
+     * 添加一个组件到已有行
+     */
+    function addComponentToRow({ added }: { added: { element: { name: string }; newIndex: number } }, row: FormRow) {
+      const { name } = added.element;
+      const { newIndex } = added;
+      const newItem = createComponent(name);
+      if (!newItem) {
+        return;
+      }
+      row.addComponent(newItem, newIndex);
+      select(newItem);
+    }
+
+    /**
      * 行内的组件发生变化
      */
     function rowComponentsChange(
@@ -208,7 +219,6 @@ export default defineComponent({
           component.remove();
           row.addComponent(component, added.newIndex);
         } else {
-          // eslint-disable-next-line @typescript-eslint/no-use-before-define
           addComponentToRow({ added: added as { element: { name: string }; newIndex: number } }, row);
         }
       } else if (moved) {
@@ -216,19 +226,6 @@ export default defineComponent({
         row.components.splice(oldIndex, 1);
         row.components.splice(newIndex, 0, component);
       }
-    }
-    /**
-     * 添加一个组件到已有行
-     */
-    function addComponentToRow({ added }: { added: { element: { name: string }; newIndex: number } }, row: FormRow) {
-      const { name } = added.element;
-      const { newIndex } = added;
-      const newItem = createComponent(name);
-      if (!newItem) {
-        return;
-      }
-      row.addComponent(newItem, newIndex);
-      select(newItem);
     }
 
     function add({ name }: { name: string }) {
@@ -306,7 +303,6 @@ export default defineComponent({
 }
 
 .tool-item {
-  /* padding: 10px; */
   border: 1px dashed blue;
 }
 
