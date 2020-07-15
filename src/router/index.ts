@@ -50,6 +50,12 @@ const routes = [
     name: 'OrganizationAccounts',
     component: () => import(/* webpackChunkName: "organization" */ '@/views/Organization/Accounts.vue'),
   },
+  //表单设计
+  {
+    path: '/form/designer',
+    name: 'FormDesigner',
+    component: () => import(/* webpackChunkName: "form" */ '@/views/Form/FormDesigner.vue'),
+  },
 ];
 
 const router = new VueRouter({
