@@ -1,14 +1,12 @@
 <template>
   <div>
-    <!-- <a-input
-      v-model="item.text"
-      placeholder="请输入描述文字"
-    /> -->
-    <v-text-field
-      v-model="item.text"
-      label="内容"
-      placeholder="请输入描述文字"
-    />
+    <FormComponentPropsCard name="描述文字">
+      <v-text-field
+        v-model="item.text"
+        placeholder="请输入描述文字"
+      />
+    </FormComponentPropsCard>
+    
     <FormComponentSizeAdjuster :item="item" />
   </div>
 </template>

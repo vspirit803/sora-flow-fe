@@ -3,25 +3,25 @@
     :item="item"
     @remove="remove"
   >
-    <span v-if="item.text">{{ item.text }}</span>
-    <span
-      v-else
-      class="font-italic"
-    >请输入描述文字</span>
+    <span>{{ item.title }}</span>
+    <v-text-field
+      :placeholder="item.placeholder"
+      :value="item.default"
+    />
   </FormComponent>
 </template>
 <script lang="ts">
 import Vue from 'vue';
 
-import { FormComponent } from '../base/';
-import { DescriptionModel } from './DescriptionModel';
+import FormComponent from '../base/FormComponent.vue';
+import { SingleLineInputModel } from './SingleLineInputModel';
 
 export default Vue.extend({
-  name: 'Description',
+  name: 'SingleLineInput',
   components: { FormComponent },
   props: {
     item: {
-      type: DescriptionModel,
+      type: SingleLineInputModel,
       required: true,
     },
   },

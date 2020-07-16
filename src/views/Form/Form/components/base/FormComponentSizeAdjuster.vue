@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <v-label>
-      宽度 (%)
-    </v-label>
+  <FormComponentPropsCard
+    name="宽度 (%)"
+  >
     <v-btn-toggle
+      class="d-flex"
       mandatory
       :value="item.size"
+      tile
     >
       <v-btn
         v-for="each of sizeList"
         :key="each"
         :value="each"
+        class="flex-grow-1"
         @click="item.changeSize(each)"
       >
         {{
@@ -18,8 +20,7 @@
         }}
       </v-btn>
     </v-btn-toggle>
-    <!-- </v-col> -->
-  </div>
+  </FormComponentPropsCard>
 </template>
 <script lang="ts">
 import Vue from 'vue';

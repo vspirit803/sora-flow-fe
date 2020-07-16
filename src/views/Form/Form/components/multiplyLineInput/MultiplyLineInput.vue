@@ -3,25 +3,26 @@
     :item="item"
     @remove="remove"
   >
-    <span v-if="item.text">{{ item.text }}</span>
-    <span
-      v-else
-      class="font-italic"
-    >请输入描述文字</span>
+    <span>{{ item.title }}</span>
+    <v-textarea
+      :placeholder="item.placeholder"
+      :value="item.default"
+      :rows="item.rowNumber"
+    />
   </FormComponent>
 </template>
 <script lang="ts">
 import Vue from 'vue';
 
-import { FormComponent } from '../base/';
-import { DescriptionModel } from './DescriptionModel';
+import { FormComponent } from '../base';
+import { MultiplyLineInputModel } from './MultiplyLineInputModel';
 
 export default Vue.extend({
-  name: 'Description',
+  name: 'MultiplyLineInput',
   components: { FormComponent },
   props: {
     item: {
-      type: DescriptionModel,
+      type: MultiplyLineInputModel,
       required: true,
     },
   },

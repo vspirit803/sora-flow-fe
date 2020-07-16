@@ -1,16 +1,34 @@
 import Vue from 'vue';
 
-// import { SingleLineInput, SingleLineInputDetail } from './components/singleLineInput'
-// Vue.component('SingleLineInput', SingleLineInput)
-// Vue.component('SingleLineInputDetail', SingleLineInputDetail)
-// import { MultiplyLineInput, MultiplyLineInputDetail } from './components/multiplyLineInput'
-// Vue.component('MultiplyLineInput', MultiplyLineInput)
-// Vue.component('MultiplyLineInputDetail', MultiplyLineInputDetail)
-// import { SingleSelect, SingleSelectDetail } from './components/singleSelect'
-// Vue.component('SingleSelect', SingleSelect)
-// Vue.component('SingleSelectDetail', SingleSelectDetail)
-import { Description, DescriptionDetail, FormComponentSizeAdjuster } from './components';
+import {
+  Description,
+  DescriptionDetail,
+  FormComponentPropsCard,
+  FormComponentSizeAdjuster,
+  MultiplyLineInput,
+  MultiplyLineInputDetail,
+  MultiplySelect,
+  MultiplySelectDetail,
+  SingleLineInput,
+  SingleLineInputDetail,
+  SingleSelect,
+  SingleSelectDetail,
+} from './components';
 
 Vue.component('FormComponentSizeAdjuster', FormComponentSizeAdjuster);
+Vue.component('FormComponentPropsCard', FormComponentPropsCard);
+
+Vue.component('MultiplyLineInput', MultiplyLineInput);
+Vue.component('MultiplyLineInputDetail', MultiplyLineInputDetail);
+
+Vue.component('SingleLineInput', SingleLineInput);
+Vue.component('SingleLineInputDetail', SingleLineInputDetail);
+
+Vue.component('SingleSelect', SingleSelect);
+Vue.component('SingleSelectDetail', SingleSelectDetail);
+
+Vue.component('MultiplySelect', MultiplySelect);
+Vue.component('MultiplySelectDetail', MultiplySelectDetail);
+
 Vue.component('Description', Description);
 Vue.component('DescriptionDetail', DescriptionDetail);

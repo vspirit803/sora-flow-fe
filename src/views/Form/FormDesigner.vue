@@ -1,22 +1,34 @@
 <template>
   <div class="form-designer d-flex">
-    <v-card class="components-container flex-grow-0 pink lighten-1">
-      <v-container class="grey lighten-5">
+    <v-card class="components-container-card flex-grow-0 align-self-start pink lighten-1 ma-2">
+      <v-container
+        class="components-container grey lighten-5"
+      >
         <v-row no-gutters>
-          <v-col
-            v-for="eachTool of tools"
-            :key="eachTool.name"
-            cols="4"
-            @click="add(eachTool)"
+          <draggable
+            class="components d-flex flex-wrap"
+            :list="tools"
+            :sort="false"
+            :group="{ name: 'components', pull: 'clone', put: false }"
+            @start="draggingType = 'tool'"
+            @end="draggingType = ''"
           >
-            <v-card
-              class="pa-2"
-              outlined
-              tile
+            <v-col
+              v-for="eachTool of tools"
+              :key="eachTool.name"
+              class="pa-0 text-center"
+              cols="4"
+              @click="add(eachTool)"
             >
-              {{ eachTool.name }}
-            </v-card>
-          </v-col>
+              <v-card
+                class="component"
+                outlined
+                tile
+              >
+                {{ eachTool.name }}
+              </v-card>
+            </v-col>
+          </draggable>
         </v-row>
       </v-container>
     </v-card>
@@ -51,7 +63,7 @@
                   :key="index"
                   class="tool-item pa-0"
                   :class="{ 'tool-item-selected': eachItem.isSelected }"
-                  :cols="draggingType === 'component' ? 3 : eachItem.size"
+                  :cols="draggingType === 'component' || draggingType === 'tool' ? 3 : eachItem.size"
                   @click="select(eachItem)"
                 >
                   <div
@@ -66,10 +78,11 @@
         </div>
       </draggable>
     </v-card>
-    <v-card class="component-detail flex-grow-0 blue lighten-2">
+    <v-card class="component-detail-card flex-grow-0 align-self-start blue lighten-2 ma-2">
       <div
         :is="selectedItem.type + 'Detail'"
         v-if="selectedItem"
+        class="component-detail"
         :item="selectedItem"
       />
     </v-card>
@@ -84,7 +97,14 @@ import draggable from 'vuedraggable';
 
 import { useStore } from '@/use';
 
-import { DescriptionModel, FormComponentModel } from './Form/components';
+import {
+  DescriptionModel,
+  FormComponentModel,
+  MultiplyLineInputModel,
+  MultiplySelectModel,
+  SingleLineInputModel,
+  SingleSelectModel,
+} from './Form/components';
 import { Form } from './Form/Form';
 import { FormRow } from './Form/FormRow';
 
@@ -109,15 +129,18 @@ export default defineComponent({
         case '描述文字':
           newItem = new DescriptionModel();
           break;
-        // case '单行文字':
-        //   newItem = new SingleLineInputModel()
-        //   break
-        // case '多行文字':
-        //   newItem = new MultiplyLineInputModel()
-        //   break
-        // case '单项选择':
-        //   newItem = new SingleSelectModel()
-        //   break
+        case '单行文字':
+          newItem = new SingleLineInputModel();
+          break;
+        case '多行文字':
+          newItem = new MultiplyLineInputModel();
+          break;
+        case '单项选择':
+          newItem = new SingleSelectModel();
+          break;
+        case '多项选择':
+          newItem = new MultiplySelectModel();
+          break;
         default:
           return;
       }
@@ -252,6 +275,9 @@ export default defineComponent({
       {
         name: '单项选择',
       },
+      {
+        name: '多项选择',
+      },
     ];
     return {
       form,
@@ -274,15 +300,32 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .form-designer {
-  height: 100%;
+  /** */
 }
 
-.components-container {
+.components-container-card {
   width: 300px;
+
+  .components-container {
+    width: 300px;
+    position: fixed;
+
+    .components {
+      width: 100%;
+      .component {
+        user-select: none;
+      }
+    }
+  }
 }
 
-.component-detail {
-  width: 300px;
+.component-detail-card {
+  width: 320px;
+
+  .component-detail {
+    width: 320px;
+    position: fixed;
+  }
 }
 
 .main {
@@ -294,7 +337,6 @@ export default defineComponent({
 
 .easy-form-row {
   width: 100%;
-  z-index: 10;
   display: flex;
   margin: 10px 0px;
   padding: 5px;

@@ -11,7 +11,6 @@
       <v-icon
         v-show="item.isSelected && item.canMoveToPrevRow"
         class="icon top-middle"
-        theme="filled"
         @click.stop="moveToPrevRow"
       >
         mdi-arrow-up-bold-circle
@@ -19,7 +18,6 @@
       <v-icon
         v-show="item.isSelected && item.canMoveToNextRow"
         class="icon bottom-middle"
-        theme="filled"
         @click.stop="moveToNextRow"
       >
         mdi-arrow-down-bold-circle
@@ -27,22 +25,19 @@
       <v-icon
         v-show="item.isSelected && item.canSwapToLeft"
         class="icon left-middle"
-        type="swap"
         @click.stop="swapToLeft"
       >
-        mdi-arrow-left-bold-circle
+        mdi-swap-horizontal-circle
       </v-icon>
       <v-icon
         v-show="item.isSelected && item.canSwapToRight"
         class="icon right-middle"
-        type="swap"
         @click.stop="swapToRight"
       >
-        mdi-arrow-right-bold-circle
+        mdi-swap-horizontal-circle
       </v-icon>
       <v-icon
         class="icon right-top"
-        type="delete"
         @click.stop="remove"
       >
         mdi-delete
@@ -87,7 +82,7 @@ export default Vue.extend({
 <style scoped>
 .mask {
   position: absolute;
-  z-index: 5;
+  z-index: 3;
   width: 100%;
   height: 100%;
 }
@@ -99,18 +94,18 @@ export default Vue.extend({
 }
 
 .top-left {
-  top: -10px;
-  left: -10px;
+  top: -12px;
+  left: -12px;
 }
 
 .top-middle {
-  top: -10px;
-  left: calc(50% - 10px);
+  top: -12px;
+  left: calc(50% - 12px);
 }
 
 .right-top {
-  top: -10px;
-  right: -10px;
+  top: -12px;
+  right: -12px;
   display: none;
 }
 
@@ -119,18 +114,18 @@ export default Vue.extend({
 }
 
 .bottom-middle {
-  bottom: -10px;
-  left: calc(50% - 10px);
+  bottom: -12px;
+  left: calc(50% - 12px);
 }
 
 .left-middle {
-  bottom: calc(50% - 10px);
-  left: -10px;
+  bottom: calc(50% - 12px);
+  left: -12px;
 }
 
 .right-middle {
-  right: -10px;
-  bottom: calc(50% - 10px);
+  right: -12px;
+  bottom: calc(50% - 12px);
 }
 
 .inner {
@@ -139,9 +134,7 @@ export default Vue.extend({
 
 .icon {
   position: absolute;
-  z-index: 10;
-  width: 20px;
-  height: 20px;
+  z-index: 4;
 }
 
 .icon:hover {
