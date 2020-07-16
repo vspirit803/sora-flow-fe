@@ -1,6 +1,6 @@
 <template>
   <div class="form-designer d-flex">
-    <v-card class="components-container-card flex-grow-0 align-self-start pink lighten-1 ma-2">
+    <v-card class="components-container-card flex-grow-0 flex-shrink-0 align-self-start pink lighten-1 ma-2">
       <v-container
         class="components-container grey lighten-5"
       >
@@ -78,7 +78,7 @@
         </div>
       </draggable>
     </v-card>
-    <v-card class="component-detail-card flex-grow-0 align-self-start blue lighten-2 ma-2">
+    <v-card class="component-detail-card flex-grow-0 flex-shrink-0 align-self-start blue lighten-2 ma-2">
       <div
         :is="selectedItem.type + 'Detail'"
         v-if="selectedItem"
