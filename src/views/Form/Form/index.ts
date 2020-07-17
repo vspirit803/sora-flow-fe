@@ -13,6 +13,8 @@ import {
   SingleLineInputDetail,
   SingleSelect,
   SingleSelectDetail,
+  Table,
+  TableDetail,
 } from './components';
 
 Vue.component('FormComponentSizeAdjuster', FormComponentSizeAdjuster);
@@ -32,3 +34,6 @@ Vue.component('MultiplySelectDetail', MultiplySelectDetail);
 
 Vue.component('Description', Description);
 Vue.component('DescriptionDetail', DescriptionDetail);
+
+Vue.component('Table', Table);
+Vue.component('TableDetail', TableDetail);

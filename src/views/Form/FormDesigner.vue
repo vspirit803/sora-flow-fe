@@ -104,6 +104,7 @@ import {
   MultiplySelectModel,
   SingleLineInputModel,
   SingleSelectModel,
+  TableModel,
 } from './Form/components';
 import { Form } from './Form/Form';
 import { FormRow } from './Form/FormRow';
@@ -123,6 +124,28 @@ export default defineComponent({
     form.value.addRow(newRow);
     selectedItem.value = firstDescription;
 
+
+    const tools = [
+      {
+        name: '描述文字',
+      },
+      {
+        name: '单行文字',
+      },
+      {
+        name: '多行文字',
+      },
+      {
+        name: '单项选择',
+      },
+      {
+        name: '多项选择',
+      },
+      {
+        name: '表格',
+      },
+    ];
+
     function createComponent(name: string) {
       let newItem: FormComponentModel;
       switch (name) {
@@ -140,6 +163,9 @@ export default defineComponent({
           break;
         case '多项选择':
           newItem = new MultiplySelectModel();
+          break;
+        case '表格':
+          newItem = new TableModel();
           break;
         default:
           return;
@@ -262,23 +288,6 @@ export default defineComponent({
       select(newItem);
     }
 
-    const tools = [
-      {
-        name: '描述文字',
-      },
-      {
-        name: '单行文字',
-      },
-      {
-        name: '多行文字',
-      },
-      {
-        name: '单项选择',
-      },
-      {
-        name: '多项选择',
-      },
-    ];
     return {
       form,
       tools,
