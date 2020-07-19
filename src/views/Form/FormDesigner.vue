@@ -124,7 +124,6 @@ export default defineComponent({
     form.value.addRow(newRow);
     selectedItem.value = firstDescription;
 
-
     const tools = [
       {
         name: '描述文字',

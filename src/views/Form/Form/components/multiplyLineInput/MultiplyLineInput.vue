@@ -4,11 +4,7 @@
     @remove="remove"
   >
     <span>{{ item.title }}</span>
-    <v-textarea
-      :placeholder="item.placeholder"
-      :value="item.default"
-      :rows="item.rowNumber"
-    />
+    <MultiplyLineInputCore :item="item" />
   </FormComponent>
 </template>
 <script lang="ts">

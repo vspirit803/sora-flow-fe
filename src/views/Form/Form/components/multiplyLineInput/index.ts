@@ -1,6 +1,6 @@
 import MultiplyLineInput from './MultiplyLineInput.vue';
+import MultiplyLineInputCore from './MultiplyLineInputCore.vue';
 import MultiplyLineInputDetail from './MultiplyLineInputDetail.vue';
+import { MultiplyLineInputModel } from './MultiplyLineInputModel';
 
-export * from './MultiplyLineInputModel';
-export { MultiplyLineInput };
-export { MultiplyLineInputDetail };
+export { MultiplyLineInput, MultiplyLineInputCore, MultiplyLineInputDetail, MultiplyLineInputModel };

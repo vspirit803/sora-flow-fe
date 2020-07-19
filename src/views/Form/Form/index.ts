@@ -6,12 +6,16 @@ import {
   FormComponentPropsCard,
   FormComponentSizeAdjuster,
   MultiplyLineInput,
+  MultiplyLineInputCore,
   MultiplyLineInputDetail,
   MultiplySelect,
+  MultiplySelectCore,
   MultiplySelectDetail,
   SingleLineInput,
+  SingleLineInputCore,
   SingleLineInputDetail,
   SingleSelect,
+  SingleSelectCore,
   SingleSelectDetail,
   Table,
   TableDetail,
@@ -21,15 +25,19 @@ Vue.component('FormComponentSizeAdjuster', FormComponentSizeAdjuster);
 Vue.component('FormComponentPropsCard', FormComponentPropsCard);
 
 Vue.component('MultiplyLineInput', MultiplyLineInput);
+Vue.component('MultiplyLineInputCore', MultiplyLineInputCore);
 Vue.component('MultiplyLineInputDetail', MultiplyLineInputDetail);
 
 Vue.component('SingleLineInput', SingleLineInput);
+Vue.component('SingleLineInputCore', SingleLineInputCore);
 Vue.component('SingleLineInputDetail', SingleLineInputDetail);
 
 Vue.component('SingleSelect', SingleSelect);
+Vue.component('SingleSelectCore', SingleSelectCore);
 Vue.component('SingleSelectDetail', SingleSelectDetail);
 
 Vue.component('MultiplySelect', MultiplySelect);
+Vue.component('MultiplySelectCore', MultiplySelectCore);
 Vue.component('MultiplySelectDetail', MultiplySelectDetail);
 
 Vue.component('Description', Description);

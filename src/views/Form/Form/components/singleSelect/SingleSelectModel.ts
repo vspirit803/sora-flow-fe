@@ -6,7 +6,7 @@ import { FormComponentModel } from '../base';
 export class SingleSelectModel extends FormComponentModel {
   default: string;
   options: Array<string>;
-  direction: string;
+  direction: 'vertical' | 'horizontal';
   constructor() {
     super('SingleSelect', '单项选择');
     this.default = '';

@@ -4,18 +4,7 @@
     @remove="remove"
   >
     <span>{{ item.title }}</span>
-    <br>
-    <v-radio-group
-      v-model="item.default"
-      :row="item.direction==='horizontal'"
-    >
-      <v-radio
-        v-for="index of item.options.length"
-        :key="index"
-        :value="item.options[index - 1]"
-        :label=" item.options[index - 1]"
-      />
-    </v-radio-group>
+    <SingleSelectCore :item="item" />
   </FormComponent>
 </template>
 <script lang="ts">

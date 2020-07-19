@@ -4,10 +4,7 @@
     @remove="remove"
   >
     <span>{{ item.title }}</span>
-    <v-text-field
-      :placeholder="item.placeholder"
-      :value="item.default"
-    />
+    <SingleLineInputCore :item="item" />
   </FormComponent>
 </template>
 <script lang="ts">
