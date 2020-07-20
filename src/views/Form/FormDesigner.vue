@@ -32,7 +32,7 @@
         </v-row>
       </v-container>
     </v-card>
-    <v-card class="form flex-grow-1 purple lighten-1 pa-2">
+    <v-card class="form-card flex-grow-1 flex-shrink-1 purple lighten-1 pa-2">
       <draggable
         :value="form.rows"
         group="components"
@@ -325,6 +325,11 @@ export default defineComponent({
       }
     }
   }
+}
+
+.form-card {
+  /**给一个较小的宽度,利用flex-grow自动撑大 */
+  width: 200px;
 }
 
 .component-detail-card {

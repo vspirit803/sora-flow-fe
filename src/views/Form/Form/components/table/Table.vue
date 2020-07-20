@@ -4,9 +4,14 @@
     @remove="remove"
   >
     <v-data-table
-      :headers="headers"
+      :headers="[...headers,{ text: '操作',
+                              value: 'actions',
+                              width: 80,
+                              align:'center', 
+                              sortable: false,
+                              filterable: false}]"
       :items="items"
-      class="elevation-1"
+      class="my-table elevation-1"
       disable-pagination
       hide-default-footer
       no-data-text="暂无数据"
@@ -15,27 +20,40 @@
         v-for="each of headers"
         v-slot:[getSlotName(each)]
       >
-        <!-- <v-chip
-          :key="each.name"
-          dark
-        >
-          {{ value }}
-        </v-chip> -->
-        <!-- <v-text-field 
-          :key="each.name"
-          v-model="item[each.value]"
-        /> -->
         <div
           :is="each.type + 'Core'"
           :key="each.name"
           :item="each.item"
         />
       </template>
+      <template
+        v-slot:item.actions
+      >
+        <IconButton 
+          icon
+          text
+          color="primary"
+          title="删除行"
+        >
+          <v-icon>mdi-table-row-remove</v-icon>
+        </IconButton>
+      </template>
+      <template v-slot:footer>
+        <IconButton 
+          icon
+          text
+          block
+          color="primary"
+          title="添加新行"
+        >
+          <v-icon>mdi-table-row-plus-after</v-icon>
+        </IconButton>
+      </template>
     </v-data-table>
   </FormComponent>
 </template>
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 
 import { FormComponent } from '../base/';
 import {
@@ -59,24 +77,16 @@ export default defineComponent({
   },
   setup(props, context) {
     const item = props.item;
-    const headers = item.fields.map((each) => ({
-      text: each.title,
-      value: each.title,
-      type: each.type,
-      width: 150,
-      item: each,
-    }));
-    // const headers = [
-    //   { text: '姓名', value: 'name' },
-    //   { text: '关系', value: 'relation' },
-    //   { text: '年龄', value: 'age' },
-    //   { text: '工作单位', value: 'workCompany' },
-    //   { text: '工作岗位', value: 'workRole' },
-    // ];
-    // const items: Array<any> = [
-    //   { name: '刘小平', relation: '父子', age: 55, workCompany: '射洪县建筑公司', workRole: '病退' },
-    // ];
-    const items: Array<any> = [Object.fromEntries(headers.map((each) => [each.value, '']))];
+    const headers = computed(() =>
+      item.fields.map((each) => ({
+        text: each.title,
+        value: each.title,
+        type: each.type,
+        item: each,
+        width: 180,
+      })),
+    );
+    const items = computed(() => [Object.fromEntries(headers.value.map((each) => [each.value, '']))]);
 
     function remove() {
       context.emit('remove', item);
@@ -89,34 +99,24 @@ export default defineComponent({
       getSlotName(header: { text: string; value: string }) {
         return `item.${header.value}`;
       },
-
-      getItem(type: string) {
-        let newItem: FormComponentModel;
-        switch (type) {
-          case 'Description':
-            newItem = new DescriptionModel();
-            break;
-          case 'SingleLineInput':
-            newItem = new SingleLineInputModel();
-            break;
-          case 'MultiplyLineInput':
-            newItem = new MultiplyLineInputModel();
-            break;
-          case 'SingleSelect':
-            newItem = new SingleSelectModel();
-            break;
-          case 'MultiplySelect':
-            newItem = new MultiplySelectModel();
-            break;
-          case 'Table':
-            newItem = new TableModel();
-            break;
-          default:
-            return;
-        }
-        return newItem;
-      },
     };
   },
 });
 </script>
+<style lang="less" scoped>
+.my-table {
+  /deep/ th:last-child,
+  /deep/ td:last-child {
+    position: sticky;
+    right: 0;
+    border-left: thin solid rgba(0, 0, 0, 0.12);
+    background: white;
+
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12) !important;
+  }
+
+  /deep/ .v-data-table__wrapper {
+    overflow-x: scroll;
+  }
+}
+</style>

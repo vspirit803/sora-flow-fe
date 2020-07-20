@@ -42,4 +42,8 @@ export class TableModel extends FormComponentModel {
   getData() {
     return { ...super.getData(), fields: this.fields.map((each) => each.getData()) };
   }
+
+  onRemoveField(field: FormComponentModel) {
+    this.fields = this.fields.filter((each) => each !== field);
+  }
 }
