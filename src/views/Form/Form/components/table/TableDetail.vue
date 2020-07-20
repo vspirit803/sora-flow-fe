@@ -42,6 +42,44 @@
             </template>
           </draggable>
         </v-list-item-group>
+
+        <v-menu
+          top
+          offset-y
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <IconButton
+              block
+              color="primary"
+              text
+              title="添加字段"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-table-plus</v-icon>
+            </IconButton>
+          </template>
+
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in [{title:'第一个'},{title:'第二个'}]"
+              :key="index"
+              @click=";"
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
+
+        <!-- <IconButton
+          block
+          color="primary"
+          text
+          title="添加字段"
+        >
+          <v-icon>mdi-table-plus</v-icon>
+        </IconButton> -->
       </v-list>
     </FormComponentPropsCard>
   </div>
