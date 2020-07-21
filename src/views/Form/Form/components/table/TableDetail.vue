@@ -93,6 +93,17 @@
         </v-menu>
       </v-list>
     </FormComponentPropsCard>
+
+    <FormComponentPropsCard name="默认行数">
+      <v-text-field
+        v-model="item.rowNumber"
+        type="number"
+        outlined
+        dense
+        :min="1"
+        :max="20"
+      />
+    </FormComponentPropsCard>
   </v-card>
   <div v-else>
     <div

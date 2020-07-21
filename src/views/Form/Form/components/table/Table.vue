@@ -1,7 +1,7 @@
 <template>
   <FormComponent
     :item="item"
-    @remove="remove"
+    @remove="onRemove"
   >
     <span>{{ item.title }}</span>
     <v-data-table
@@ -54,7 +54,7 @@
   </FormComponent>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from '@vue/composition-api';
+import { computed, defineComponent, Ref, ref } from '@vue/composition-api';
 
 import { FormComponent } from '../base/';
 import { TableModel } from './TableModel';
@@ -81,14 +81,30 @@ export default defineComponent({
       })),
     );
     // const items = computed(() => [Object.fromEntries(headers.value.map((each) => [each.value, '']))]);
-    const items = [{}];
+    // const items: Ref<Array<any>> = ref([]);
+    const items = computed(() => {
+      const list = [];
+      for (let i = 0; i < item.rowNumber; i++) {
+        list.push({});
+      }
+      return list;
+    });
+    // items.value.push(Object.fromEntries(headers.value.map((each) => [each.value, Object.create(each.item)])));
 
-    function remove() {
+    function onRemove() {
       context.emit('remove', item);
     }
 
+    // function onAddRow() {
+    //   items.value.push(Object.fromEntries(headers.value.map((each) => [each.value, Object.create(each.item)])));
+    // }
+
+    // function onRemoveRow(item: Record<string, any>) {
+    //   items.value = items.value.filter((each) => each !== item);
+    // }
+
     return {
-      remove,
+      onRemove,
       headers,
       items,
       getSlotName(header: { text: string; value: string }) {

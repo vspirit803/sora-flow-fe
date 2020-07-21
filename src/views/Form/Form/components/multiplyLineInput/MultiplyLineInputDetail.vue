@@ -18,10 +18,12 @@
     <FormComponentSizeAdjuster :item="item" />
     <v-divider />
 
-    <FormComponentPropsCard name="行数">
+    <FormComponentPropsCard name="默认行数">
       <v-text-field
         v-model="item.rowNumber"
         type="number"
+        outlined
+        dense
         :min="1"
         :max="20"
       />

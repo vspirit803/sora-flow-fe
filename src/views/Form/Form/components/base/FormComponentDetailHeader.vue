@@ -1,6 +1,6 @@
 <!--表单详情的头-->
 <template>
-  <div class="text-h6 font-weight-bold ml-4 detail-header">
+  <div class="text-h6 font-weight-bold detail-header">
     <template v-if="isTableField">
       <v-btn
         icon
@@ -10,7 +10,7 @@
       </v-btn>
       <span>表格. </span>
     </template>
-    <span>{{ title }}</span>
+    <span :class="{'ml-9':!isTableField}">{{ title }}</span>
   </div>
 </template>
 <script lang="ts">

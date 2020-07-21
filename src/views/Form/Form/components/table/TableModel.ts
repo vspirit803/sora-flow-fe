@@ -9,10 +9,12 @@ import { SingleSelectModel } from '../singleSelect';
  */
 export class TableModel extends FormComponentModel {
   fields: Array<FormComponentModel>;
+  rowNumber: number;
 
   constructor() {
     super('Table', '表格');
     this.fields = [];
+    this.rowNumber = 1;
 
     const nameField = new SingleLineInputModel();
     nameField.title = '姓名';
@@ -28,26 +30,6 @@ export class TableModel extends FormComponentModel {
     ];
     sexField.direction = 'horizontal';
     this.fields.push(sexField);
-
-    const relationshipField = new SingleLineInputModel();
-    relationshipField.title = '关系';
-    relationshipField.size = 6;
-    this.fields.push(relationshipField);
-
-    const ageField = new SingleLineInputModel();
-    ageField.title = '年龄';
-    ageField.size = 6;
-    this.fields.push(ageField);
-
-    const workLocationField = new SingleLineInputModel();
-    workLocationField.title = '工作地点';
-    workLocationField.size = 6;
-    this.fields.push(workLocationField);
-
-    const workRoleField = new SingleLineInputModel();
-    workRoleField.title = '工作岗位';
-    workRoleField.size = 6;
-    this.fields.push(workRoleField);
   }
 
   addField(name: string) {
@@ -73,7 +55,7 @@ export class TableModel extends FormComponentModel {
   }
 
   getData() {
-    return { ...super.getData(), fields: this.fields.map((each) => each.getData()) };
+    return { ...super.getData(), fields: this.fields.map((each) => each.getData()), rowNumber: this.rowNumber };
   }
 
   onRemoveField(field: FormComponentModel) {
