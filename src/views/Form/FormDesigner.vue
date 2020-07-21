@@ -82,6 +82,7 @@
       <div
         :is="selectedItem.type + 'Detail'"
         v-if="selectedItem"
+        :key="selectedItem.symbol"
         class="component-detail"
         :item="selectedItem"
       />

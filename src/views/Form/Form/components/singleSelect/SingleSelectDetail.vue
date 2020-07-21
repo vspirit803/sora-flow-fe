@@ -15,9 +15,9 @@
         handle=".drag-handle"
       >
         <v-text-field
-          v-for="index of item.options.length"
-          :key="index"
-          v-model="item.options[index - 1]"
+          v-for="each of item.options"
+          :key="each.symbol"
+          v-model="each.value"
           class="mt-0 pt-0 mb-2"
           hide-details
         >
@@ -28,7 +28,7 @@
               mdi-drag
             </v-icon>
             <v-icon
-              @click="deleteOption(index - 1)"
+              @click="deleteOption(each)"
             >
               mdi-delete
             </v-icon>
@@ -38,6 +38,17 @@
       <v-btn @click="addOption">
         增加选项
       </v-btn>
+    </FormComponentPropsCard>
+
+    <FormComponentPropsCard name="默认值">
+      <v-select
+        v-model="item.default"
+        outlined
+        dense
+        :items="item.options"
+        item-text="value"
+        item-value="value"
+      />
     </FormComponentPropsCard>
 
     <FormComponentPropsCard name="排列方向">
@@ -75,8 +86,8 @@ export default Vue.extend({
     addOption() {
       this.item.addOption();
     },
-    deleteOption(index: number) {
-      this.item.options.splice(index, 1);
+    deleteOption(item: { value: string }) {
+      this.item.options = this.item.options.filter((each) => each !== item);
     },
   },
 });

@@ -5,17 +5,21 @@ import { FormComponentModel } from '../base';
  */
 export class MultiplySelectModel extends FormComponentModel {
   default: Array<string>;
-  options: Array<string>;
+  options: Array<{ value: string; symbol: symbol }>;
   direction: string;
   constructor() {
     super('MultiplySelect', '多项选择');
-    this.default = ['选项1', '选项2'];
-    this.options = ['选项1', '选项2', '选项3'];
+    this.default = [];
+    this.options = [
+      { value: '选项1', symbol: Symbol('选项') },
+      { value: '选项2', symbol: Symbol('选项') },
+      { value: '选项3', symbol: Symbol('选项') },
+    ];
     this.direction = 'vertical';
   }
 
   addOption(optionName = '未命名') {
-    this.options.push(optionName);
+    this.options.push({ value: optionName, symbol: Symbol('选项') });
   }
 
   getData() {

@@ -3,6 +3,7 @@
     :item="item"
     @remove="remove"
   >
+    <span>{{ item.title }}</span>
     <v-data-table
       :headers="[...headers,{ text: '操作',
                               value: 'actions',
@@ -56,14 +57,6 @@
 import { computed, defineComponent } from '@vue/composition-api';
 
 import { FormComponent } from '../base/';
-import {
-  DescriptionModel,
-  FormComponentModel,
-  MultiplyLineInputModel,
-  MultiplySelectModel,
-  SingleLineInputModel,
-  SingleSelectModel,
-} from '../index';
 import { TableModel } from './TableModel';
 
 export default defineComponent({
@@ -83,10 +76,11 @@ export default defineComponent({
         value: each.title,
         type: each.type,
         item: each,
-        width: 180,
+        width: each.size * 30,
       })),
     );
-    const items = computed(() => [Object.fromEntries(headers.value.map((each) => [each.value, '']))]);
+    // const items = computed(() => [Object.fromEntries(headers.value.map((each) => [each.value, '']))]);
+    const items = [{}];
 
     function remove() {
       context.emit('remove', item);

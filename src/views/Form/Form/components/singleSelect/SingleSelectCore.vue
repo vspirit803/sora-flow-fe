@@ -4,10 +4,10 @@
     :row="item.direction==='horizontal'"
   >
     <v-radio
-      v-for="index of item.options.length"
-      :key="index"
-      :value="item.options[index - 1]"
-      :label=" item.options[index - 1]"
+      v-for="each of item.options"
+      :key="each.symbol"
+      :value="each.value"
+      :label="each.value"
     />
   </v-radio-group>
 </template>

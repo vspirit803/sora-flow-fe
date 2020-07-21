@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <div v-if="!selectedField">
+    <FormComponentPropsCard name="标题">
+      <v-text-field
+        v-model="item.title"
+        placeholder="请输入标题"
+      />
+    </FormComponentPropsCard>
     <FormComponentSizeAdjuster :item="item" />
     <FormComponentPropsCard name="表格字段">
       <v-list>
@@ -20,6 +26,7 @@
                   <v-icon
                     color="primary"
                     title="编辑字段"
+                    @click="onEditField(eachField)"
                   >
                     mdi-table-edit
                   </v-icon>
@@ -62,36 +69,37 @@
 
           <v-list>
             <v-list-item
-              v-for="(item, index) in [{title:'第一个'},{title:'第二个'}]"
-              :key="index"
-              @click=";"
+              v-for="(eachComponent) in components"
+              :key="eachComponent.name"
+              @click="onAddField(eachComponent)"
             >
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item-title>{{ eachComponent.text }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
-
-
-        <!-- <IconButton
-          block
-          color="primary"
-          text
-          title="添加字段"
-        >
-          <v-icon>mdi-table-plus</v-icon>
-        </IconButton> -->
       </v-list>
     </FormComponentPropsCard>
   </div>
+  <div v-else>
+    表格.{{ selectedField.type }}
+    <v-btn @click="selectedField=undefined">
+      返回
+    </v-btn>
+    <div
+      :is="selectedField.type + 'Detail'"
+      :item="selectedField"
+    />
+  </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, Ref, ref } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
 import { FormComponentModel } from '../base';
+import { components } from '../components';
 import { TableModel } from './TableModel';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'TableDetail',
   components: { draggable },
   props: {
@@ -100,13 +108,27 @@ export default Vue.extend({
       required: true,
     },
   },
-  methods: {
-    onChange(...params: any[]) {
-      console.log(params);
-    },
-    onRemoveField(field: FormComponentModel) {
-      this.item.onRemoveField(field);
-    },
+  setup(props) {
+    const item = props.item;
+    const enabledComponents = components.filter((each) => each.enabledInTable);
+    const selectedField: Ref<FormComponentModel | undefined> = ref();
+
+    function onAddField(field: { name: string; text: string }) {
+      item.addField(field.name);
+    }
+    function onEditField(field: FormComponentModel) {
+      selectedField.value = field;
+    }
+
+    return {
+      onRemoveField(field: FormComponentModel) {
+        item.onRemoveField(field);
+      },
+      onAddField,
+      components: enabledComponents,
+      selectedField,
+      onEditField,
+    };
   },
 });
 </script>
