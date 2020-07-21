@@ -317,7 +317,6 @@ export default defineComponent({
 
   .components-container {
     width: 300px;
-    position: fixed;
 
     .components {
       width: 100%;
@@ -338,7 +337,6 @@ export default defineComponent({
 
   .component-detail {
     width: 320px;
-    position: fixed;
   }
 }
 
