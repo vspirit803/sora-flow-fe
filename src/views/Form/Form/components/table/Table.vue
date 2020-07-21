@@ -76,6 +76,7 @@ export default defineComponent({
         value: each.title,
         type: each.type,
         item: each,
+        divider: true,
         width: each.size * 30,
       })),
     );

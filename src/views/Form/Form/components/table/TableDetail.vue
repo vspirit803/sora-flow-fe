@@ -1,12 +1,26 @@
 <template>
-  <div v-if="!selectedField">
+  <v-card
+    v-if="!selectedField"
+    outlined
+  >
+    <FormComponentDetailHeader
+      title="表格"
+    />
+    <v-divider />
+
     <FormComponentPropsCard name="标题">
       <v-text-field
         v-model="item.title"
+        outlined
+        dense
         placeholder="请输入标题"
       />
     </FormComponentPropsCard>
+    <v-divider />
+
     <FormComponentSizeAdjuster :item="item" />
+    <v-divider />
+
     <FormComponentPropsCard name="表格字段">
       <v-list>
         <v-list-item-group color="primary">
@@ -79,15 +93,13 @@
         </v-menu>
       </v-list>
     </FormComponentPropsCard>
-  </div>
+  </v-card>
   <div v-else>
-    表格.{{ selectedField.type }}
-    <v-btn @click="selectedField=undefined">
-      返回
-    </v-btn>
     <div
       :is="selectedField.type + 'Detail'"
       :item="selectedField"
+      is-table-field
+      @back="selectedField=undefined"
     />
   </div>
 </template>

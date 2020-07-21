@@ -1,12 +1,11 @@
 <!--表单详情 属性设置的卡片-->
 <template>
-  <v-card
-    class="pa-2"
-    outlined
+  <div
+    class="pa-2 props-card"
   >
     <span class="text-subtitle-2">{{ name }}</span>
     <slot />
-  </v-card>
+  </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';

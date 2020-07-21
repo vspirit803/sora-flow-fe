@@ -1,13 +1,22 @@
 <template>
-  <div>
+  <v-card outlined>
+    <FormComponentDetailHeader
+      title="多行文字"
+      :is-table-field="isTableField"
+      @back="onBack"
+    />
+    <v-divider />
+
     <FormComponentPropsCard name="标题">
       <v-text-field
         v-model="item.title"
         placeholder="请输入标题"
       />
     </FormComponentPropsCard>
+    <v-divider />
    
     <FormComponentSizeAdjuster :item="item" />
+    <v-divider />
 
     <FormComponentPropsCard name="行数">
       <v-text-field
@@ -17,7 +26,7 @@
         :max="20"
       />
     </FormComponentPropsCard>
-  </div>
+  </v-card>
 </template>
 <script lang="ts">
 import Vue from 'vue';
@@ -30,6 +39,17 @@ export default Vue.extend({
     item: {
       type: MultiplyLineInputModel,
       required: true,
+    },
+    isTableField: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  methods: {
+    onBack() {
+      if (this.isTableField) {
+        this.$emit('back');
+      }
     },
   },
 });

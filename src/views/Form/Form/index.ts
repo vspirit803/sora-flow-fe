@@ -3,6 +3,7 @@ import Vue from 'vue';
 import {
   Description,
   DescriptionDetail,
+  FormComponentDetailHeader,
   FormComponentPropsCard,
   FormComponentSizeAdjuster,
   MultiplyLineInput,
@@ -23,6 +24,7 @@ import {
 
 Vue.component('FormComponentSizeAdjuster', FormComponentSizeAdjuster);
 Vue.component('FormComponentPropsCard', FormComponentPropsCard);
+Vue.component('FormComponentDetailHeader', FormComponentDetailHeader);
 
 Vue.component('MultiplyLineInput', MultiplyLineInput);
 Vue.component('MultiplyLineInputCore', MultiplyLineInputCore);
