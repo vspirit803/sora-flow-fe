@@ -4,12 +4,14 @@ import { FormRow } from '../../FormRow';
  * 表单组件基类
  */
 export class FormComponentModel {
+  symbol: symbol;
   type: string;
   title: string;
   isSelected: boolean;
   size: number;
   _row?: FormRow;
   constructor(type: string, title: string) {
+    this.symbol = Symbol('type');
     this.type = type;
     this.title = title;
     this.size = 12;
@@ -22,7 +24,7 @@ export class FormComponentModel {
 
   changeSize(size: number) {
     this.setSize(size);
-    this.row.resize();
+    this._row?.resize();
   }
 
   get data() {

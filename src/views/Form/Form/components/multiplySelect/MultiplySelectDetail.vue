@@ -1,23 +1,36 @@
 <template>
-  <div>
+  <v-card outlined>
+    <FormComponentDetailHeader
+      title="多项选择"
+      :is-table-field="isTableField"
+      @back="onBack"
+    />
+    <v-divider />
+
     <FormComponentPropsCard name="标题">
       <v-text-field
         v-model="item.title"
+        outlined
+        dense
         placeholder="请输入标题"
       />
     </FormComponentPropsCard>
-    
-    <FormComponentSizeAdjuster :item="item" />
+    <v-divider />
 
-    <FormComponentPropsCard name="选项内容">
+    <FormComponentSizeAdjuster :item="item" />
+    <v-divider />
+
+    <FormComponentPropsCard name="选项">
       <draggable
         v-model="item.options"
         handle=".drag-handle"
       >
         <v-text-field
-          v-for="index of item.options.length"
-          :key="index"
-          v-model="item.options[index - 1]"
+          v-for="each of item.options"
+          :key="each.symbol"
+          v-model="each.value"
+          outlined
+          dense
           class="mt-0 pt-0 mb-2"
           hide-details
         >
@@ -28,17 +41,36 @@
               mdi-drag
             </v-icon>
             <v-icon
-              @click="deleteOption(index - 1)"
+              @click="deleteOption(each)"
             >
               mdi-delete
             </v-icon>
           </template>
         </v-text-field>
       </draggable>
-      <v-btn @click="addOption">
+      <v-btn
+        block
+        color="primary"
+        @click="addOption"
+      >
         增加选项
       </v-btn>
     </FormComponentPropsCard>
+    <v-divider />
+
+    <FormComponentPropsCard name="默认值">
+      <v-select
+        v-model="item.default"
+        chips
+        dense
+        outlined
+        multiple
+        :items="item.options"
+        item-text="value"
+        item-value="value"
+      />
+    </FormComponentPropsCard>
+    <v-divider />
 
     <FormComponentPropsCard name="排列方向">
       <v-radio-group
@@ -54,7 +86,7 @@
         />
       </v-radio-group>
     </FormComponentPropsCard>
-  </div>
+  </v-card>
 </template>
 <script lang="ts">
 import Vue from 'vue';
@@ -70,13 +102,22 @@ export default Vue.extend({
       type: MultiplySelectModel,
       required: true,
     },
+    isTableField: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     addOption() {
       this.item.addOption();
     },
-    deleteOption(index: number) {
-      this.item.options.splice(index, 1);
+    deleteOption(item: { value: string }) {
+      this.item.options = this.item.options.filter((each) => each !== item);
+    },
+    onBack() {
+      if (this.isTableField) {
+        this.$emit('back');
+      }
     },
   },
 });
