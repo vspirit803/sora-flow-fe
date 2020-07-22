@@ -54,7 +54,7 @@
   </FormComponent>
 </template>
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 
 import { FormComponent } from '../base/';
 import { TableModel } from './TableModel';
