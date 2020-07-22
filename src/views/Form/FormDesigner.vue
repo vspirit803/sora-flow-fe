@@ -59,15 +59,16 @@
                 @change="payload => rowComponentsChange(payload, eachRow)"
               >
                 <v-col
-                  v-for="(eachItem, index) of eachRow.components"
-                  :key="index"
+                  v-for="eachItem of eachRow.components"
+                  :key="eachItem.symbol"
                   class="tool-item pa-0"
-                  :class="{ 'tool-item-selected': eachItem.isSelected }"
+                  :class="{ 'tool-item-selected': eachItem === selectedItem }"
                   :cols="draggingType === 'component' || draggingType === 'tool' ? 3 : eachItem.size"
                   @click="select(eachItem)"
                 >
                   <div
                     :is="eachItem.type"
+                    :key="eachItem.symbol"
                     :item="eachItem"
                     @remove="remove"
                   />
@@ -93,10 +94,8 @@
 <script lang="ts">
 import './Form';
 
-import { defineComponent, Ref, ref } from '@vue/composition-api';
+import { defineComponent, provide, Ref, ref } from '@vue/composition-api';
 import draggable from 'vuedraggable';
-
-import { useStore } from '@/use';
 
 import {
   DescriptionModel,
@@ -114,13 +113,12 @@ export default defineComponent({
   name: 'FormDesigner',
   components: { draggable },
   setup() {
-    const store = useStore();
     const form = ref(new Form());
     const newRow = new FormRow();
     const firstDescription = new DescriptionModel();
     const selectedItem: Ref<FormComponentModel | null> = ref(null);
+    provide('selectedItem', selectedItem);
     const draggingType = '';
-    firstDescription.toggleSelect();
     newRow.addComponent(firstDescription);
     form.value.addRow(newRow);
     selectedItem.value = firstDescription;
@@ -174,8 +172,6 @@ export default defineComponent({
     }
 
     function select(item: FormComponentModel | null) {
-      selectedItem.value?.toggleSelect();
-      item?.toggleSelect();
       selectedItem.value = item;
     }
 
@@ -228,6 +224,7 @@ export default defineComponent({
     }
 
     function remove(component: FormComponentModel) {
+      console.log(component);
       if (selectedItem.value === component) {
         selectedItem.value = null;
       }
@@ -253,11 +250,11 @@ export default defineComponent({
     function rowComponentsChange(
       {
         added,
-        removed,
+        // removed,
         moved,
       }: {
         added?: { element: { name: string } | FormComponentModel; newIndex: number };
-        removed?: { element: FormComponentModel; oldIndex: number };
+        // removed?: { element: FormComponentModel; oldIndex: number };
         moved?: { element: FormComponentModel; oldIndex: number; newIndex: number };
       },
       row: FormRow,
@@ -339,6 +336,9 @@ export default defineComponent({
   .component-detail {
     width: 320px;
     position: fixed;
+    max-height: calc(100vh - 64px - 8px);
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 }
 

@@ -7,7 +7,6 @@ export class FormComponentModel {
   symbol: symbol;
   type: string;
   title: string;
-  isSelected: boolean;
   size: number;
   _row?: FormRow;
   constructor(type: string, title: string) {
@@ -15,29 +14,23 @@ export class FormComponentModel {
     this.type = type;
     this.title = title;
     this.size = 12;
-    this.isSelected = false;
   }
 
-  setSize(size: number) {
+  setSize(size: number): void {
     this.size = size;
   }
 
-  changeSize(size: number) {
+  changeSize(size: number): void {
     this.setSize(size);
     this._row?.resize();
   }
 
-  get data() {
+  get data(): { type: string; title: string; size: number } {
     return this.getData();
   }
 
-  getData() {
+  getData(): { type: string; title: string; size: number } {
     return { type: this.type, title: this.title, size: this.size };
-  }
-
-  /**切换选中状态 */
-  toggleSelect() {
-    this.isSelected = !this.isSelected;
   }
 
   get canMoveToPrevRow(): boolean {
@@ -61,21 +54,21 @@ export class FormComponentModel {
     return this.index < this.row.components.length - 1;
   }
 
-  swapToLeft() {
+  swapToLeft(): void {
     if (!this.canSwapToLeft) {
       throw new Error('无法与左边组件交换位置');
     }
     this.row.swapComponent(this, 'left');
   }
 
-  swapToRight() {
+  swapToRight(): void {
     if (!this.canSwapToRight) {
       throw new Error('无法与右边组件交换位置');
     }
     this.row.swapComponent(this, 'right');
   }
 
-  moveToPrevRow() {
+  moveToPrevRow(): void {
     if (!this.canMoveToPrevRow) {
       throw new Error('上一行不存在或已满,无法添加新组件');
     }
@@ -85,7 +78,7 @@ export class FormComponentModel {
     prevRow.addComponent(this);
   }
 
-  moveToNextRow() {
+  moveToNextRow(): void {
     if (!this.canMoveToNextRow) {
       // throw new Error('下一行已满,无法添加新组件')
       throw new Error('此行只有一个组件,无法移到下一行');
@@ -97,30 +90,22 @@ export class FormComponentModel {
     this._row = undefined;
     newRow.addComponent(this);
     form.addRow(newRow, oldRow);
-
-    // const nextRow = this.nextRow
-
-    // if (nextRow) {
-    //   this.row.removeComponent(this)
-    //   this._row = undefined
-    //   nextRow.addComponent(this)
-    // }
   }
 
-  remove() {
+  remove(): void {
     this.row.removeComponent(this);
     this._row = undefined;
   }
 
-  get prevRow() {
+  get prevRow(): FormRow | undefined {
     return this.row.prevRow;
   }
 
-  get nextRow() {
+  get nextRow(): FormRow | undefined {
     return this.row.nextRow;
   }
 
-  clearRow() {
+  clearRow(): void {
     this._row = undefined;
   }
 
