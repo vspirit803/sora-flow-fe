@@ -18,14 +18,14 @@
               :key="eachTool.name"
               class="pa-0 text-center"
               cols="4"
-              @click="add(eachTool)"
+              @click="onAddComponent(eachTool)"
             >
               <v-card
                 class="component"
                 outlined
                 tile
               >
-                {{ eachTool.name }}
+                {{ eachTool.text }}
               </v-card>
             </v-col>
           </draggable>
@@ -94,18 +94,10 @@
 <script lang="ts">
 import './Form';
 
-import { defineComponent, provide, Ref, ref } from '@vue/composition-api';
+import { defineComponent, onMounted, provide, Ref, ref } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
-import {
-  DescriptionModel,
-  FormComponentModel,
-  MultiplyLineInputModel,
-  MultiplySelectModel,
-  SingleLineInputModel,
-  SingleSelectModel,
-  TableModel,
-} from './Form/components';
+import { components, FormComponentModel } from './Form/components';
 import { Form } from './Form/Form';
 import { FormRow } from './Form/FormRow';
 
@@ -114,61 +106,14 @@ export default defineComponent({
   components: { draggable },
   setup() {
     const form = ref(new Form());
-    const newRow = new FormRow();
-    const firstDescription = new DescriptionModel();
     const selectedItem: Ref<FormComponentModel | null> = ref(null);
     provide('selectedItem', selectedItem);
     const draggingType = '';
-    newRow.addComponent(firstDescription);
-    form.value.addRow(newRow);
-    selectedItem.value = firstDescription;
 
-    const tools = [
-      {
-        name: '描述文字',
-      },
-      {
-        name: '单行文字',
-      },
-      {
-        name: '多行文字',
-      },
-      {
-        name: '单项选择',
-      },
-      {
-        name: '多项选择',
-      },
-      {
-        name: '表格',
-      },
-    ];
+    const tools = [...components];
 
-    function createComponent(name: string) {
-      let newItem: FormComponentModel;
-      switch (name) {
-        case '描述文字':
-          newItem = new DescriptionModel();
-          break;
-        case '单行文字':
-          newItem = new SingleLineInputModel();
-          break;
-        case '多行文字':
-          newItem = new MultiplyLineInputModel();
-          break;
-        case '单项选择':
-          newItem = new SingleSelectModel();
-          break;
-        case '多项选择':
-          newItem = new MultiplySelectModel();
-          break;
-        case '表格':
-          newItem = new TableModel();
-          break;
-        default:
-          return;
-      }
-      return newItem;
+    function createComponent(model: ObjectConstructor) {
+      return new model() as FormComponentModel;
     }
 
     function select(item: FormComponentModel | null) {
@@ -178,10 +123,14 @@ export default defineComponent({
     /**
      * 添加一个组件到表单,生成一个新的行存放
      */
-    function addComponentToForm({ added }: { added: { element: { name: string }; newIndex: number } }) {
-      const { name } = added.element;
+    function addComponentToForm({
+      added,
+    }: {
+      added: { element: { name: string; model: ObjectConstructor }; newIndex: number };
+    }) {
+      const { model } = added.element;
       const { newIndex } = added;
-      const newItem = createComponent(name);
+      const newItem = createComponent(model);
       if (!newItem) {
         return;
       }
@@ -203,7 +152,7 @@ export default defineComponent({
       added,
       moved,
     }: {
-      added?: { element: { name: string } | FormComponentModel; newIndex: number };
+      added?: { element: { name: string; model: ObjectConstructor } | FormComponentModel; newIndex: number };
       moved?: { element: FormRow; oldIndex: number; newIndex: number };
     }) {
       if (added) {
@@ -216,7 +165,9 @@ export default defineComponent({
           newRow.addComponent(component);
           form.value.addRow(newRow, currRow.components.length === 0 && newIndex > oldIndex ? newIndex - 1 : newIndex);
         } else {
-          addComponentToForm({ added: added as { element: { name: string }; newIndex: number } });
+          addComponentToForm({
+            added: added as { element: { name: string; model: ObjectConstructor }; newIndex: number },
+          });
         }
       } else {
         moveRowToNewIndex(moved!.element, moved!.oldIndex, moved!.newIndex);
@@ -224,7 +175,6 @@ export default defineComponent({
     }
 
     function remove(component: FormComponentModel) {
-      console.log(component);
       if (selectedItem.value === component) {
         selectedItem.value = null;
       }
@@ -233,10 +183,13 @@ export default defineComponent({
     /**
      * 添加一个组件到已有行
      */
-    function addComponentToRow({ added }: { added: { element: { name: string }; newIndex: number } }, row: FormRow) {
-      const { name } = added.element;
+    function addComponentToRow(
+      { added }: { added: { element: { name: string; model: ObjectConstructor }; newIndex: number } },
+      row: FormRow,
+    ) {
+      const { model } = added.element;
       const { newIndex } = added;
-      const newItem = createComponent(name);
+      const newItem = createComponent(model);
       if (!newItem) {
         return;
       }
@@ -253,7 +206,7 @@ export default defineComponent({
         // removed,
         moved,
       }: {
-        added?: { element: { name: string } | FormComponentModel; newIndex: number };
+        added?: { element: { name: string; model: ObjectConstructor } | FormComponentModel; newIndex: number };
         // removed?: { element: FormComponentModel; oldIndex: number };
         moved?: { element: FormComponentModel; oldIndex: number; newIndex: number };
       },
@@ -265,7 +218,10 @@ export default defineComponent({
           component.remove();
           row.addComponent(component, added.newIndex);
         } else {
-          addComponentToRow({ added: added as { element: { name: string }; newIndex: number } }, row);
+          addComponentToRow(
+            { added: added as { element: { name: string; model: ObjectConstructor }; newIndex: number } },
+            row,
+          );
         }
       } else if (moved) {
         const { element: component, oldIndex, newIndex } = moved;
@@ -274,23 +230,26 @@ export default defineComponent({
       }
     }
 
-    function add({ name }: { name: string }) {
+    function onAddComponent(component: { name: string; model: typeof FormComponentModel }) {
+      const { model } = component;
       const newRow = new FormRow();
-      const newItem = createComponent(name);
-      if (!newItem) {
-        return;
-      }
+      const newItem = createComponent((model as unknown) as ObjectConstructor);
       newRow.addComponent(newItem);
       form.value.addRow(newRow, selectedItem.value?.row);
       select(newItem);
     }
+
+    onMounted(() => {
+      const description = components.find((each) => each.name === 'Description')!;
+      onAddComponent(description);
+    });
 
     return {
       form,
       tools,
       createComponent,
       select,
-      add,
+      onAddComponent,
       addComponentToForm,
       moveRowToNewIndex,
       formRowsChange,
