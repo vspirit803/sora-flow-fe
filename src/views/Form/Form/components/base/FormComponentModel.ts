@@ -4,7 +4,6 @@ export interface FormComponentDataBase {
   type: string;
   title: string;
   size: number;
-  [propName: string]: unknown;
 }
 /**
  * 表单组件基类

@@ -1,3 +1,4 @@
+import { FormComponentDataBase } from './components';
 import { FormRow } from './FormRow';
 
 /**
@@ -5,11 +6,17 @@ import { FormRow } from './FormRow';
  */
 export class Form {
   rows: Array<FormRow>;
-  constructor() {
+  constructor(data: Array<Array<FormComponentDataBase>> = []) {
     this.rows = [];
+    if (data.length) {
+      data.forEach((eachRow) => {
+        const currRow = new FormRow(eachRow);
+        this.addRow(currRow);
+      });
+    }
   }
 
-  get data() {
+  get data(): Array<Array<FormComponentDataBase>> {
     return this.rows.map((each) => each.data);
   }
 
@@ -60,7 +67,7 @@ export class Form {
     row.form = this;
   }
 
-  removeRow(row: FormRow) {
+  removeRow(row: FormRow): void {
     if (!this.rows.includes(row) || row.form !== this) {
       throw new Error('无法移除不在此表单的行');
     }

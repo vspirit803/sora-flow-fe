@@ -1,18 +1,22 @@
-import { FormComponentModel } from './components/base';
+import { ComponentFactory, FormComponentDataBase, FormComponentModel } from './components';
 import { Form } from './Form';
 
 export class FormRow {
   components: Array<FormComponentModel>;
   _form?: Form;
-  constructor() {
+  constructor(data: Array<FormComponentDataBase> = []) {
     this.components = [];
+    data.forEach((eachComponent) => {
+      const currComponent = ComponentFactory.create(eachComponent);
+      this.addComponent(currComponent);
+    });
   }
 
-  get data() {
+  get data(): Array<FormComponentDataBase> {
     return this.components.map((each) => each.data);
   }
 
-  resize() {
+  resize(): void {
     const totalSize = this.components.map((each) => each.size).reduce((prev, curr) => prev + curr);
     if (totalSize <= 12) {
       return;
@@ -44,7 +48,7 @@ export class FormRow {
    * @param keepSize 是否保留尺寸,保留则将超出的组件"挤"到下一行,否则平均分配尺寸
    */
   addComponent(component: FormComponentModel, reference?: number, keepSize?: boolean): void;
-  addComponent(component: FormComponentModel, reference?: FormComponentModel | number, keepSize = false) {
+  addComponent(component: FormComponentModel, reference?: FormComponentModel | number, keepSize = false): void {
     if (!this.canAddComponent) {
       throw new Error('一行最多只能有4个组件');
     }
@@ -71,7 +75,7 @@ export class FormRow {
     }
   }
 
-  removeComponent(component: FormComponentModel) {
+  removeComponent(component: FormComponentModel): void {
     if (!this.components.includes(component) || component.row !== this) {
       throw new Error('无法移除不在此行的组件');
     }
@@ -100,7 +104,7 @@ export class FormRow {
    * @param component 要交换的组件
    * @param direction 要与左边/右边的交换
    */
-  swapComponent(component: FormComponentModel, direction: 'left' | 'right') {
+  swapComponent(component: FormComponentModel, direction: 'left' | 'right'): void {
     const leftIndex =
       direction === 'left' ? this.components.indexOf(component) - 1 : this.components.indexOf(component);
     const [leftComponent] = this.components.splice(leftIndex, 1);
