@@ -1,4 +1,4 @@
-import { FormComponentModel } from '../base';
+import { FormComponentDataBase, FormComponentModel } from '../base';
 
 /**
  * 多行文本
@@ -14,7 +14,7 @@ export class MultiplyLineInputModel extends FormComponentModel {
     this.rowNumber = 3;
   }
 
-  getData() {
+  getData(): FormComponentDataBase {
     return { ...super.getData(), rowNumber: this.rowNumber, default: this.default };
   }
 }

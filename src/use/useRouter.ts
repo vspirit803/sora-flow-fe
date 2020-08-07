@@ -1,5 +1,7 @@
+import VueRouter from 'vue-router';
+
 import router from '@/router';
 
-export function useRouter() {
+export function useRouter(): VueRouter {
   return router;
 }

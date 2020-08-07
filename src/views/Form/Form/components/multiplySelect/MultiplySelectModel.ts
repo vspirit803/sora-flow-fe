@@ -1,4 +1,4 @@
-import { FormComponentModel } from '../base';
+import { FormComponentDataBase, FormComponentModel } from '../base';
 
 /**
  * 单选框
@@ -18,11 +18,11 @@ export class MultiplySelectModel extends FormComponentModel {
     this.direction = 'vertical';
   }
 
-  addOption(optionName = '未命名') {
+  addOption(optionName = '未命名'): void {
     this.options.push({ value: optionName, symbol: Symbol('选项') });
   }
 
-  getData() {
+  getData(): FormComponentDataBase {
     return { ...super.getData(), default: this.default, options: this.options };
   }
 }

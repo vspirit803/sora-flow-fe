@@ -1,4 +1,4 @@
-import { FormComponentModel } from '../base';
+import { FormComponentDataBase, FormComponentModel } from '../base';
 import { MultiplyLineInputModel } from '../multiplyLineInput';
 import { MultiplySelectModel } from '../multiplySelect';
 import { SingleLineInputModel } from '../singleLineInput';
@@ -32,7 +32,7 @@ export class TableModel extends FormComponentModel {
     this.fields.push(sexField);
   }
 
-  addField(name: string) {
+  addField(name: string): void {
     let model;
     switch (name) {
       case 'SingleLineInput':
@@ -54,11 +54,11 @@ export class TableModel extends FormComponentModel {
     this.fields.push(model);
   }
 
-  getData() {
+  getData(): FormComponentDataBase {
     return { ...super.getData(), fields: this.fields.map((each) => each.getData()), rowNumber: this.rowNumber };
   }
 
-  onRemoveField(field: FormComponentModel) {
+  onRemoveField(field: FormComponentModel): void {
     this.fields = this.fields.filter((each) => each !== field);
   }
 }

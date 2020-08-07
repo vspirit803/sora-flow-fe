@@ -1,5 +1,11 @@
 import { FormRow } from '../../FormRow';
 
+export interface FormComponentDataBase {
+  type: string;
+  title: string;
+  size: number;
+  [propName: string]: unknown;
+}
 /**
  * 表单组件基类
  */
@@ -25,7 +31,7 @@ export class FormComponentModel {
     this._row?.resize();
   }
 
-  get data(): { type: string; title: string; size: number } {
+  get data(): FormComponentDataBase {
     return this.getData();
   }
 

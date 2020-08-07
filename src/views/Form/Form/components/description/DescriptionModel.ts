@@ -1,4 +1,4 @@
-import { FormComponentModel } from '../base';
+import { FormComponentDataBase, FormComponentModel } from '../base';
 
 /**
  * 表单组件-描述文字
@@ -10,7 +10,7 @@ export class DescriptionModel extends FormComponentModel {
     this.text = '';
   }
 
-  getData() {
+  getData(): FormComponentDataBase {
     return { ...super.getData(), text: this.text };
   }
 }

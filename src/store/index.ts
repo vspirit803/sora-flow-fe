@@ -40,7 +40,7 @@ interface MenuItem {
   children: Array<MenuItem>;
 }
 
-interface StoreType {
+export interface StoreType {
   token: string;
   organizations: Array<Organization>;
   profile?: Profile;

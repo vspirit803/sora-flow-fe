@@ -1,4 +1,4 @@
-import { FormComponentModel } from '../base';
+import { FormComponentDataBase, FormComponentModel } from '../base';
 
 /**
  * 单行文字
@@ -12,7 +12,7 @@ export class SingleLineInputModel extends FormComponentModel {
     this.default = '';
   }
 
-  getData() {
+  getData(): FormComponentDataBase {
     return { ...super.getData(), default: this.default, placeholder: this.placeholder };
   }
 }
