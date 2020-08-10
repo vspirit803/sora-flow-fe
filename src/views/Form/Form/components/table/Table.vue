@@ -19,7 +19,7 @@
     >
       <template
         v-for="each of headers"
-        v-slot:[getSlotName(each)]
+        v-slot:[`item.${each.value}`]
       >
         <div
           :is="each.type + 'Core'"
@@ -80,8 +80,6 @@ export default defineComponent({
         width: each.size * 30,
       })),
     );
-    // const items = computed(() => [Object.fromEntries(headers.value.map((each) => [each.value, '']))]);
-    // const items: Ref<Array<any>> = ref([]);
     const items = computed(() => {
       const list = [];
       for (let i = 0; i < item.rowNumber; i++) {
@@ -89,27 +87,15 @@ export default defineComponent({
       }
       return list;
     });
-    // items.value.push(Object.fromEntries(headers.value.map((each) => [each.value, Object.create(each.item)])));
 
     function onRemove() {
       context.emit('remove', item);
     }
 
-    // function onAddRow() {
-    //   items.value.push(Object.fromEntries(headers.value.map((each) => [each.value, Object.create(each.item)])));
-    // }
-
-    // function onRemoveRow(item: Record<string, any>) {
-    //   items.value = items.value.filter((each) => each !== item);
-    // }
-
     return {
       onRemove,
       headers,
       items,
-      getSlotName(header: { text: string; value: string }) {
-        return `item.${header.value}`;
-      },
     };
   },
 });
