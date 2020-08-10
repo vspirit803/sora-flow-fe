@@ -92,20 +92,10 @@
 </template>
 
 <script lang="ts">
-import './Form';
-
 import { defineComponent, provide, Ref, ref } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
-import {
-  ComponentFactory,
-  FormComponentDataBase,
-  FormComponentModel,
-  formComponents,
-  FormComponentType,
-} from './Form/components';
-import { Form } from './Form/Form';
-import { FormRow } from './Form/FormRow';
+import { ComponentFactory, Form, FormComponentModel, formComponents, FormComponentType, FormRow } from './Form';
 
 export default defineComponent({
   name: 'FormDesigner',

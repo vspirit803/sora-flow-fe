@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import { VueConstructor } from 'vue/types/umd';
 
 import {
   Description,
@@ -22,28 +22,36 @@ import {
   TableDetail,
 } from './components';
 
-Vue.component('FormComponentSizeAdjuster', FormComponentSizeAdjuster);
-Vue.component('FormComponentPropsCard', FormComponentPropsCard);
-Vue.component('FormComponentDetailHeader', FormComponentDetailHeader);
+export * from './components';
+export * from './Form';
+export * from './FormRow';
 
-Vue.component('MultiplyLineInput', MultiplyLineInput);
-Vue.component('MultiplyLineInputCore', MultiplyLineInputCore);
-Vue.component('MultiplyLineInputDetail', MultiplyLineInputDetail);
+export default {
+  install(Vue: VueConstructor): void {
+    Vue.component('FormComponentSizeAdjuster', FormComponentSizeAdjuster);
+    Vue.component('FormComponentPropsCard', FormComponentPropsCard);
+    Vue.component('FormComponentDetailHeader', FormComponentDetailHeader);
 
-Vue.component('SingleLineInput', SingleLineInput);
-Vue.component('SingleLineInputCore', SingleLineInputCore);
-Vue.component('SingleLineInputDetail', SingleLineInputDetail);
+    Vue.component('MultiplyLineInput', MultiplyLineInput);
+    Vue.component('MultiplyLineInputCore', MultiplyLineInputCore);
+    Vue.component('MultiplyLineInputDetail', MultiplyLineInputDetail);
 
-Vue.component('SingleSelect', SingleSelect);
-Vue.component('SingleSelectCore', SingleSelectCore);
-Vue.component('SingleSelectDetail', SingleSelectDetail);
+    Vue.component('SingleLineInput', SingleLineInput);
+    Vue.component('SingleLineInputCore', SingleLineInputCore);
+    Vue.component('SingleLineInputDetail', SingleLineInputDetail);
 
-Vue.component('MultiplySelect', MultiplySelect);
-Vue.component('MultiplySelectCore', MultiplySelectCore);
-Vue.component('MultiplySelectDetail', MultiplySelectDetail);
+    Vue.component('SingleSelect', SingleSelect);
+    Vue.component('SingleSelectCore', SingleSelectCore);
+    Vue.component('SingleSelectDetail', SingleSelectDetail);
 
-Vue.component('Description', Description);
-Vue.component('DescriptionDetail', DescriptionDetail);
+    Vue.component('MultiplySelect', MultiplySelect);
+    Vue.component('MultiplySelectCore', MultiplySelectCore);
+    Vue.component('MultiplySelectDetail', MultiplySelectDetail);
 
-Vue.component('Table', Table);
-Vue.component('TableDetail', TableDetail);
+    Vue.component('Description', Description);
+    Vue.component('DescriptionDetail', DescriptionDetail);
+
+    Vue.component('Table', Table);
+    Vue.component('TableDetail', TableDetail);
+  },
+};
