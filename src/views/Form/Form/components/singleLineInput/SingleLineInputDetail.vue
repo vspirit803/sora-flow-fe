@@ -17,7 +17,10 @@
     </FormComponentPropsCard>
     <v-divider />
    
-    <FormComponentSizeAdjuster :item="item" />
+    <FormComponentSizeAdjuster
+      :item="item"
+      :is-table-field="isTableField"
+    />
     <v-divider />
     
     <FormComponentPropsCard name="默认文本">

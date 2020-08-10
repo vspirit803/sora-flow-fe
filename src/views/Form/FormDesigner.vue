@@ -281,10 +281,10 @@ export default defineComponent({
 }
 
 .component-detail-card {
-  width: 320px;
+  width: 340px;
 
   .component-detail {
-    width: 320px;
+    width: 340px;
     position: fixed;
     max-height: calc(100vh - 64px - 8px);
     overflow-x: hidden;

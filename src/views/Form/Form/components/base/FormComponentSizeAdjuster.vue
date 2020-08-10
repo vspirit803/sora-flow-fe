@@ -1,6 +1,6 @@
 <template>
   <FormComponentPropsCard
-    name="宽度 (%)"
+    :name="isTableField ? '最小宽度(px)' : '宽度 (%)'"
   >
     <v-btn-toggle
       class="d-flex"
@@ -16,7 +16,7 @@
         @click="item.changeSize(each)"
       >
         {{
-          Math.round((each / 12) * 100)
+          isTableField ? each * 30 : Math.round((each / 12) * 100)
         }}
       </v-btn>
     </v-btn-toggle>
@@ -35,6 +35,10 @@ export default Vue.extend({
     item: {
       type: FormComponentModel,
       required: true,
+    },
+    isTableField: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
