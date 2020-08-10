@@ -1,18 +1,25 @@
-import { FormComponentModel } from '../base';
+import { FormComponentDataBase, FormComponentModel } from '../base';
 
+export interface SingleLineInputData extends FormComponentDataBase {
+  placeholder: string;
+  defaultValue: string;
+}
 /**
  * 单行文字
  */
-export class SingleLineInputModel extends FormComponentModel {
+export class SingleLineInputModel extends FormComponentModel implements SingleLineInputData {
   placeholder: string;
-  default: string;
-  constructor() {
-    super('SingleLineInput', '单行文字');
-    this.placeholder = '请输入';
-    this.default = '';
+  defaultValue: string;
+  constructor(data?: SingleLineInputData) {
+    const { type = 'SingleLineInput', title = '单行文字', size, placeholder = '请输入', defaultValue = '' } =
+      data ?? {};
+    super({ type, title, size });
+
+    this.placeholder = placeholder;
+    this.defaultValue = defaultValue;
   }
 
-  getData() {
-    return { ...super.getData(), default: this.default, placeholder: this.placeholder };
+  getModel(): SingleLineInputData {
+    return { ...super.getModel(), defaultValue: this.defaultValue, placeholder: this.placeholder };
   }
 }

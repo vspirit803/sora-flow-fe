@@ -1,6 +1,4 @@
-import SingleLineInput from './SingleLineInput.vue';
-import SingleLineInputCore from './SingleLineInputCore.vue';
-import SingleLineInputDetail from './SingleLineInputDetail.vue';
-import { SingleLineInputModel } from './SingleLineInputModel';
-
-export { SingleLineInput, SingleLineInputCore, SingleLineInputDetail, SingleLineInputModel };
+export * from './SingleLineInputModel';
+export { default as SingleLineInput } from './SingleLineInput.vue';
+export { default as SingleLineInputCore } from './SingleLineInputCore.vue';
+export { default as SingleLineInputDetail } from './SingleLineInputDetail.vue';

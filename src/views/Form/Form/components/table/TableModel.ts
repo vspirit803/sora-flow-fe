@@ -1,64 +1,56 @@
-import { FormComponentModel } from '../base';
-import { MultiplyLineInputModel } from '../multiplyLineInput';
-import { MultiplySelectModel } from '../multiplySelect';
-import { SingleLineInputModel } from '../singleLineInput';
-import { SingleSelectModel } from '../singleSelect';
+import { FormComponentDataBase, FormComponentModel } from '../base';
+import { ComponentFactory } from '../ComponentFactory';
+import { FormComponentType } from '../FormComponents';
 
+export interface TableData extends FormComponentDataBase {
+  fields: Array<FormComponentDataBase>;
+  rowNumber: number;
+}
 /**
  * 表单组件-表格
  */
-export class TableModel extends FormComponentModel {
+export class TableModel extends FormComponentModel implements TableData {
   fields: Array<FormComponentModel>;
   rowNumber: number;
 
-  constructor() {
-    super('Table', '表格');
-    this.fields = [];
-    this.rowNumber = 1;
+  constructor(data?: TableData) {
+    const {
+      type = 'Table',
+      title = '表格',
+      size,
+      fields = [
+        { type: 'SingleLineInput', title: '姓名' },
+        {
+          type: 'SingleSelect',
+          title: '性别',
+          options: [
+            { value: '男', symbol: Symbol('选项') },
+            { value: '女', symbol: Symbol('选项') },
+          ],
+          defaultValue: '',
+          direction: 'horizontal',
+        },
+      ] as Array<FormComponentDataBase>,
+      rowNumber = 1,
+    } = data ?? {};
+    super({ type, title, size });
 
-    const nameField = new SingleLineInputModel();
-    nameField.title = '姓名';
-    nameField.size = 6;
-    this.fields.push(nameField);
-
-    const sexField = new SingleSelectModel();
-    sexField.title = '性别';
-    sexField.size = 6;
-    sexField.options = [
-      { value: '男', symbol: Symbol('选项') },
-      { value: '女', symbol: Symbol('选项') },
-    ];
-    sexField.direction = 'horizontal';
-    this.fields.push(sexField);
+    this.rowNumber = rowNumber;
+    this.fields = fields.map((eachField) => {
+      return ComponentFactory.create(eachField);
+    });
   }
 
-  addField(name: string) {
-    let model;
-    switch (name) {
-      case 'SingleLineInput':
-        model = new SingleLineInputModel();
-        break;
-      case 'MultiplyLineInput':
-        model = new MultiplyLineInputModel();
-        break;
-      case 'SingleSelect':
-        model = new SingleSelectModel();
-        break;
-      case 'MultiplySelect':
-        model = new MultiplySelectModel();
-        break;
-      default:
-        throw new Error(`名为[${name}]的组件未注册`);
-    }
-    model.setSize(6);
-    this.fields.push(model);
+  addField(type: FormComponentType): void {
+    const component = ComponentFactory.create({ type, size: 6 });
+    this.fields.push(component);
   }
 
-  getData() {
-    return { ...super.getData(), fields: this.fields.map((each) => each.getData()), rowNumber: this.rowNumber };
+  getModel(): TableData {
+    return { ...super.getModel(), fields: this.fields.map((each) => each.getModel()), rowNumber: this.rowNumber };
   }
 
-  onRemoveField(field: FormComponentModel) {
+  onRemoveField(field: FormComponentModel): void {
     this.fields = this.fields.filter((each) => each !== field);
   }
 }

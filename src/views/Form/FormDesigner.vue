@@ -7,15 +7,15 @@
         <v-row no-gutters>
           <draggable
             class="components d-flex flex-wrap"
-            :list="tools"
+            :list="componentList"
             :sort="false"
             :group="{ name: 'components', pull: 'clone', put: false }"
             @start="draggingType = 'tool'"
             @end="draggingType = ''"
           >
             <v-col
-              v-for="eachTool of tools"
-              :key="eachTool.name"
+              v-for="eachTool of componentList"
+              :key="eachTool.type"
               class="pa-0 text-center"
               cols="4"
               @click="onAddComponent(eachTool)"
@@ -94,10 +94,16 @@
 <script lang="ts">
 import './Form';
 
-import { defineComponent, onMounted, provide, Ref, ref } from '@vue/composition-api';
+import { defineComponent, provide, Ref, ref } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
-import { components, FormComponentModel } from './Form/components';
+import {
+  ComponentFactory,
+  FormComponentDataBase,
+  FormComponentModel,
+  formComponents,
+  FormComponentType,
+} from './Form/components';
 import { Form } from './Form/Form';
 import { FormRow } from './Form/FormRow';
 
@@ -109,12 +115,7 @@ export default defineComponent({
     const selectedItem: Ref<FormComponentModel | null> = ref(null);
     provide('selectedItem', selectedItem);
     const draggingType = '';
-
-    const tools = [...components];
-
-    function createComponent(model: ObjectConstructor) {
-      return new model() as FormComponentModel;
-    }
+    const componentList = Object.seal(formComponents);
 
     function select(item: FormComponentModel | null) {
       selectedItem.value = item;
@@ -123,14 +124,12 @@ export default defineComponent({
     /**
      * 添加一个组件到表单,生成一个新的行存放
      */
-    function addComponentToForm({
-      added,
-    }: {
-      added: { element: { name: string; model: ObjectConstructor }; newIndex: number };
-    }) {
-      const { model } = added.element;
-      const { newIndex } = added;
-      const newItem = createComponent(model);
+    function addComponentToForm({ added }: { added: { element: { type: FormComponentType }; newIndex: number } }) {
+      const {
+        newIndex,
+        element: { type },
+      } = added;
+      const newItem = ComponentFactory.create({ type });
       if (!newItem) {
         return;
       }
@@ -152,7 +151,7 @@ export default defineComponent({
       added,
       moved,
     }: {
-      added?: { element: { name: string; model: ObjectConstructor } | FormComponentModel; newIndex: number };
+      added?: { element: { type: FormComponentType } | FormComponentModel; newIndex: number };
       moved?: { element: FormRow; oldIndex: number; newIndex: number };
     }) {
       if (added) {
@@ -166,7 +165,7 @@ export default defineComponent({
           form.value.addRow(newRow, currRow.components.length === 0 && newIndex > oldIndex ? newIndex - 1 : newIndex);
         } else {
           addComponentToForm({
-            added: added as { element: { name: string; model: ObjectConstructor }; newIndex: number },
+            added: added as { element: { type: FormComponentType }; newIndex: number },
           });
         }
       } else {
@@ -184,12 +183,14 @@ export default defineComponent({
      * 添加一个组件到已有行
      */
     function addComponentToRow(
-      { added }: { added: { element: { name: string; model: ObjectConstructor }; newIndex: number } },
+      { added }: { added: { element: { type: FormComponentType }; newIndex: number } },
       row: FormRow,
     ) {
-      const { model } = added.element;
+      const {
+        element: { type },
+      } = added;
       const { newIndex } = added;
-      const newItem = createComponent(model);
+      const newItem = ComponentFactory.create({ type });
       if (!newItem) {
         return;
       }
@@ -206,7 +207,7 @@ export default defineComponent({
         // removed,
         moved,
       }: {
-        added?: { element: { name: string; model: ObjectConstructor } | FormComponentModel; newIndex: number };
+        added?: { element: { type: FormComponentType } | FormComponentModel; newIndex: number };
         // removed?: { element: FormComponentModel; oldIndex: number };
         moved?: { element: FormComponentModel; oldIndex: number; newIndex: number };
       },
@@ -218,10 +219,7 @@ export default defineComponent({
           component.remove();
           row.addComponent(component, added.newIndex);
         } else {
-          addComponentToRow(
-            { added: added as { element: { name: string; model: ObjectConstructor }; newIndex: number } },
-            row,
-          );
+          addComponentToRow({ added: added as { element: { type: FormComponentType }; newIndex: number } }, row);
         }
       } else if (moved) {
         const { element: component, oldIndex, newIndex } = moved;
@@ -230,24 +228,17 @@ export default defineComponent({
       }
     }
 
-    function onAddComponent(component: { name: string; model: typeof FormComponentModel }) {
-      const { model } = component;
+    function onAddComponent({ type }: { type: FormComponentType }) {
       const newRow = new FormRow();
-      const newItem = createComponent((model as unknown) as ObjectConstructor);
+      const newItem = ComponentFactory.create({ type });
       newRow.addComponent(newItem);
       form.value.addRow(newRow, selectedItem.value?.row);
       select(newItem);
     }
 
-    onMounted(() => {
-      const description = components.find((each) => each.name === 'Description')!;
-      onAddComponent(description);
-    });
-
     return {
       form,
-      tools,
-      createComponent,
+      componentList,
       select,
       onAddComponent,
       addComponentToForm,

@@ -1,16 +1,21 @@
-import { FormComponentModel } from '../base';
+import { FormComponentDataBase, FormComponentModel } from '../base';
 
+export interface DescriptionData extends FormComponentDataBase {
+  text: string;
+}
 /**
  * 表单组件-描述文字
  */
-export class DescriptionModel extends FormComponentModel {
+export class DescriptionModel extends FormComponentModel implements DescriptionData {
   text: string;
-  constructor() {
-    super('Description', '描述文字');
-    this.text = '';
+  constructor(data?: DescriptionData) {
+    const { type = 'Description', title = '描述文字', size, text = '' } = data ?? {};
+    super({ type, title, size });
+
+    this.text = text;
   }
 
-  getData() {
-    return { ...super.getData(), text: this.text };
+  getModel(): DescriptionData {
+    return { ...super.getModel(), text: this.text };
   }
 }

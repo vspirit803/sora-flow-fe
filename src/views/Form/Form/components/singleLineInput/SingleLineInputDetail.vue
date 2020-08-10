@@ -22,7 +22,7 @@
     
     <FormComponentPropsCard name="默认文本">
       <v-text-field
-        v-model="item.default"
+        v-model="item.defaultValue"
         placeholder="请输入默认文本"
       />
     </FormComponentPropsCard>

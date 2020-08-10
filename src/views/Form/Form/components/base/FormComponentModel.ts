@@ -1,19 +1,26 @@
 import { FormRow } from '../../FormRow';
+import { FormComponentType } from '../FormComponents';
 
+export interface FormComponentDataBase {
+  type: FormComponentType;
+  title?: string;
+  size?: number;
+}
 /**
  * 表单组件基类
  */
 export class FormComponentModel {
   symbol: symbol;
-  type: string;
+  type: FormComponentType;
   title: string;
   size: number;
   _row?: FormRow;
-  constructor(type: string, title: string) {
+  constructor(data: FormComponentDataBase) {
     this.symbol = Symbol('type');
+    const { type, title = '无标题', size = 12 } = data;
     this.type = type;
     this.title = title;
-    this.size = 12;
+    this.size = size;
   }
 
   setSize(size: number): void {
@@ -25,11 +32,11 @@ export class FormComponentModel {
     this._row?.resize();
   }
 
-  get data(): { type: string; title: string; size: number } {
-    return this.getData();
+  get model(): FormComponentDataBase {
+    return this.getModel();
   }
 
-  getData(): { type: string; title: string; size: number } {
+  getModel(): FormComponentDataBase {
     return { type: this.type, title: this.title, size: this.size };
   }
 

@@ -1,7 +1,3 @@
-import Description from './Description.vue';
-import DescriptionDetail from './DescriptionDetail.vue';
-import { DescriptionModel } from './DescriptionModel';
-
-export { DescriptionModel };
-export { Description };
-export { DescriptionDetail };
+export * from './DescriptionModel';
+export { default as Description } from './Description.vue';
+export { default as DescriptionDetail } from './DescriptionDetail.vue';

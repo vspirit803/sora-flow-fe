@@ -5,5 +5,5 @@ export * from './multiplyLineInput';
 export * from './singleSelect';
 export * from './multiplySelect';
 export * from './table';
-
-export * from './components';
+export * from './ComponentFactory';
+export * from './FormComponents';

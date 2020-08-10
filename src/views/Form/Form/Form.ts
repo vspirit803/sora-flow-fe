@@ -1,16 +1,22 @@
+import { FormComponentDataBase } from './components';
 import { FormRow } from './FormRow';
 
+export type FormModel = Array<Array<FormComponentDataBase>>;
 /**
  * 表单
  */
 export class Form {
   rows: Array<FormRow>;
-  constructor() {
+  constructor(data: FormModel = [[{ type: 'Description', title: '描述文字', size: 12 }]]) {
     this.rows = [];
+    data.forEach((eachRow) => {
+      const currRow = new FormRow(eachRow);
+      this.addRow(currRow);
+    });
   }
 
-  get data() {
-    return this.rows.map((each) => each.data);
+  get model(): FormModel {
+    return this.rows.map((each) => each.model);
   }
 
   getPrevRow(row: FormRow): FormRow | undefined {
@@ -60,7 +66,7 @@ export class Form {
     row.form = this;
   }
 
-  removeRow(row: FormRow) {
+  removeRow(row: FormRow): void {
     if (!this.rows.includes(row) || row.form !== this) {
       throw new Error('无法移除不在此表单的行');
     }
