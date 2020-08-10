@@ -136,8 +136,8 @@ export default defineComponent({
     const enabledComponents = formComponents.filter((each) => each.enabledInTable);
     const selectedField: Ref<FormComponentModel | undefined> = ref();
 
-    function onAddField(field: { name: FormComponentType; text: string }) {
-      item.addField(field.name);
+    function onAddField(field: { type: FormComponentType; text: string }) {
+      item.addField(field.type);
     }
     function onEditField(field: FormComponentModel) {
       selectedField.value = field;
