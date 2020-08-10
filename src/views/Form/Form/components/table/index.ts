@@ -1,5 +1,3 @@
-import Table from './Table.vue';
-import TableDetail from './TableDetail.vue';
-import { TableModel } from './TableModel';
-
-export { Table, TableDetail, TableModel };
+export * from './TableModel';
+export { default as Table } from './Table.vue';
+export { default as TableDetail } from './TableDetail.vue';

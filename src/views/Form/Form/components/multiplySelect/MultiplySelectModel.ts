@@ -1,28 +1,42 @@
 import { FormComponentDataBase, FormComponentModel } from '../base';
 
-/**
- * 单选框
- */
-export class MultiplySelectModel extends FormComponentModel {
-  default: Array<string>;
+export interface MultiplySelectData extends FormComponentDataBase {
+  defaultValue: Array<string>;
   options: Array<{ value: string; symbol: symbol }>;
-  direction: string;
-  constructor() {
-    super('MultiplySelect', '多项选择');
-    this.default = [];
-    this.options = [
-      { value: '选项1', symbol: Symbol('选项') },
-      { value: '选项2', symbol: Symbol('选项') },
-      { value: '选项3', symbol: Symbol('选项') },
-    ];
-    this.direction = 'vertical';
+  direction: 'vertical' | 'horizontal';
+}
+/**
+ * 多选框
+ */
+export class MultiplySelectModel extends FormComponentModel implements MultiplySelectData {
+  defaultValue: Array<string>;
+  options: Array<{ value: string; symbol: symbol }>;
+  direction: 'vertical' | 'horizontal';
+  constructor(data?: MultiplySelectData) {
+    const {
+      type = 'MultiplySelect',
+      title = '多项选择',
+      size,
+      defaultValue = [],
+      options = [
+        { value: '选项1', symbol: Symbol('选项') },
+        { value: '选项2', symbol: Symbol('选项') },
+        { value: '选项3', symbol: Symbol('选项') },
+      ],
+      direction = 'vertical',
+    } = data ?? {};
+    super({ type, title, size });
+
+    this.defaultValue = defaultValue;
+    this.options = options;
+    this.direction = direction;
   }
 
   addOption(optionName = '未命名'): void {
     this.options.push({ value: optionName, symbol: Symbol('选项') });
   }
 
-  getData(): FormComponentDataBase {
-    return { ...super.getData(), default: this.default, options: this.options };
+  getModel(): MultiplySelectData {
+    return { ...super.getModel(), defaultValue: this.defaultValue, options: this.options, direction: this.direction };
   }
 }

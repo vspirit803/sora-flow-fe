@@ -6,5 +6,4 @@ export * from './singleSelect';
 export * from './multiplySelect';
 export * from './table';
 export * from './ComponentFactory';
-
-export * from './components';
+export * from './FormComponents';

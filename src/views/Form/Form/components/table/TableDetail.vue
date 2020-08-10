@@ -28,9 +28,9 @@
             v-model="item.fields"
             handle=".field-handle"
           >
-            <template v-for="(eachField, index) in item.fields">
+            <template v-for="eachField of item.fields">
               <v-list-item
-                :key="index"
+                :key="eachField.symbol"
                 class="table-field"
               >
                 <v-list-item-content>
@@ -119,7 +119,7 @@ import { defineComponent, Ref, ref } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
 import { FormComponentModel } from '../base';
-import { components } from '../components';
+import { formComponents, FormComponentType } from '../FormComponents';
 import { TableModel } from './TableModel';
 
 export default defineComponent({
@@ -133,10 +133,10 @@ export default defineComponent({
   },
   setup(props) {
     const item = props.item;
-    const enabledComponents = components.filter((each) => each.enabledInTable);
+    const enabledComponents = formComponents.filter((each) => each.enabledInTable);
     const selectedField: Ref<FormComponentModel | undefined> = ref();
 
-    function onAddField(field: { name: string; text: string }) {
+    function onAddField(field: { name: FormComponentType; text: string }) {
       item.addField(field.name);
     }
     function onEditField(field: FormComponentModel) {

@@ -1,10 +1,12 @@
 import { ComponentFactory, FormComponentDataBase, FormComponentModel } from './components';
 import { Form } from './Form';
 
+export type FormRowModel = Array<FormComponentDataBase>;
+
 export class FormRow {
   components: Array<FormComponentModel>;
   _form?: Form;
-  constructor(data: Array<FormComponentDataBase> = []) {
+  constructor(data: FormRowModel = []) {
     this.components = [];
     data.forEach((eachComponent) => {
       const currComponent = ComponentFactory.create(eachComponent);
@@ -12,8 +14,8 @@ export class FormRow {
     });
   }
 
-  get data(): Array<FormComponentDataBase> {
-    return this.components.map((each) => each.data);
+  get model(): FormRowModel {
+    return this.components.map((each) => each.model);
   }
 
   resize(): void {

@@ -1,7 +1,7 @@
 <template>
   <v-text-field
     :placeholder="item.placeholder"
-    :value="item.default"
+    :value="item.defaultValue"
   />
 </template>
 <script lang="ts">

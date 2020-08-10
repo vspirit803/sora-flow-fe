@@ -1,23 +1,22 @@
 import { FormComponentDataBase } from './components';
 import { FormRow } from './FormRow';
 
+export type FormModel = Array<Array<FormComponentDataBase>>;
 /**
  * 表单
  */
 export class Form {
   rows: Array<FormRow>;
-  constructor(data: Array<Array<FormComponentDataBase>> = []) {
+  constructor(data: FormModel = [[{ type: 'Description', title: '描述文字', size: 12 }]]) {
     this.rows = [];
-    if (data.length) {
-      data.forEach((eachRow) => {
-        const currRow = new FormRow(eachRow);
-        this.addRow(currRow);
-      });
-    }
+    data.forEach((eachRow) => {
+      const currRow = new FormRow(eachRow);
+      this.addRow(currRow);
+    });
   }
 
-  get data(): Array<Array<FormComponentDataBase>> {
-    return this.rows.map((each) => each.data);
+  get model(): FormModel {
+    return this.rows.map((each) => each.model);
   }
 
   getPrevRow(row: FormRow): FormRow | undefined {

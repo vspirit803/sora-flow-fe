@@ -1,6 +1,4 @@
-import MultiplySelect from './MultiplySelect.vue';
-import MultiplySelectCore from './MultiplySelectCore.vue';
-import MultiplySelectDetail from './MultiplySelectDetail.vue';
-import { MultiplySelectModel } from './MultiplySelectModel';
-
-export { MultiplySelect, MultiplySelectCore, MultiplySelectDetail, MultiplySelectModel };
+export * from './MultiplySelectModel';
+export { default as MultiplySelect } from './MultiplySelect.vue';
+export { default as MultiplySelectCore } from './MultiplySelectCore.vue';
+export { default as MultiplySelectDetail } from './MultiplySelectDetail.vue';

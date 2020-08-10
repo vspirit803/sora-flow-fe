@@ -1,27 +1,29 @@
 import { FormComponentDataBase, FormComponentModel } from './base';
-import { components } from './components';
-import { DescriptionModel } from './description/DescriptionModel';
-import { MultiplyLineInputModel } from './multiplyLineInput/MultiplyLineInputModel';
-import { MultiplySelectModel } from './multiplySelect/MultiplySelectModel';
-import { SingleLineInputModel } from './singleLineInput/SingleLineInputModel';
-import { SingleSelectModel } from './singleSelect/SingleSelectModel';
-import { TableModel } from './table/TableModel';
+import { DescriptionData, DescriptionModel } from './description';
+import { MultiplyLineInputData, MultiplyLineInputModel } from './multiplyLineInput';
+import { MultiplySelectData, MultiplySelectModel } from './multiplySelect';
+import { SingleLineInputData, SingleLineInputModel } from './singleLineInput';
+import { SingleSelectData, SingleSelectModel } from './singleSelect';
+import { TableData, TableModel } from './table';
 
 export class ComponentFactory {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static create(data: FormComponentDataBase): FormComponentModel {
-    // return new FormComponentModel();
     const type = data.type;
-    // const constructor = components.find((each) => each.name === type);
-    // if (!constructor) {
-    //   throw new Error(`未注册的组件类型[${type}]`);
-    // }
-    // new constructor.model(data);
     switch (type) {
       case 'Description':
-        return new DescriptionModel(data);
+        return new DescriptionModel(data as DescriptionData);
+      case 'SingleLineInput':
+        return new SingleLineInputModel(data as SingleLineInputData);
+      case 'MultiplyLineInput':
+        return new MultiplyLineInputModel(data as MultiplyLineInputData);
+      case 'SingleSelect':
+        return new SingleSelectModel(data as SingleSelectData);
+      case 'MultiplySelect':
+        return new MultiplySelectModel(data as MultiplySelectData);
+      case 'Table':
+        return new TableModel(data as TableData);
+      default:
+        throw new Error(`组件[${name}]未注册`);
     }
-
-    throw new Error('还未完工');
   }
 }
