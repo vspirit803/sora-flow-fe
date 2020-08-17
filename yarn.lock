@@ -28,7 +28,7 @@
   dependencies:
     "@babel/highlight" "^7.10.3"
 
-"@babel/code-frame@^7.10.4":
+"@babel/code-frame@^7.10.4", "@babel/code-frame@^7.8.3":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.10.4.tgz#168da1a36e90da68ae8d49c0f1b48c7c6249213a"
   integrity sha512-vG6SvB6oYEhvgisZNFRmRCUkLz11c7rp+tbNTynGqc6mS1d5ATd/sGyV6W0KZZnXRKMTzZDRgQT3Ou9jhpAfUg==
@@ -1264,7 +1264,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/json-schema@^7.0.3", "@types/json-schema@^7.0.4":
+"@types/json-schema@^7.0.3", "@types/json-schema@^7.0.4", "@types/json-schema@^7.0.5":
   version "7.0.5"
   resolved "https://registry.npm.taobao.org/@types/json-schema/download/@types/json-schema-7.0.5.tgz?cache=0&sync_timestamp=1591720921048&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fjson-schema%2Fdownload%2F%40types%2Fjson-schema-7.0.5.tgz#dcce4430e64b443ba8945f0290fb564ad5bac6dd"
   integrity sha1-3M5EMOZLRDuolF8CkPtWStW6xt0=
@@ -1587,17 +1587,10 @@
     webpack "^4.0.0"
     yorkie "^2.0.0"
 
-"@vue/cli-plugin-router@^4.5.3":
+"@vue/cli-plugin-router@^4.5.3", "@vue/cli-plugin-router@~4.5.3":
   version "4.5.3"
   resolved "https://registry.yarnpkg.com/@vue/cli-plugin-router/-/cli-plugin-router-4.5.3.tgz#32c73d6b68b1d2b0d945dcc9be3ceb15e1d7fd52"
   integrity sha512-e0EqfwY4AGar1SX3rqD58QMoMYIxRD0AUauNiwSmuGjyA0Fr4Lfl1gBEPDCMZ5jIsO/4QNBateQGUy1S/GlxAw==
-  dependencies:
-    "@vue/cli-shared-utils" "^4.5.3"
-
-"@vue/cli-plugin-router@~4.4.6":
-  version "4.4.6"
-  resolved "https://registry.npm.taobao.org/@vue/cli-plugin-router/download/@vue/cli-plugin-router-4.4.6.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40vue%2Fcli-plugin-router%2Fdownload%2F%40vue%2Fcli-plugin-router-4.4.6.tgz#db5bb1c92afd2046376e4faa90270d6363d4b9b8"
-  integrity sha1-21uxySr9IEY3bk+qkCcNY2PUubg=
   dependencies:
     "@vue/cli-shared-utils" "^4.5.3"
 
@@ -1619,15 +1612,10 @@
   optionalDependencies:
     fork-ts-checker-webpack-plugin-v5 "npm:fork-ts-checker-webpack-plugin@^5.0.11"
 
-"@vue/cli-plugin-vuex@^4.5.3":
+"@vue/cli-plugin-vuex@^4.5.3", "@vue/cli-plugin-vuex@~4.5.3":
   version "4.5.3"
   resolved "https://registry.yarnpkg.com/@vue/cli-plugin-vuex/-/cli-plugin-vuex-4.5.3.tgz#c0a566b0156e5bbbcc41e8cec195bc683aca7f5c"
   integrity sha512-23AAuaVbng6OUc5l7VHEGqCNiL1g1BsZL99X1rvKRttjDpdIYHtQAFsXjcTFitGpHRWoA9dgeujj/MkBPa1TcA==
-
-"@vue/cli-plugin-vuex@~4.4.6":
-  version "4.4.6"
-  resolved "https://registry.npm.taobao.org/@vue/cli-plugin-vuex/download/@vue/cli-plugin-vuex-4.4.6.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40vue%2Fcli-plugin-vuex%2Fdownload%2F%40vue%2Fcli-plugin-vuex-4.4.6.tgz#44b596f0d5236e0a2ce1aa4757bda5207c230be0"
-  integrity sha1-RLWW8NUjbgos4apHV72lIHwjC+A=
 
 "@vue/cli-service@~4.5.3":
   version "4.5.3"
@@ -1692,7 +1680,7 @@
   optionalDependencies:
     vue-loader-v16 "npm:vue-loader@^16.0.0-beta.3"
 
-"@vue/cli-shared-utils@^4.4.6", "@vue/cli-shared-utils@^4.5.3":
+"@vue/cli-shared-utils@^4.5.3":
   version "4.5.3"
   resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-4.5.3.tgz#23bcca7ffc3a09b2c50d8b8d9d031a9ff775b512"
   integrity sha512-AjXSll67gpYWyjGOyHrwofLuxa7vL8KM6aUQCII+cHlFQey6oLS5bAWq9qcIM0P2ZyD+6i0fooNCihIuNrX4yg==
@@ -9042,10 +9030,10 @@ vary@~1.1.2:
   resolved "https://registry.npm.taobao.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vee-validate@^3.3.8:
-  version "3.3.8"
-  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-3.3.8.tgz#5aea8a7f7b775c7372a7ff34bcdf835844049d7a"
-  integrity sha512-1LUGmtwqnu6PvKFq5Ia07GdvWD8uvA6mpxrqHLcHnWp0hkBS05oGsI1GP860gzlT6lSEmDsPN6GiPIoqOkuVNg==
+vee-validate@^3.3.9:
+  version "3.3.9"
+  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-3.3.9.tgz#73db22eb28bea913b6a93b90369bb4cbf5e67d45"
+  integrity sha512-0ibP+8dNU8XitkhcB5UBnVlHdPlUqFx6jGg4vNUN/lw5geVKBvgyo83y7YCvYA5iqQPgCnuQxsx8kTHa0d/Zyw==
 
 vendors@^1.0.0:
   version "1.0.4"
