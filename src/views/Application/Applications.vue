@@ -60,7 +60,9 @@ export default defineComponent({
     }
 
     watch(applicationId, async () => {
-      useRouter().push({ name: 'Application', params: { id: applicationId.value! } });
+      if (applicationId.value) {
+        useRouter().push({ name: 'Application', params: { id: applicationId.value } });
+      }
     });
 
     return {
