@@ -56,10 +56,39 @@ const routes = [
     name: 'FormDesigner',
     component: () => import(/* webpackChunkName: "form" */ '@/views/Form/FormDesigner.vue'),
   },
+  //应用列表
+  {
+    path: '/applications',
+    name: 'Applications',
+    component: () => import(/* webpackChunkName: "application" */ '@/views/Application/Applications.vue'),
+    children: [
+      //应用详情
+      {
+        path: ':id',
+        name: 'Application',
+        component: () => import(/* webpackChunkName: "application" */ '@/views/Application/Application.vue'),
+        props: true,
+      },
+      {
+        path: '',
+        name: 'Hello',
+        component: () => import(/* webpackChunkName: "home" */ '@/components/HelloWorld.vue'),
+      },
+    ],
+  },
+
+  // //应用详情
+  // {
+  //   path: '/applications/:id',
+  //   name: 'Application',
+  //   component: () => import(/* webpackChunkName: "application" */ '@/views/Application/Application.vue'),
+  //   props: true,
+  // },
 ];
 
 const router = new VueRouter({
   routes,
+  mode: 'history',
 });
 
 router.beforeEach((to, from, next) => {
