@@ -71,19 +71,11 @@ const routes = [
       },
       {
         path: '',
-        name: 'Hello',
-        component: () => import(/* webpackChunkName: "home" */ '@/components/HelloWorld.vue'),
+        name: 'NoApplication',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Application/NoApplication.vue'),
       },
     ],
   },
-
-  // //应用详情
-  // {
-  //   path: '/applications/:id',
-  //   name: 'Application',
-  //   component: () => import(/* webpackChunkName: "application" */ '@/views/Application/Application.vue'),
-  //   props: true,
-  // },
 ];
 
 const router = new VueRouter({

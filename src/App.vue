@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, watch } from '@vue/composition-api';
+import { computed, defineComponent, onMounted, provide, ref, watch } from '@vue/composition-api';
 
 import { provideStore, useStore } from '@/use';
 import Menu from '@/views/Menu.vue';
@@ -74,7 +74,9 @@ export default defineComponent({
     const loading = computed(() => store.state.loading);
     const errorMsg = computed(() => store.state.errorMsg);
     const isError = computed(() => store.state.isError);
+    const drawer = ref(true);
     const snackbar = ref(false);
+    provide('drawer', drawer);
     watch(isError, () => {
       snackbar.value = isError.value;
     });
@@ -95,7 +97,7 @@ export default defineComponent({
       }
     });
 
-    return { drawer: ref(true), loading, errorMsg, snackbar };
+    return { drawer, loading, errorMsg, snackbar };
   },
 });
 </script>
