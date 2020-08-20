@@ -146,7 +146,7 @@ export default defineComponent({
       const drawer = inject('drawer') as Ref<boolean>;
       drawer.value = false;
       await refreshApplicationList();
-      if (applications.value.length) {
+      if (applications.value.length && !router.currentRoute.params.id) {
         router.push({ name: 'Application', params: { id: applications.value[0].id } });
       }
     });

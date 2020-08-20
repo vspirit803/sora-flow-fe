@@ -43,6 +43,7 @@
           color="primary"
           title="编辑表单模型"
           icon
+          @click="onDesignForm"
         >
           <v-icon>
             mdi-wrench
@@ -132,7 +133,19 @@ export default defineComponent({
       editName.value = false;
     }
 
-    return { application, onSubmitApplicationName, tab: ref(''), editName, applicationName, onRouteUpdate };
+    function onDesignForm() {
+      router.push({ name: 'FormDesigner', params: { id: props.id } });
+    }
+
+    return {
+      application,
+      onSubmitApplicationName,
+      tab: ref(''),
+      editName,
+      applicationName,
+      onRouteUpdate,
+      onDesignForm,
+    };
   },
 });
 </script>

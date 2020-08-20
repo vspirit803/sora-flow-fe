@@ -32,8 +32,24 @@
         </v-row>
       </v-container>
     </v-card>
-    <v-card class="form-card flex-grow-1 flex-shrink-1 purple lighten-1 pa-2">
+    <v-card
+      v-if="!form"
+      class="form-card flex-grow-1 flex-shrink-1 purple lighten-1 pa-2"
+    >
+      <v-skeleton-loader
+        :loading="true"
+        type="article"
+      />
+    </v-card>
+    <v-card
+      v-else
+      class="form-card flex-grow-1 flex-shrink-1 purple lighten-1 pa-2"
+    >
+      <v-btn @click="onSave">
+        保存
+      </v-btn>
       <draggable
+        v-if="form"
         :value="form.rows"
         group="components"
         @change="formRowsChange"
@@ -92,16 +108,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, Ref, ref } from '@vue/composition-api';
+import { defineComponent, inject, onMounted, provide, Ref, ref } from '@vue/composition-api';
 import draggable from 'vuedraggable';
+
+import { ApplicationsService } from '@/service';
 
 import { ComponentFactory, Form, FormComponentModel, formComponents, FormComponentType, FormRow } from './Form';
 
 export default defineComponent({
   name: 'FormDesigner',
   components: { draggable },
-  setup() {
-    const form = ref(new Form());
+  props: { id: { type: String, required: true } },
+  setup(props) {
+    const form: Ref<Form | undefined> = ref();
     const selectedItem: Ref<FormComponentModel | null> = ref(null);
     provide('selectedItem', selectedItem);
     const draggingType = '';
@@ -110,6 +129,20 @@ export default defineComponent({
     function select(item: FormComponentModel | null) {
       selectedItem.value = item;
     }
+
+    const appId = props.id;
+    ApplicationsService.getApplication(appId).then(({ data }) => {
+      // setTimeout(() => {
+      //   form.value = new Form(data.formModel);
+      // }, 5000);
+      form.value = new Form(data.formModel);
+    });
+
+    onMounted(() => {
+      //关闭抽屉
+      const drawer = inject('drawer') as Ref<boolean>;
+      drawer.value = false;
+    });
 
     /**
      * 添加一个组件到表单,生成一个新的行存放
@@ -125,13 +158,13 @@ export default defineComponent({
       }
       const newRow = new FormRow();
       newRow.addComponent(newItem);
-      form.value.addRow(newRow, newIndex);
+      form.value!.addRow(newRow, newIndex);
       select(newItem);
     }
 
     function moveRowToNewIndex(row: FormRow, oldIndex: number, newIndex: number) {
-      form.value.rows.splice(oldIndex, 1);
-      form.value.rows.splice(newIndex, 0, row);
+      form.value!.rows.splice(oldIndex, 1);
+      form.value!.rows.splice(newIndex, 0, row);
     }
 
     /**
@@ -149,10 +182,10 @@ export default defineComponent({
           const { element: component, newIndex } = added;
           const newRow = new FormRow();
           const currRow = component.row;
-          const oldIndex = form.value.rows.indexOf(currRow);
+          const oldIndex = form.value!.rows.indexOf(currRow);
           component.remove();
           newRow.addComponent(component);
-          form.value.addRow(newRow, currRow.components.length === 0 && newIndex > oldIndex ? newIndex - 1 : newIndex);
+          form.value!.addRow(newRow, currRow.components.length === 0 && newIndex > oldIndex ? newIndex - 1 : newIndex);
         } else {
           addComponentToForm({
             added: added as { element: { type: FormComponentType }; newIndex: number },
@@ -222,8 +255,12 @@ export default defineComponent({
       const newRow = new FormRow();
       const newItem = ComponentFactory.create({ type });
       newRow.addComponent(newItem);
-      form.value.addRow(newRow, selectedItem.value?.row);
+      form.value!.addRow(newRow, selectedItem.value?.row);
       select(newItem);
+    }
+
+    function onSave() {
+      ApplicationsService.updateApplication({ id: props.id, formModel: form.value!.model });
     }
 
     return {
@@ -239,6 +276,7 @@ export default defineComponent({
       addComponentToRow,
       selectedItem,
       draggingType,
+      onSave,
     };
   },
 });
