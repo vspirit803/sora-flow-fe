@@ -16,7 +16,13 @@
       />
     </FormComponentPropsCard>
     <v-divider />
-   
+
+    <FormComponentLayout
+      v-if="!isTableField"
+      :item="item"
+    />
+    <v-divider />
+
     <FormComponentSizeAdjuster
       :item="item"
       :is-table-field="isTableField"

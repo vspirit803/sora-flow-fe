@@ -20,8 +20,9 @@ export class MultiplyLineInputModel extends FormComponentModel implements Multip
       placeholder = '请输入',
       defaultValue = '',
       rowNumber = 3,
+      layout,
     } = data ?? {};
-    super({ type, title, size });
+    super({ type, title, size, layout });
 
     this.placeholder = placeholder;
     this.defaultValue = defaultValue;

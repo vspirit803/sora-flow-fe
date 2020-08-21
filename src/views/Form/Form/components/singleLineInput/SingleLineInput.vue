@@ -4,7 +4,9 @@
     @remove="remove"
   >
     <span>{{ item.title }}</span>
-    <SingleLineInputCore :item="item" />
+    <SingleLineInputCore
+      :item="item"
+    />
   </FormComponent>
 </template>
 <script lang="ts">

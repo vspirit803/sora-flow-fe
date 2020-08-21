@@ -42,7 +42,12 @@
       >
         mdi-delete
       </v-icon>
-      <slot />
+      <div 
+        class="d-flex"
+        :class="{'flex-column':item.layout!=='horizontal','content-inline':item.layout==='horizontal'}"
+      >
+        <slot />
+      </div>
     </div>
   </div>
 </template>

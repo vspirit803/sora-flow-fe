@@ -4,6 +4,7 @@ import {
   Description,
   DescriptionDetail,
   FormComponentDetailHeader,
+  FormComponentLayout,
   FormComponentPropsCard,
   FormComponentSizeAdjuster,
   MultiplyLineInput,
@@ -28,6 +29,7 @@ export * from './FormRow';
 
 export default {
   install(Vue: VueConstructor): void {
+    Vue.component('FormComponentLayout', FormComponentLayout);
     Vue.component('FormComponentSizeAdjuster', FormComponentSizeAdjuster);
     Vue.component('FormComponentPropsCard', FormComponentPropsCard);
     Vue.component('FormComponentDetailHeader', FormComponentDetailHeader);

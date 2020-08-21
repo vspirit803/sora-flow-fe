@@ -24,8 +24,9 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
         { value: '选项3', symbol: Symbol('选项') },
       ],
       direction = 'vertical',
+      layout,
     } = data ?? {};
-    super({ type, title, size });
+    super({ type, title, size, layout });
 
     this.defaultValue = defaultValue;
     this.options = options;

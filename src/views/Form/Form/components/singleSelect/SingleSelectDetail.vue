@@ -23,6 +23,12 @@
     />
     <v-divider />
 
+    <FormComponentLayout
+      v-if="!isTableField"
+      :item="item"
+    />
+    <v-divider />
+
     <FormComponentPropsCard name="选项">
       <draggable
         v-model="item.options"
@@ -73,7 +79,7 @@
     </FormComponentPropsCard>
     <v-divider />
 
-    <FormComponentPropsCard name="排列方向">
+    <FormComponentPropsCard name="选项布局">
       <v-radio-group
         v-model="item.direction"
       >

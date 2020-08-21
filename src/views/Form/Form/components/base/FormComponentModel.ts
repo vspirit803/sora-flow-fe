@@ -5,6 +5,7 @@ export interface FormComponentDataBase {
   type: FormComponentType;
   title?: string;
   size?: number;
+  layout?: 'vertical' | 'horizontal';
 }
 /**
  * 表单组件基类
@@ -14,13 +15,15 @@ export class FormComponentModel {
   type: FormComponentType;
   title: string;
   size: number;
+  layout: 'vertical' | 'horizontal';
   _row?: FormRow;
   constructor(data: FormComponentDataBase) {
     this.symbol = Symbol('type');
-    const { type, title = '无标题', size = 12 } = data;
+    const { type, title = '无标题', size = 12, layout = 'vertical' } = data;
     this.type = type;
     this.title = title;
     this.size = size;
+    this.layout = layout;
   }
 
   setSize(size: number): void {
@@ -37,7 +40,7 @@ export class FormComponentModel {
   }
 
   getModel(): FormComponentDataBase {
-    return { type: this.type, title: this.title, size: this.size };
+    return { type: this.type, title: this.title, size: this.size, layout: this.layout };
   }
 
   get canMoveToPrevRow(): boolean {

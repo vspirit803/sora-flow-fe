@@ -2,6 +2,7 @@
   <v-text-field
     :placeholder="item.placeholder"
     :value="item.defaultValue"
+    dense
   />
 </template>
 <script lang="ts">

@@ -22,6 +22,12 @@
       :is-table-field="isTableField"
     />
     <v-divider />
+
+    <FormComponentLayout
+      v-if="!isTableField"
+      :item="item"
+    />
+    <v-divider />
     
     <FormComponentPropsCard name="默认文本">
       <v-text-field

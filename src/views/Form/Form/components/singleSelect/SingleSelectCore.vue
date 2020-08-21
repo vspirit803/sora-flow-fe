@@ -2,6 +2,8 @@
   <v-radio-group
     v-model="item.default"
     :row="item.direction==='horizontal'"
+    dense
+    class="mt-1 pt-0"
   >
     <v-radio
       v-for="each of item.options"
