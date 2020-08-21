@@ -1,16 +1,19 @@
 <template>
   <div class="form-designer d-flex">
-    <v-btn
-      fab
-      right
-      fixed
-      class="btn-save"
-      :loading="isOnSaving"
-      @click="onSave"
-    >
-      <v-icon>mdi-content-save</v-icon>
-    </v-btn>
-    <v-card class="components-container-card flex-grow-0 flex-shrink-0 align-self-start pink lighten-1 ma-2">
+    <v-fab-transition>
+      <v-btn
+        v-if="hasEdited"
+        fab
+        right
+        fixed
+        class="btn-save"
+        :loading="isOnSaving"
+        @click="onSave"
+      >
+        <v-icon>mdi-content-save</v-icon>
+      </v-btn>
+    </v-fab-transition>
+    <v-card class="components-container-card flex-grow-0 flex-shrink-0 align-self-start ma-2">
       <v-container
         class="components-container grey lighten-5"
       >
@@ -115,7 +118,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, onMounted, provide, Ref, ref } from '@vue/composition-api';
+import { defineComponent, inject, onMounted, provide, Ref, ref, watch } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
 import { ApplicationsService } from '@/service';
@@ -133,6 +136,7 @@ export default defineComponent({
     const draggingType = '';
     const componentList = Object.seal(formComponents);
     const isOnSaving = ref(false);
+    const hasEdited = ref(false);
 
     function select(item: FormComponentModel | null) {
       selectedItem.value = item;
@@ -141,6 +145,14 @@ export default defineComponent({
     const appId = props.id;
     ApplicationsService.getApplication(appId).then(({ data }) => {
       form.value = new Form(data.formModel);
+      watch(
+        form,
+        () => {
+          console.log('表单变化了');
+          hasEdited.value = true;
+        },
+        { deep: true },
+      );
     });
 
     onMounted(() => {
@@ -268,6 +280,7 @@ export default defineComponent({
       isOnSaving.value = true;
       ApplicationsService.updateApplication({ id: props.id, formModel: form.value!.model }).finally(() => {
         isOnSaving.value = false;
+        hasEdited.value = false;
       });
     }
 
@@ -284,6 +297,7 @@ export default defineComponent({
       draggingType,
       onSave,
       isOnSaving,
+      hasEdited,
     };
   },
 });
