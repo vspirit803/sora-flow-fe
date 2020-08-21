@@ -26,7 +26,7 @@
       <v-btn to="/login">
         Login
       </v-btn>
-      <v-btn icon>
+      <!-- <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
       <v-btn icon>
@@ -42,7 +42,8 @@
       >
         <span class="mr-2">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      </v-btn> -->
+      <v-spacer />
       <OrganizationsSelector />
       <v-progress-linear
         :active="loading"

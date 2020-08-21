@@ -74,7 +74,7 @@
         </v-dialog>
       </v-card-title>
       <v-skeleton-loader
-        :loading="!applications.length"
+        :loading="isPending"
         type="list-item@3"
         class="py-2 application-list"
       >
@@ -141,19 +141,22 @@ export default defineComponent({
     const applications: Ref<Array<Application>> = ref([]);
     const dialogVisible = ref(false);
     const applicationModel = ref({ name: '' });
+    const isPending = ref(true);
     onMounted(async () => {
       //关闭抽屉
       const drawer = inject('drawer') as Ref<boolean>;
       drawer.value = false;
       await refreshApplicationList();
-      if (applications.value.length) {
+      if (applications.value.length && !router.currentRoute.params.id) {
         router.push({ name: 'Application', params: { id: applications.value[0].id } });
       }
     });
 
     async function refreshApplicationList() {
+      isPending.value = true;
       const { data } = await ApplicationsService.getApplications();
       applications.value = data;
+      isPending.value = false;
     }
 
     async function submitCreateApplication() {
@@ -184,6 +187,7 @@ export default defineComponent({
       submitCreateApplication,
       applicationModel,
       onDeleteApplication,
+      isPending,
     };
   },
 });

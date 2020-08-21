@@ -43,6 +43,7 @@
           color="primary"
           title="编辑表单模型"
           icon
+          :to="{ name: 'FormDesigner', params: { id } }"
         >
           <v-icon>
             mdi-wrench
@@ -57,12 +58,12 @@
           style="width: unset;"
         >
           <v-tab
-            href="#tab-overview"
+            href="#overview"
           >
             概览 
           </v-tab>
           <v-tab
-            href="#所有数据"
+            href="#all"
           >
             所有数据 
           </v-tab>
@@ -70,14 +71,14 @@
       </v-card-title>
       <v-tabs-items v-model="tab">
         <v-tab-item
-          value="tab-overview"
+          value="overview"
         >
           <v-card flat>
             <v-card-text>概览 未完成</v-card-text>
           </v-card>
         </v-tab-item>
         <v-tab-item
-          value="所有数据"
+          value="all"
         >
           <v-card flat>
             <v-card-text>所有数据 未完成</v-card-text>
@@ -132,7 +133,14 @@ export default defineComponent({
       editName.value = false;
     }
 
-    return { application, onSubmitApplicationName, tab: ref(''), editName, applicationName, onRouteUpdate };
+    return {
+      application,
+      onSubmitApplicationName,
+      tab: ref('overview'),
+      editName,
+      applicationName,
+      onRouteUpdate,
+    };
   },
 });
 </script>

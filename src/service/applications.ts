@@ -1,10 +1,18 @@
 import axios, { AxiosResponse } from 'axios';
 
+import { FormModel } from '@/views/Form/Form';
+
 export class ApplicationsService {
   static getApplication(
     id: string,
   ): Promise<
-    AxiosResponse<Application & { creator: { id: string; name: string }; lastModifier?: { id: string; name: string } }>
+    AxiosResponse<
+      Application & {
+        creator: { id: string; name: string };
+        lastModifier?: { id: string; name: string };
+        formModel: FormModel;
+      }
+    >
   > {
     return axios.get(`applications/${id}`);
   }
@@ -37,6 +45,7 @@ export interface CreateApplicationDto {
 export interface UpdateApplicationDto {
   readonly id: string;
   readonly name?: string;
+  readonly formModel?: FormModel;
 }
 
 export interface DeleteApplicationDto {
