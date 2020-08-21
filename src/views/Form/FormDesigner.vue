@@ -1,5 +1,15 @@
 <template>
   <div class="form-designer d-flex">
+    <v-btn
+      fab
+      right
+      fixed
+      class="btn-save"
+      :loading="isOnSaving"
+      @click="onSave"
+    >
+      <v-icon>mdi-content-save</v-icon>
+    </v-btn>
     <v-card class="components-container-card flex-grow-0 flex-shrink-0 align-self-start pink lighten-1 ma-2">
       <v-container
         class="components-container grey lighten-5"
@@ -45,9 +55,6 @@
       v-else
       class="form-card flex-grow-1 flex-shrink-1 purple lighten-1 pa-2"
     >
-      <v-btn @click="onSave">
-        保存
-      </v-btn>
       <draggable
         v-if="form"
         :value="form.rows"
@@ -125,6 +132,7 @@ export default defineComponent({
     provide('selectedItem', selectedItem);
     const draggingType = '';
     const componentList = Object.seal(formComponents);
+    const isOnSaving = ref(false);
 
     function select(item: FormComponentModel | null) {
       selectedItem.value = item;
@@ -132,9 +140,6 @@ export default defineComponent({
 
     const appId = props.id;
     ApplicationsService.getApplication(appId).then(({ data }) => {
-      // setTimeout(() => {
-      //   form.value = new Form(data.formModel);
-      // }, 5000);
       form.value = new Form(data.formModel);
     });
 
@@ -260,7 +265,10 @@ export default defineComponent({
     }
 
     function onSave() {
-      ApplicationsService.updateApplication({ id: props.id, formModel: form.value!.model });
+      isOnSaving.value = true;
+      ApplicationsService.updateApplication({ id: props.id, formModel: form.value!.model }).finally(() => {
+        isOnSaving.value = false;
+      });
     }
 
     return {
@@ -269,14 +277,13 @@ export default defineComponent({
       select,
       onAddComponent,
       addComponentToForm,
-      moveRowToNewIndex,
       formRowsChange,
       remove,
       rowComponentsChange,
-      addComponentToRow,
       selectedItem,
       draggingType,
       onSave,
+      isOnSaving,
     };
   },
 });
@@ -285,6 +292,11 @@ export default defineComponent({
 <style lang="less" scoped>
 .form-designer {
   /** */
+
+  .btn-save {
+    z-index: 9999;
+    margin-top: -28px;
+  }
 }
 
 .components-container-card {

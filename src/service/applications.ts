@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
+import { FormModel } from '@/views/Form/Form';
+
 export class ApplicationsService {
   static getApplication(
     id: string,
@@ -8,7 +10,7 @@ export class ApplicationsService {
       Application & {
         creator: { id: string; name: string };
         lastModifier?: { id: string; name: string };
-        formModel: Array<any>;
+        formModel: FormModel;
       }
     >
   > {
@@ -43,7 +45,7 @@ export interface CreateApplicationDto {
 export interface UpdateApplicationDto {
   readonly id: string;
   readonly name?: string;
-  readonly formModel?: Array<any>;
+  readonly formModel?: FormModel;
 }
 
 export interface DeleteApplicationDto {
