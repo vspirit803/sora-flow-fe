@@ -10,6 +10,8 @@
     <FormComponentPropsCard name="标题">
       <v-text-field
         v-model="item.title"
+        outlined
+        dense
         placeholder="请输入标题"
       />
     </FormComponentPropsCard>
