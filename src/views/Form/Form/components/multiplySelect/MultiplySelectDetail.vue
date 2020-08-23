@@ -72,6 +72,7 @@
         v-model="item.default"
         chips
         dense
+        clearable
         outlined
         multiple
         :items="item.options"

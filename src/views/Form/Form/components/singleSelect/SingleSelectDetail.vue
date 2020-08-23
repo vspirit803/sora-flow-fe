@@ -72,6 +72,7 @@
         v-model="item.default"
         outlined
         dense
+        clearable
         :items="item.options"
         item-text="value"
         item-value="value"
