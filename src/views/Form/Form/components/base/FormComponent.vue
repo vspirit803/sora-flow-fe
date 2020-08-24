@@ -1,6 +1,9 @@
 <template>
   <div class="form-component">
-    <div class="mask" />
+    <div
+      v-if="formStatus==='designing'"
+      class="mask"
+    />
     <div class="inner">
       <v-icon
         v-show="isSelected"
@@ -68,8 +71,10 @@ export default defineComponent({
     const item = props.item;
     const selectedItem = inject('selectedItem') as Ref<FormComponentModel | null>;
     const isSelected = computed(() => item === selectedItem.value);
+    const formStatus = inject('formStatus', 'designing');
 
     return {
+      formStatus,
       isSelected,
       moveToPrevRow() {
         item.moveToPrevRow();

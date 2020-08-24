@@ -3,7 +3,7 @@
     :item="item"
     @remove="onRemove"
   >
-    <span>{{ item.title }}</span>
+    <span class="mt-1">{{ item.title }}</span>
     <v-data-table
       :headers="[...headers,{ text: '操作',
                               value: 'actions',

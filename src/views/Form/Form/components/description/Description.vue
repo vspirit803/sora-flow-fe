@@ -3,10 +3,13 @@
     :item="item"
     @remove="remove"
   >
-    <span v-if="item.text">{{ item.text }}</span>
+    <span
+      v-if="item.text"
+      class="mt-1"
+    >{{ item.text }}</span>
     <span
       v-else
-      class="font-italic"
+      class="font-italic mt-1"
     >请输入描述文字</span>
   </FormComponent>
 </template>

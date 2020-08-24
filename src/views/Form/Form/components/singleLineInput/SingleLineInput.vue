@@ -3,8 +3,9 @@
     :item="item"
     @remove="remove"
   >
-    <span>{{ item.title }}</span>
+    <span class="mt-1">{{ item.title }}</span>
     <SingleLineInputCore
+      style="margin-top:2px;"
       :item="item"
     />
   </FormComponent>
