@@ -1,6 +1,8 @@
 <template>
   <v-radio-group
     :row="item.direction==='horizontal'"
+    dense
+    class="mt-1 pt-0"
   >
     <v-checkbox
       v-for="(each, index) of item.options"

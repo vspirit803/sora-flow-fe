@@ -3,7 +3,7 @@
     :item="item"
     @remove="remove"
   >
-    <span>{{ item.title }}</span>
+    <span class="mt-1">{{ item.title }}</span>
     <MultiplyLineInputCore :item="item" />
   </FormComponent>
 </template>

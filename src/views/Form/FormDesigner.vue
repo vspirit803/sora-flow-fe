@@ -57,7 +57,21 @@
     <v-card
       v-else
       class="form-card flex-grow-1 flex-shrink-1 purple lighten-1 pa-2"
+      :class="{'form-preview':formStatus==='preview'}"
     >
+      <v-radio-group
+        v-model="formStatus"
+        row
+      >
+        <v-radio
+          label="设计"
+          value="designing"
+        />
+        <v-radio
+          label="预览"
+          value="preview"
+        />
+      </v-radio-group>
       <draggable
         v-if="form"
         :value="form.rows"
@@ -87,8 +101,8 @@
                 <v-col
                   v-for="eachItem of eachRow.components"
                   :key="eachItem.symbol"
-                  class="tool-item pa-0"
-                  :class="{ 'tool-item-selected': eachItem === selectedItem }"
+                  class="component pa-0"
+                  :class="{ 'component-selected': eachItem === selectedItem }"
                   :cols="draggingType === 'component' || draggingType === 'tool' ? 3 : eachItem.size"
                   @click="select(eachItem)"
                 >
@@ -137,6 +151,8 @@ export default defineComponent({
     const componentList = Object.seal(formComponents);
     const isOnSaving = ref(false);
     const hasEdited = ref(false);
+    const formStatus = ref('designing');
+    provide('formStatus', formStatus);
 
     function select(item: FormComponentModel | null) {
       selectedItem.value = item;
@@ -285,6 +301,7 @@ export default defineComponent({
     }
 
     return {
+      formStatus,
       form,
       componentList,
       select,
@@ -329,11 +346,6 @@ export default defineComponent({
   }
 }
 
-.form-card {
-  /**给一个较小的宽度,利用flex-grow自动撑大 */
-  width: 200px;
-}
-
 .component-detail-card {
   width: 340px;
 
@@ -346,27 +358,40 @@ export default defineComponent({
   }
 }
 
-.main {
-  flex-grow: 1;
-  min-height: 20px;
-  margin: 5px 5px;
-  overflow: hidden;
-}
+.form-card {
+  /**给一个较小的宽度,利用flex-grow自动撑大 */
+  width: 200px;
 
-.easy-form-row {
-  width: 100%;
-  display: flex;
-  margin: 10px 0px;
-  padding: 5px;
-  background-color: aliceblue;
-  cursor: move !important;
-}
+  .easy-form-row {
+    width: 100%;
+    display: flex;
+    background-color: aliceblue;
+    cursor: move !important;
+    margin: 10px 0px;
+    padding: 5px;
 
-.tool-item {
-  border: 1px dashed blue;
-}
+    .component {
+      border: 1px dashed blue;
+    }
 
-.tool-item-selected {
-  background: turquoise;
+    .component-selected {
+      background: turquoise;
+    }
+  }
+
+  &.form-preview {
+    .easy-form-row {
+      margin: 0;
+      padding: 0;
+
+      .component {
+        border-style: solid;
+      }
+
+      .component-selected {
+        background: unset;
+      }
+    }
+  }
 }
 </style>
