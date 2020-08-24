@@ -6,40 +6,41 @@
     />
     <div class="inner">
       <v-icon
-        v-show="isSelected"
+        v-show="formStatus==='designing' && isSelected"
         class="icon top-left component-drag-handle"
       >
         mdi-drag
       </v-icon>
       <v-icon
-        v-show="isSelected && item.canMoveToPrevRow"
+        v-show="formStatus==='designing' && isSelected && item.canMoveToPrevRow"
         class="icon top-middle"
         @click.stop="moveToPrevRow"
       >
         mdi-arrow-up-bold-circle
       </v-icon>
       <v-icon
-        v-show="isSelected && item.canMoveToNextRow"
+        v-show="formStatus==='designing' && isSelected && item.canMoveToNextRow"
         class="icon bottom-middle"
         @click.stop="moveToNextRow"
       >
         mdi-arrow-down-bold-circle
       </v-icon>
       <v-icon
-        v-show="isSelected && item.canSwapToLeft"
+        v-show="formStatus==='designing' && isSelected && item.canSwapToLeft"
         class="icon left-middle"
         @click.stop="swapToLeft"
       >
         mdi-swap-horizontal-circle
       </v-icon>
       <v-icon
-        v-show="isSelected && item.canSwapToRight"
+        v-show="formStatus==='designing' && isSelected && item.canSwapToRight"
         class="icon right-middle"
         @click.stop="swapToRight"
       >
         mdi-swap-horizontal-circle
       </v-icon>
       <v-icon
+        v-show="formStatus==='designing'"
         class="icon right-top"
         @click.stop="remove"
       >
