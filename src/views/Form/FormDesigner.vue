@@ -74,6 +74,7 @@
       </v-radio-group>
       <draggable
         v-if="form"
+        :disabled="formStatus==='preview'"
         :value="form.rows"
         group="components"
         @change="formRowsChange"
@@ -383,6 +384,7 @@ export default defineComponent({
     .easy-form-row {
       margin: 0;
       padding: 0;
+      cursor: unset !important;
 
       .component {
         border-style: solid;
