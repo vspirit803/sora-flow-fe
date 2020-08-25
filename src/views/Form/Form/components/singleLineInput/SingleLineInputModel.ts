@@ -10,6 +10,8 @@ export interface SingleLineInputData extends FormComponentDataBase {
 export class SingleLineInputModel extends FormComponentModel implements SingleLineInputData {
   placeholder: string;
   defaultValue: string;
+
+  value: string;
   constructor(data?: SingleLineInputData) {
     const { type = 'SingleLineInput', title = '单行文字', size, placeholder = '请输入', defaultValue = '', layout } =
       data ?? {};
@@ -17,6 +19,8 @@ export class SingleLineInputModel extends FormComponentModel implements SingleLi
 
     this.placeholder = placeholder;
     this.defaultValue = defaultValue;
+
+    this.value = defaultValue;
   }
 
   getModel(): SingleLineInputData {

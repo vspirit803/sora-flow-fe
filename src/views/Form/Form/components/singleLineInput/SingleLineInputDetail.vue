@@ -33,6 +33,7 @@
       <v-text-field
         v-model="item.defaultValue"
         placeholder="请输入默认文本"
+        @input="onDefaultValueChange"
       />
     </FormComponentPropsCard>
   </v-card>
@@ -59,6 +60,9 @@ export default Vue.extend({
       if (this.isTableField) {
         this.$emit('back');
       }
+    },
+    onDefaultValueChange(value: string) {
+      this.item.value = value;
     },
   },
 });

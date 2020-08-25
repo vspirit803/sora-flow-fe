@@ -12,6 +12,8 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
   defaultValue: Array<string>;
   options: Array<{ value: string; symbol: symbol }>;
   direction: 'vertical' | 'horizontal';
+
+  value: Array<string>;
   constructor(data?: MultiplySelectData) {
     const {
       type = 'MultiplySelect',
@@ -28,9 +30,11 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
     } = data ?? {};
     super({ type, title, size, layout });
 
-    this.defaultValue = defaultValue;
+    this.defaultValue = [...defaultValue];
     this.options = options;
     this.direction = direction;
+
+    this.value = [...defaultValue];
   }
 
   addOption(optionName = '未命名'): void {

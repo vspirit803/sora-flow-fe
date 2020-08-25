@@ -12,6 +12,8 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
   defaultValue: string;
   options: Array<{ value: string; symbol: symbol }>;
   direction: 'vertical' | 'horizontal';
+
+  value: string;
   constructor(data?: SingleSelectData) {
     const {
       type = 'SingleSelect',
@@ -31,6 +33,8 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
     this.defaultValue = defaultValue;
     this.options = options;
     this.direction = direction;
+
+    this.value = defaultValue;
   }
 
   addOption(optionName = '未命名'): void {

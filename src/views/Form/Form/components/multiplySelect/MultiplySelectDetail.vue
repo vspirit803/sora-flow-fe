@@ -69,7 +69,7 @@
 
     <FormComponentPropsCard name="默认值">
       <v-select
-        v-model="item.default"
+        v-model="item.defaultValue"
         chips
         dense
         clearable
@@ -78,6 +78,7 @@
         :items="item.options"
         item-text="value"
         item-value="value"
+        @change="onDefaultValueChange"
       />
     </FormComponentPropsCard>
     <v-divider />
@@ -128,6 +129,9 @@ export default Vue.extend({
       if (this.isTableField) {
         this.$emit('back');
       }
+    },
+    onDefaultValueChange(value: Array<string>) {
+      this.item.value = [...value];
     },
   },
 });

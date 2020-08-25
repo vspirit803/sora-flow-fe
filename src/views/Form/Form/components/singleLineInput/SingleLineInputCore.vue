@@ -1,7 +1,7 @@
 <template>
   <v-text-field
+    v-model="item.value"
     :placeholder="item.placeholder"
-    :value="item.defaultValue"
     dense
   />
 </template>

@@ -7,7 +7,7 @@
     <v-checkbox
       v-for="(each, index) of item.options"
       :key="each.symbol"
-      v-model="item.default"
+      v-model="item.value"
       hide-details
       class="pt-0 mt-0"
       :class="{'mt-2' : item.direction==='vertical' && index, 'ml-4' : item.direction==='horizontal' && index}"
@@ -28,6 +28,22 @@ export default defineComponent({
       type: MultiplySelectModel,
       required: true,
     },
+  },
+
+  setup(props) {
+    const item = props.item;
+
+    function onComponentValueChange(value: any) {
+      // props.item.value = value;
+      console.log(value);
+    }
+
+    return {
+      onComponentValueChange,
+      onChange(...params: any) {
+        console.log(params);
+      },
+    };
   },
 });
 </script>

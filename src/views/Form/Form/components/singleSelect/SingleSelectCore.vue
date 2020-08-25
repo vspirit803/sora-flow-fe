@@ -1,6 +1,6 @@
 <template>
   <v-radio-group
-    v-model="item.default"
+    v-model="item.value"
     :row="item.direction==='horizontal'"
     dense
     class="mt-1 pt-0"

@@ -1,7 +1,7 @@
 <template>
   <v-textarea
+    v-model="item.value"
     :placeholder="item.placeholder"
-    :value="item.default"
     outlined
     dense
     :rows="item.rowNumber"

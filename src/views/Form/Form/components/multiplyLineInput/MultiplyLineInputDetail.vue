@@ -29,6 +29,17 @@
     />
     <v-divider />
 
+    <FormComponentPropsCard name="默认文本">
+      <v-textarea
+        v-model="item.defaultValue"
+        placeholder="请输入默认文本"
+        outlined
+        dense
+        :rows="3"
+        @change="onDefaultValueChange"
+      />
+    </FormComponentPropsCard>
+
     <FormComponentPropsCard name="默认行数">
       <v-text-field
         v-model="item.rowNumber"
@@ -63,6 +74,9 @@ export default Vue.extend({
       if (this.isTableField) {
         this.$emit('back');
       }
+    },
+    onDefaultValueChange(value: string) {
+      this.item.value = value;
     },
   },
 });

@@ -12,6 +12,7 @@ export class MultiplyLineInputModel extends FormComponentModel implements Multip
   placeholder: string;
   defaultValue: string;
   rowNumber: number;
+  value: string;
   constructor(data?: MultiplyLineInputData) {
     const {
       type = 'MultiplyLineInput',
@@ -27,6 +28,8 @@ export class MultiplyLineInputModel extends FormComponentModel implements Multip
     this.placeholder = placeholder;
     this.defaultValue = defaultValue;
     this.rowNumber = rowNumber;
+
+    this.value = defaultValue;
   }
 
   getModel(): MultiplyLineInputData {
