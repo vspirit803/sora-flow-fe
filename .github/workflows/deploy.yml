@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # 切换分支
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@master
 
       # 使用 node:14
@@ -17,18 +17,18 @@ jobs:
         with:
           node-version: 14
       # 安装yarn
+      - name: install yarn
       - run: npm install -g yarn
       # 安装依赖
-      - name: yarn install
+      - name: install deps
         run: |
-          yarn install
+          yarn install --frozen-lockfile
       # 构建
-      - name: yarn build
+      - name: build
         run: |
           yarn build
-
       # 部署
-      - name: Deploy
+      - name: deploy
         uses: easingthemes/ssh-deploy@v2.0.7
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
