@@ -17,7 +17,6 @@ jobs:
         with:
           node-version: 14
       # 安装yarn
-      - name: install yarn
       - run: npm install -g yarn
       # 安装依赖
       - name: install deps
