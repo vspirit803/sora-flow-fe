@@ -124,10 +124,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, onMounted, Ref, ref } from '@vue/composition-api';
+import { computed, defineComponent, inject, onMounted, Ref, ref, watch } from '@vue/composition-api';
 
 import { Application, ApplicationsService } from '@/service';
-import { useRouter } from '@/use';
+import { useRouter, useStore } from '@/use';
 
 type Obs = {
   reset: () => void;
@@ -142,6 +142,17 @@ export default defineComponent({
     const dialogVisible = ref(false);
     const applicationModel = ref({ name: '' });
     const isPending = ref(true);
+    const store = useStore();
+    watch(
+      computed(() => store.state.organizationId),
+      async () => {
+        router.push({ name: 'NoApplication' });
+        await refreshApplicationList();
+        if (applications.value.length && !router.currentRoute.params.id) {
+          router.push({ name: 'Application', params: { id: applications.value[0].id } });
+        }
+      },
+    );
     onMounted(async () => {
       //关闭抽屉
       const drawer = inject('drawer') as Ref<boolean>;
