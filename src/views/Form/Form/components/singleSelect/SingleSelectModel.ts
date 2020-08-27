@@ -1,8 +1,10 @@
+import { ObjectID } from 'bson';
+
 import { FormComponentDataBase, FormComponentModel } from '../base';
 
 export interface SingleSelectData extends FormComponentDataBase {
   defaultValue: string;
-  options: Array<{ value: string; symbol: symbol }>;
+  options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
 }
 /**
@@ -10,7 +12,7 @@ export interface SingleSelectData extends FormComponentDataBase {
  */
 export class SingleSelectModel extends FormComponentModel implements SingleSelectData {
   defaultValue: string;
-  options: Array<{ value: string; symbol: symbol }>;
+  options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
 
   value: string;
@@ -21,9 +23,9 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
       size,
       defaultValue = '',
       options = [
-        { value: '选项1', symbol: Symbol('选项') },
-        { value: '选项2', symbol: Symbol('选项') },
-        { value: '选项3', symbol: Symbol('选项') },
+        { text: '选项1', /*symbol: Symbol('选项'),*/ value: new ObjectID().toHexString() },
+        { text: '选项2', /*symbol: Symbol('选项'),*/ value: new ObjectID().toHexString() },
+        { text: '选项3', /*symbol: Symbol('选项'),*/ value: new ObjectID().toHexString() },
       ],
       direction = 'vertical',
       layout,
@@ -38,10 +40,15 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
   }
 
   addOption(optionName = '未命名'): void {
-    this.options.push({ value: optionName, symbol: Symbol('选项') });
+    this.options.push({ text: optionName, /*symbol: Symbol('选项'), */ value: new ObjectID().toHexString() });
   }
 
   getModel(): SingleSelectData {
-    return { ...super.getModel(), defaultValue: this.defaultValue, options: this.options, direction: this.direction };
+    return {
+      ...super.getModel(),
+      defaultValue: this.defaultValue,
+      options: this.options,
+      direction: this.direction,
+    };
   }
 }
