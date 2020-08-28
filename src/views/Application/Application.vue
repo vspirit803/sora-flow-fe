@@ -64,6 +64,7 @@
           </v-tab>
           <v-tab
             href="#all"
+            @change="onTabAll"
           >
             所有数据 
           </v-tab>
@@ -133,6 +134,10 @@ export default defineComponent({
       editName.value = false;
     }
 
+    function onTabAll() {
+      console.log('切到了所有数据选项卡');
+    }
+
     return {
       application,
       onSubmitApplicationName,
@@ -140,6 +145,7 @@ export default defineComponent({
       editName,
       applicationName,
       onRouteUpdate,
+      onTabAll,
     };
   },
 });
