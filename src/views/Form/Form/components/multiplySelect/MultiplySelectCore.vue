@@ -6,13 +6,13 @@
   >
     <v-checkbox
       v-for="(each, index) of item.options"
-      :key="each.symbol"
+      :key="each.value"
       v-model="item.value"
       hide-details
       class="pt-0 mt-0"
       :class="{'mt-2' : item.direction==='vertical' && index, 'ml-4' : item.direction==='horizontal' && index}"
       :value="each.value"
-      :label="each.value"
+      :label="each.text"
     />
   </v-radio-group>
 </template>

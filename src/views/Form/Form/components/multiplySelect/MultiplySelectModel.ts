@@ -1,8 +1,10 @@
+import { ObjectID } from 'bson';
+
 import { FormComponentDataBase, FormComponentModel } from '../base';
 
 export interface MultiplySelectData extends FormComponentDataBase {
   defaultValue: Array<string>;
-  options: Array<{ value: string; symbol: symbol }>;
+  options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
 }
 /**
@@ -10,7 +12,7 @@ export interface MultiplySelectData extends FormComponentDataBase {
  */
 export class MultiplySelectModel extends FormComponentModel implements MultiplySelectData {
   defaultValue: Array<string>;
-  options: Array<{ value: string; symbol: symbol }>;
+  options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
 
   value: Array<string>;
@@ -21,9 +23,9 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
       size,
       defaultValue = [],
       options = [
-        { value: '选项1', symbol: Symbol('选项') },
-        { value: '选项2', symbol: Symbol('选项') },
-        { value: '选项3', symbol: Symbol('选项') },
+        { value: new ObjectID().toHexString(), text: '选项1' },
+        { value: new ObjectID().toHexString(), text: '选项2' },
+        { value: new ObjectID().toHexString(), text: '选项3' },
       ],
       direction = 'vertical',
       layout,
@@ -38,7 +40,7 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
   }
 
   addOption(optionName = '未命名'): void {
-    this.options.push({ value: optionName, symbol: Symbol('选项') });
+    this.options.push({ value: new ObjectID().toHexString(), text: optionName });
   }
 
   getModel(): MultiplySelectData {
