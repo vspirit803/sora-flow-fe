@@ -23,9 +23,9 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
       size,
       defaultValue = '',
       options = [
-        { text: '选项1', /*symbol: Symbol('选项'),*/ value: new ObjectID().toHexString() },
-        { text: '选项2', /*symbol: Symbol('选项'),*/ value: new ObjectID().toHexString() },
-        { text: '选项3', /*symbol: Symbol('选项'),*/ value: new ObjectID().toHexString() },
+        { value: new ObjectID().toHexString(), text: '选项1' },
+        { value: new ObjectID().toHexString(), text: '选项2' },
+        { value: new ObjectID().toHexString(), text: '选项3' },
       ],
       direction = 'vertical',
       layout,
@@ -40,14 +40,14 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
   }
 
   addOption(optionName = '未命名'): void {
-    this.options.push({ text: optionName, /*symbol: Symbol('选项'), */ value: new ObjectID().toHexString() });
+    this.options.push({ value: new ObjectID().toHexString(), text: optionName });
   }
 
   getModel(): SingleSelectData {
     return {
       ...super.getModel(),
       defaultValue: this.defaultValue,
-      options: this.options,
+      options: this.options.map((each) => ({ ...each })),
       direction: this.direction,
     };
   }

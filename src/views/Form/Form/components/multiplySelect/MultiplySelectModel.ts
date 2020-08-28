@@ -44,6 +44,11 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
   }
 
   getModel(): MultiplySelectData {
-    return { ...super.getModel(), defaultValue: this.defaultValue, options: this.options, direction: this.direction };
+    return {
+      ...super.getModel(),
+      defaultValue: this.defaultValue,
+      options: this.options.map((each) => ({ ...each })),
+      direction: this.direction,
+    };
   }
 }
