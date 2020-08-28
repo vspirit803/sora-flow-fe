@@ -1,3 +1,5 @@
+import { ObjectID } from 'bson';
+
 import { FormRow } from '../../FormRow';
 import { FormComponentType } from '../FormComponents';
 
@@ -11,14 +13,14 @@ export interface FormComponentDataBase {
  * 表单组件基类
  */
 export class FormComponentModel {
-  symbol: symbol;
+  id: string;
   type: FormComponentType;
   title: string;
   size: number;
   layout: 'vertical' | 'horizontal';
   _row?: FormRow;
   constructor(data: FormComponentDataBase) {
-    this.symbol = Symbol('type');
+    this.id = new ObjectID().toHexString();
     const { type, title = '无标题', size = 12, layout = 'vertical' } = data;
     this.type = type;
     this.title = title;

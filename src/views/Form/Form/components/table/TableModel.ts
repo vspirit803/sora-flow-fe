@@ -1,3 +1,5 @@
+import { ObjectID } from 'bson';
+
 import { FormComponentDataBase, FormComponentModel } from '../base';
 import { ComponentFactory } from '../ComponentFactory';
 import { FormComponentType } from '../FormComponents';
@@ -24,8 +26,8 @@ export class TableModel extends FormComponentModel implements TableData {
           type: 'SingleSelect',
           title: '性别',
           options: [
-            { value: '男', symbol: Symbol('选项') },
-            { value: '女', symbol: Symbol('选项') },
+            { value: new ObjectID().toHexString(), text: '男' },
+            { value: new ObjectID().toHexString(), text: '女' },
           ],
           defaultValue: '',
           direction: 'horizontal',

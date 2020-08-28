@@ -30,7 +30,7 @@
           >
             <template v-for="eachField of item.fields">
               <v-list-item
-                :key="eachField.symbol"
+                :key="eachField.id"
                 class="table-field"
               >
                 <v-list-item-content>
