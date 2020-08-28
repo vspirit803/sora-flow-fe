@@ -1,23 +1,27 @@
 import { ObjectID } from 'bson';
 
-import { FormComponentDataBase, FormComponentModel } from '../base';
+import { FormComponentModel, FormComponentModelDataBase } from '../base';
 
-export interface SingleSelectData extends FormComponentDataBase {
-  defaultValue: string;
+export type SingleSelectValueData = string;
+
+export interface SingleSelectData extends FormComponentModelDataBase {
+  defaultValue: SingleSelectValueData;
   options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
 }
+
 /**
  * 单选框
  */
 export class SingleSelectModel extends FormComponentModel implements SingleSelectData {
-  defaultValue: string;
+  defaultValue: SingleSelectValueData;
   options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
 
-  value: string;
+  value: SingleSelectValueData;
   constructor(data?: SingleSelectData) {
     const {
+      id = new ObjectID().toHexString(),
       type = 'SingleSelect',
       title = '单项选择',
       size,
@@ -30,7 +34,7 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
       direction = 'vertical',
       layout,
     } = data ?? {};
-    super({ type, title, size, layout });
+    super({ id, type, title, size, layout });
 
     this.defaultValue = defaultValue;
     this.options = options;
@@ -50,5 +54,9 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
       options: this.options.map((each) => ({ ...each })),
       direction: this.direction,
     };
+  }
+
+  getValueData(): SingleSelectValueData {
+    return this.value;
   }
 }

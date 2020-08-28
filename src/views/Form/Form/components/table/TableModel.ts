@@ -1,12 +1,16 @@
 import { ObjectID } from 'bson';
 
-import { FormComponentDataBase, FormComponentModel } from '../base';
+import { FormComponentModel, FormComponentModelDataBase, FormComponentValueDataBase } from '../base';
 import { ComponentFactory } from '../ComponentFactory';
 import { FormComponentType } from '../FormComponents';
 
-export interface TableData extends FormComponentDataBase {
-  fields: Array<FormComponentDataBase>;
+export type TableValueData = Array<Record<string, FormComponentValueDataBase>>;
+
+export interface TableData extends FormComponentModelDataBase {
+  fields: Array<FormComponentModelDataBase>;
   rowNumber: number;
+
+  value?: TableValueData;
 }
 /**
  * 表单组件-表格
@@ -14,9 +18,11 @@ export interface TableData extends FormComponentDataBase {
 export class TableModel extends FormComponentModel implements TableData {
   fields: Array<FormComponentModel>;
   rowNumber: number;
+  value: Array<Record<string, FormComponentModel>>;
 
   constructor(data?: TableData) {
     const {
+      id = new ObjectID().toHexString(),
       type = 'Table',
       title = '表格',
       size,
@@ -32,15 +38,30 @@ export class TableModel extends FormComponentModel implements TableData {
           defaultValue: '',
           direction: 'horizontal',
         },
-      ] as Array<FormComponentDataBase>,
+      ] as Array<FormComponentModelDataBase>,
       rowNumber = 1,
+
+      value = [],
     } = data ?? {};
-    super({ type, title, size });
+    super({ id, type, title, size });
 
     this.rowNumber = rowNumber;
     this.fields = fields.map((eachField) => {
       return ComponentFactory.create(eachField);
     });
+    this.value = [];
+
+    for (let i = 0; i < this.rowNumber; i++) {
+      const currRow: Record<string, FormComponentModel> = {};
+      this.fields.forEach((each) => {
+        const id = each.id;
+        currRow[id] = ComponentFactory.create(each.model);
+        if (value[i]?.[id] && 'value' in currRow[id]) {
+          (currRow[id] as any).value = value[i]?.[id];
+        }
+      });
+      this.value.push(currRow);
+    }
   }
 
   addField(type: FormComponentType): void {
@@ -50,6 +71,16 @@ export class TableModel extends FormComponentModel implements TableData {
 
   getModel(): TableData {
     return { ...super.getModel(), fields: this.fields.map((each) => each.getModel()), rowNumber: this.rowNumber };
+  }
+
+  getValueData(): TableValueData {
+    return this.value.map((eachRow) => {
+      const currRow: Record<string, FormComponentValueDataBase> = {};
+      Object.entries(eachRow).forEach(([key, value]) => {
+        currRow[key] = value.valueData;
+      });
+      return currRow;
+    });
   }
 
   onRemoveField(field: FormComponentModel): void {

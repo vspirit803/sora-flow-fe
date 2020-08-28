@@ -72,6 +72,12 @@
           value="preview"
         />
       </v-radio-group>
+      <v-btn
+        v-if="formStatus==='preview'"
+        @click="onSubmit"
+      >
+        提交
+      </v-btn>
       <draggable
         v-if="form"
         :disabled="formStatus==='preview'"
@@ -82,8 +88,8 @@
         @end="draggingType = ''"
       >
         <div
-          v-for="(eachRow, rowIndex) of form.rows"
-          :key="rowIndex"
+          v-for="eachRow of form.rows"
+          :key="eachRow.id"
         >
           <v-container class="pa-0">
             <v-row class="ma-0">
@@ -136,7 +142,7 @@
 import { defineComponent, inject, onMounted, provide, Ref, ref, watch } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
-import { ApplicationsService } from '@/service';
+import { ApplicationRecordsService, ApplicationsService } from '@/service';
 
 import { ComponentFactory, Form, FormComponentModel, formComponents, FormComponentType, FormRow } from './Form';
 
@@ -300,6 +306,11 @@ export default defineComponent({
       });
     }
 
+    async function onSubmit() {
+      const data = form.value!.valueData;
+      await ApplicationRecordsService.createApplicationRecord(appId, { data });
+    }
+
     return {
       formStatus,
       form,
@@ -315,6 +326,7 @@ export default defineComponent({
       onSave,
       isOnSaving,
       hasEdited,
+      onSubmit,
     };
   },
 });

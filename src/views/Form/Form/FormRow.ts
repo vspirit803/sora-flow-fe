@@ -1,10 +1,18 @@
-import { ComponentFactory, FormComponentDataBase, FormComponentModel } from './components';
+import { ObjectID } from 'bson';
+
+import {
+  ComponentFactory,
+  FormComponentModel,
+  FormComponentModelDataBase,
+  FormComponentValueDataBase,
+} from './components';
 import { Form } from './Form';
 
-export type FormRowModel = Array<FormComponentDataBase>;
+export type FormRowModel = Array<FormComponentModelDataBase>;
 
 export class FormRow {
   components: Array<FormComponentModel>;
+  id: string;
   _form?: Form;
   constructor(data: FormRowModel = []) {
     this.components = [];
@@ -12,10 +20,21 @@ export class FormRow {
       const currComponent = ComponentFactory.create(eachComponent);
       this.addComponent(currComponent);
     });
+    this.id = new ObjectID().toHexString();
   }
 
   get model(): FormRowModel {
     return this.components.map((each) => each.model);
+  }
+
+  get valueData(): Record<string, FormComponentValueDataBase> {
+    const valueData: Record<string, FormComponentValueDataBase> = {};
+    this.components.forEach((each) => {
+      if (each.valueData !== undefined) {
+        valueData[each.id] = each.valueData;
+      }
+    });
+    return valueData;
   }
 
   resize(): void {

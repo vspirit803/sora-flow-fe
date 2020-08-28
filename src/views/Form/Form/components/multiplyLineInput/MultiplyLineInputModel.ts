@@ -1,10 +1,14 @@
-import { FormComponentDataBase, FormComponentModel } from '../base';
+import { ObjectID } from 'bson';
 
-export interface MultiplyLineInputData extends FormComponentDataBase {
+import { FormComponentModel, FormComponentModelDataBase } from '../base';
+
+export interface MultiplyLineInputData extends FormComponentModelDataBase {
   placeholder: string;
   defaultValue: string;
   rowNumber: number;
 }
+
+export type MutiplyLineValueData = string;
 /**
  * 多行文本
  */
@@ -15,6 +19,7 @@ export class MultiplyLineInputModel extends FormComponentModel implements Multip
   value: string;
   constructor(data?: MultiplyLineInputData) {
     const {
+      id = new ObjectID().toHexString(),
       type = 'MultiplyLineInput',
       title = '多行文字',
       size,
@@ -23,7 +28,7 @@ export class MultiplyLineInputModel extends FormComponentModel implements Multip
       rowNumber = 3,
       layout,
     } = data ?? {};
-    super({ type, title, size, layout });
+    super({ id, type, title, size, layout });
 
     this.placeholder = placeholder;
     this.defaultValue = defaultValue;
@@ -39,5 +44,9 @@ export class MultiplyLineInputModel extends FormComponentModel implements Multip
       defaultValue: this.defaultValue,
       placeholder: this.placeholder,
     };
+  }
+
+  getValueData(): MutiplyLineValueData {
+    return this.value;
   }
 }

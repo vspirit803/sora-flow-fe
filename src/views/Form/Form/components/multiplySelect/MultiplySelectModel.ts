@@ -1,23 +1,27 @@
 import { ObjectID } from 'bson';
 
-import { FormComponentDataBase, FormComponentModel } from '../base';
+import { FormComponentModel, FormComponentModelDataBase } from '../base';
 
-export interface MultiplySelectData extends FormComponentDataBase {
-  defaultValue: Array<string>;
+export type MutiplySelectValueData = Array<string>;
+
+export interface MultiplySelectData extends FormComponentModelDataBase {
+  defaultValue: MutiplySelectValueData;
   options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
 }
+
 /**
  * 多选框
  */
 export class MultiplySelectModel extends FormComponentModel implements MultiplySelectData {
-  defaultValue: Array<string>;
+  defaultValue: MutiplySelectValueData;
   options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
 
-  value: Array<string>;
+  value: MutiplySelectValueData;
   constructor(data?: MultiplySelectData) {
     const {
+      id = new ObjectID().toHexString(),
       type = 'MultiplySelect',
       title = '多项选择',
       size,
@@ -30,7 +34,7 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
       direction = 'vertical',
       layout,
     } = data ?? {};
-    super({ type, title, size, layout });
+    super({ id, type, title, size, layout });
 
     this.defaultValue = [...defaultValue];
     this.options = options;
@@ -50,5 +54,9 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
       options: this.options.map((each) => ({ ...each })),
       direction: this.direction,
     };
+  }
+
+  getValueData(): MutiplySelectValueData {
+    return [...this.value];
   }
 }

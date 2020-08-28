@@ -1,7 +1,8 @@
-import { FormComponentDataBase } from './components';
+import { FormComponentModelDataBase, FormComponentValueDataBase } from './components';
 import { FormRow } from './FormRow';
 
-export type FormModel = Array<Array<FormComponentDataBase>>;
+export type FormModel = Array<Array<FormComponentModelDataBase>>;
+export type FormValue = Record<string, FormComponentValueDataBase>;
 /**
  * 表单
  */
@@ -17,6 +18,16 @@ export class Form {
 
   get model(): FormModel {
     return this.rows.map((each) => each.model);
+  }
+
+  get valueData(): FormValue {
+    const valueData: FormValue = {};
+    this.rows.forEach((eachRow) => {
+      Object.entries(eachRow.valueData).forEach(([key, value]) => {
+        valueData[key] = value;
+      });
+    });
+    return valueData;
   }
 
   getPrevRow(row: FormRow): FormRow | undefined {

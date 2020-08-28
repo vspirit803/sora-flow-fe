@@ -1,4 +1,4 @@
-import { FormComponentDataBase, FormComponentModel } from './base';
+import { FormComponentModel, FormComponentModelDataBase } from './base';
 import { DescriptionData, DescriptionModel } from './description';
 import { MultiplyLineInputData, MultiplyLineInputModel } from './multiplyLineInput';
 import { MultiplySelectData, MultiplySelectModel } from './multiplySelect';
@@ -7,7 +7,7 @@ import { SingleSelectData, SingleSelectModel } from './singleSelect';
 import { TableData, TableModel } from './table';
 
 export class ComponentFactory {
-  static create(data: FormComponentDataBase): FormComponentModel {
+  static create(data: FormComponentModelDataBase): FormComponentModel {
     const type = data.type;
     switch (type) {
       case 'Description':

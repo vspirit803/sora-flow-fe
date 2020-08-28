@@ -1,6 +1,8 @@
-import { FormComponentDataBase, FormComponentModel } from '../base';
+import { ObjectID } from 'bson';
 
-export interface DescriptionData extends FormComponentDataBase {
+import { FormComponentModel, FormComponentModelDataBase } from '../base';
+
+export interface DescriptionData extends FormComponentModelDataBase {
   text: string;
 }
 /**
@@ -9,8 +11,8 @@ export interface DescriptionData extends FormComponentDataBase {
 export class DescriptionModel extends FormComponentModel implements DescriptionData {
   text: string;
   constructor(data?: DescriptionData) {
-    const { type = 'Description', title = '描述文字', size, text = '' } = data ?? {};
-    super({ type, title, size });
+    const { id = new ObjectID().toHexString(), type = 'Description', title = '描述文字', size, text = '' } = data ?? {};
+    super({ id, type, title, size });
 
     this.text = text;
   }

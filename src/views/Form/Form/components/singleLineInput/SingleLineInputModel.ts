@@ -1,21 +1,33 @@
-import { FormComponentDataBase, FormComponentModel } from '../base';
+import { ObjectID } from 'bson';
 
-export interface SingleLineInputData extends FormComponentDataBase {
-  placeholder: string;
-  defaultValue: string;
+import { FormComponentModel, FormComponentModelDataBase } from '../base';
+
+export type SingleLineInputValueData = string;
+
+export interface SingleLineInputData extends FormComponentModelDataBase {
+  placeholder: SingleLineInputValueData;
+  defaultValue: SingleLineInputValueData;
 }
+
 /**
  * 单行文字
  */
 export class SingleLineInputModel extends FormComponentModel implements SingleLineInputData {
   placeholder: string;
-  defaultValue: string;
+  defaultValue: SingleLineInputValueData;
 
-  value: string;
+  value: SingleLineInputValueData;
   constructor(data?: SingleLineInputData) {
-    const { type = 'SingleLineInput', title = '单行文字', size, placeholder = '请输入', defaultValue = '', layout } =
-      data ?? {};
-    super({ type, title, size, layout });
+    const {
+      id = new ObjectID().toHexString(),
+      type = 'SingleLineInput',
+      title = '单行文字',
+      size,
+      placeholder = '请输入',
+      defaultValue = '',
+      layout,
+    } = data ?? {};
+    super({ id, type, title, size, layout });
 
     this.placeholder = placeholder;
     this.defaultValue = defaultValue;
@@ -25,5 +37,9 @@ export class SingleLineInputModel extends FormComponentModel implements SingleLi
 
   getModel(): SingleLineInputData {
     return { ...super.getModel(), defaultValue: this.defaultValue, placeholder: this.placeholder };
+  }
+
+  getValueData(): SingleLineInputValueData {
+    return this.value;
   }
 }
