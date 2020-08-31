@@ -4,8 +4,16 @@ import { FormComponentModel, FormComponentModelDataBase, FormComponentValueDataB
 import { ComponentFactory } from '../ComponentFactory';
 import { FormComponentType } from '../FormComponents';
 
-export type TableValueData = Array<Record<string, FormComponentValueDataBase>>;
+/**表格一行的数据 */
+export type TableRowValueData = {
+  id: string;
+  data: Record<string, FormComponentValueDataBase>;
+};
 
+/**表格数据 */
+export type TableValueData = Array<TableRowValueData>;
+
+/**表格的模型数据 */
 export interface TableData extends FormComponentModelDataBase {
   fields: Array<FormComponentModelDataBase>;
   rowNumber: number;
@@ -18,7 +26,7 @@ export interface TableData extends FormComponentModelDataBase {
 export class TableModel extends FormComponentModel implements TableData {
   fields: Array<FormComponentModel>;
   rowNumber: number;
-  value: Array<Record<string, FormComponentModel>>;
+  value: TableValueData;
 
   constructor(data?: TableData) {
     const {
@@ -52,12 +60,12 @@ export class TableModel extends FormComponentModel implements TableData {
     this.value = [];
 
     for (let i = 0; i < this.rowNumber; i++) {
-      const currRow: Record<string, FormComponentModel> = {};
+      const currRow: TableRowValueData = { id: new ObjectID().toHexString(), data: {} };
       this.fields.forEach((each) => {
         const id = each.id;
-        currRow[id] = ComponentFactory.create(each.model);
-        if (value[i]?.[id] && 'value' in currRow[id]) {
-          (currRow[id] as any).value = value[i]?.[id];
+        currRow.data[id] = ComponentFactory.create(each.model);
+        if (value[i]?.data?.[id] && 'value' in currRow.data[id]) {
+          currRow.data[id].value = value[i].data?.[id];
         }
       });
       this.value.push(currRow);
@@ -75,9 +83,9 @@ export class TableModel extends FormComponentModel implements TableData {
 
   getValueData(): TableValueData {
     return this.value.map((eachRow) => {
-      const currRow: Record<string, FormComponentValueDataBase> = {};
-      Object.entries(eachRow).forEach(([key, value]) => {
-        currRow[key] = value.valueData;
+      const currRow: TableRowValueData = { id: eachRow.id, data: {} };
+      Object.entries(eachRow.data).forEach(([key, value]) => {
+        currRow.data[key] = value.valueData;
       });
       return currRow;
     });

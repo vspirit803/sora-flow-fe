@@ -24,7 +24,7 @@
         <div
           :is="each.type + 'Core'"
           :key="each.value"
-          :item="currRow[each.value]"
+          :item="currRow.data[each.value]"
         />
       </template>
       <template
@@ -57,10 +57,11 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent, Ref, ref, watch } from '@vue/composition-api';
+import { ObjectID } from 'bson';
 
 import { FormComponent, FormComponentModel } from '../base/';
 import { ComponentFactory } from '../ComponentFactory';
-import { TableModel } from './TableModel';
+import { TableModel, TableRowValueData } from './TableModel';
 
 export default defineComponent({
   name: 'Table',
@@ -90,10 +91,10 @@ export default defineComponent({
       () => {
         const list = [];
         for (let i = 0; i < item.rowNumber; i++) {
-          const currRow: Record<string, FormComponentModel> = {};
+          const currRow: TableRowValueData = { id: new ObjectID().toHexString(), data: {} };
           item.fields.forEach((each) => {
             const id = each.id;
-            currRow[id] = ComponentFactory.create(each.model);
+            currRow.data[id] = ComponentFactory.create(each.model);
           });
           list.push(currRow);
         }
@@ -107,10 +108,10 @@ export default defineComponent({
         if (newVal > oldVal) {
           // 行数增加
           for (let i = 0; i < newVal - oldVal; i++) {
-            const currRow: Record<string, FormComponentModel> = {};
+            const currRow: TableRowValueData = { id: new ObjectID().toHexString(), data: {} };
             item.fields.forEach((each) => {
               const id = each.id;
-              currRow[id] = ComponentFactory.create(each.model);
+              currRow.data[id] = ComponentFactory.create(each.model);
             });
             item.value.push(currRow);
           }
@@ -125,16 +126,16 @@ export default defineComponent({
 
     //增加行
     function onAddRow() {
-      const currRow: Record<string, FormComponentModel> = {};
+      const currRow: TableRowValueData = { id: new ObjectID().toHexString(), data: {} };
       item.fields.forEach((each) => {
         const id = each.id;
-        currRow[id] = ComponentFactory.create(each.model);
+        currRow.data[id] = ComponentFactory.create(each.model);
       });
       item.value.push(currRow);
     }
 
     //删除行
-    function onRemoveRow(currRow: Record<string, FormComponentModel>) {
+    function onRemoveRow(currRow: TableRowValueData) {
       item.value = item.value.filter((each) => each !== currRow);
     }
 

@@ -11,7 +11,8 @@ export class ApplicationRecordsService {
   }
 
   static createApplicationRecord(applicationId: string, createApplicationRecordDto: CreateApplicationRecordDto) {
-    return axios.post(`applications/${applicationId}/records`, createApplicationRecordDto);
+    console.log(createApplicationRecordDto);
+    // return axios.post(`applications/${applicationId}/records`, createApplicationRecordDto);
   }
 
   static updateApplicationRecord(applicationId: string, updateApplicationRecordDto: UpdateApplicationRecordDto) {

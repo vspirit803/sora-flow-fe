@@ -11,7 +11,7 @@ export interface FormComponentModelDataBase {
   layout?: 'vertical' | 'horizontal';
 }
 
-export declare type FormComponentValueDataBase = unknown;
+export declare type FormComponentValueDataBase = any;
 /**
  * 表单组件基类
  */
