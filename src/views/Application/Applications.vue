@@ -2,7 +2,7 @@
   <div class="applications d-flex ma-4">
     <v-card
       outlined
-      class="application-list-card flex-grow-0"
+      class="application-list-card flex-grow-0 flex-shrink-0"
     >
       <v-card-title class="d-flex justify-space-between">
         <span>应用列表</span>
@@ -119,7 +119,10 @@
         </v-list>
       </v-skeleton-loader>
     </v-card>
-    <router-view @onApplicationChanged="refreshApplicationList" />
+    <router-view
+      class="application-detail"
+      @onApplicationChanged="refreshApplicationList"
+    />
   </div>
 </template>
 
@@ -215,6 +218,10 @@ export default defineComponent({
       height: calc(100% - 68px);
       overflow: auto;
     }
+  }
+
+  .application-detail {
+    width: calc(100% - 240px);
   }
 }
 </style>
