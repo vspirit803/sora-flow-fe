@@ -223,7 +223,7 @@ export default defineComponent({
     const tab = ref('overview');
     /**所有表头 */
     const headers = computed(() => [
-      { text: '填写人', value: 'account.name', width: 150 },
+      { text: '填写人', value: 'account.nickname', width: 150 },
       ...selectedDataHeaders.value,
     ]);
     /**数据的表头 */
