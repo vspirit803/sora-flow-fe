@@ -11,6 +11,7 @@
     "@mdi/font": "^5.5.55",
     "@vue/composition-api": "1.0.0-beta.11",
     "axios": "^0.19.2",
+    "bson": "^1.1.4",
     "core-js": "^3.6.4",
     "vee-validate": "^3.3.9",
     "vue": "^2.6.12",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/bson": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^3.10.0",
     "@typescript-eslint/parser": "^3.10.0",
     "@vue/cli-plugin-babel": "~4.5.4",

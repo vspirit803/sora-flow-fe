@@ -82,8 +82,8 @@
         @end="draggingType = ''"
       >
         <div
-          v-for="(eachRow, rowIndex) of form.rows"
-          :key="rowIndex"
+          v-for="eachRow of form.rows"
+          :key="eachRow.id"
         >
           <v-container class="pa-0">
             <v-row class="ma-0">
@@ -101,7 +101,7 @@
               >
                 <v-col
                   v-for="eachItem of eachRow.components"
-                  :key="eachItem.symbol"
+                  :key="eachItem.id"
                   class="component pa-0"
                   :class="{ 'component-selected': eachItem === selectedItem }"
                   :cols="draggingType === 'component' || draggingType === 'tool' ? 3 : eachItem.size"
@@ -109,7 +109,7 @@
                 >
                   <div
                     :is="eachItem.type"
-                    :key="eachItem.symbol"
+                    :key="eachItem.id"
                     :item="eachItem"
                     @remove="remove"
                   />
@@ -124,7 +124,7 @@
       <div
         :is="selectedItem.type + 'Detail'"
         v-if="selectedItem"
-        :key="selectedItem.symbol"
+        :key="selectedItem.id"
         class="component-detail"
         :item="selectedItem"
       />
@@ -136,7 +136,7 @@
 import { defineComponent, inject, onMounted, provide, Ref, ref, watch } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
-import { ApplicationsService } from '@/service';
+import { ApplicationRecordsService, ApplicationsService } from '@/service';
 
 import { ComponentFactory, Form, FormComponentModel, formComponents, FormComponentType, FormRow } from './Form';
 

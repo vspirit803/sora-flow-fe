@@ -7,9 +7,9 @@
   >
     <v-radio
       v-for="each of item.options"
-      :key="each.symbol"
+      :key="each.value"
       :value="each.value"
-      :label="each.value"
+      :label="each.text"
     />
   </v-radio-group>
 </template>

@@ -11,7 +11,7 @@
                               align:'center', 
                               sortable: false,
                               filterable: false}]"
-      :items="items"
+      :items="item.value"
       class="my-table elevation-1"
       disable-pagination
       hide-default-footer
@@ -19,22 +19,23 @@
     >
       <template
         v-for="each of headers"
-        v-slot:[`item.${each.value}`]
+        v-slot:[`item.${each.value}`]="{ item: currRow }"
       >
         <div
           :is="each.type + 'Core'"
-          :key="each.name"
-          :item="each.item"
+          :key="each.value"
+          :item="currRow.data[each.value]"
         />
       </template>
       <template
-        v-slot:item.actions
+        v-slot:item.actions="{item: currRow}"
       >
         <IconButton 
           icon
           text
           color="primary"
           title="删除行"
+          @click="onRemoveRow(currRow)"
         >
           <v-icon>mdi-table-row-remove</v-icon>
         </IconButton>
@@ -46,6 +47,7 @@
           block
           color="primary"
           title="添加新行"
+          @click="onAddRow"
         >
           <v-icon>mdi-table-row-plus-after</v-icon>
         </IconButton>
@@ -54,10 +56,12 @@
   </FormComponent>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from '@vue/composition-api';
+import { computed, defineComponent, Ref, ref, watch } from '@vue/composition-api';
+import { ObjectID } from 'bson';
 
-import { FormComponent } from '../base/';
-import { TableModel } from './TableModel';
+import { FormComponent, FormComponentModel } from '../base/';
+import { ComponentFactory } from '../ComponentFactory';
+import { TableModel, TableRowValueData } from './TableModel';
 
 export default defineComponent({
   name: 'Table',
@@ -73,30 +77,73 @@ export default defineComponent({
     const headers = computed(() =>
       item.fields.map((each) => ({
         text: each.title,
-        value: each.title,
+        value: each.id,
         type: each.type,
-        item: each,
+        sortable: false,
         divider: true,
         width: each.size * 30,
       })),
     );
-    const items = computed(() => {
-      const list = [];
-      for (let i = 0; i < item.rowNumber; i++) {
-        list.push({});
-      }
-      return list;
-    });
+    const items: Ref<Record<string, FormComponentModel>[]> = ref([]);
+
+    watch(
+      computed(() => item.fields),
+      () => {
+        const list = [];
+        for (let i = 0; i < item.rowNumber; i++) {
+          const currRow: TableRowValueData = { id: new ObjectID().toHexString(), data: {} };
+          item.fields.forEach((each) => {
+            const id = each.id;
+            currRow.data[id] = ComponentFactory.create(each.model);
+          });
+          list.push(currRow);
+        }
+        item.value = list;
+      },
+      { deep: true },
+    );
+    watch(
+      computed(() => item.rowNumber),
+      (newVal, oldVal) => {
+        if (newVal > oldVal) {
+          // 行数增加
+          for (let i = 0; i < newVal - oldVal; i++) {
+            const currRow: TableRowValueData = { id: new ObjectID().toHexString(), data: {} };
+            item.fields.forEach((each) => {
+              const id = each.id;
+              currRow.data[id] = ComponentFactory.create(each.model);
+            });
+            item.value.push(currRow);
+          }
+        } else {
+          //行数减少
+          for (let i = 0; i < oldVal - newVal; i++) {
+            item.value.pop();
+          }
+        }
+      },
+    );
+
+    //增加行
+    function onAddRow() {
+      const currRow: TableRowValueData = { id: new ObjectID().toHexString(), data: {} };
+      item.fields.forEach((each) => {
+        const id = each.id;
+        currRow.data[id] = ComponentFactory.create(each.model);
+      });
+      item.value.push(currRow);
+    }
+
+    //删除行
+    function onRemoveRow(currRow: TableRowValueData) {
+      item.value = item.value.filter((each) => each !== currRow);
+    }
 
     function onRemove() {
       context.emit('remove', item);
     }
 
-    return {
-      onRemove,
-      headers,
-      items,
-    };
+    return { onAddRow, onRemoveRow, onRemove, headers, items };
   },
 });
 </script>

@@ -36,8 +36,8 @@
       >
         <v-text-field
           v-for="each of item.options"
-          :key="each.symbol"
-          v-model="each.value"
+          :key="each.value"
+          v-model="each.text"
           outlined
           dense
           class="mt-0 pt-0 mb-2"
@@ -74,7 +74,7 @@
         dense
         clearable
         :items="item.options"
-        item-text="value"
+        item-text="text"
         item-value="value"
         @change="onDefaultValueChange"
       />

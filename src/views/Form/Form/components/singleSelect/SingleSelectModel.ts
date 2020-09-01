@@ -1,34 +1,40 @@
-import { FormComponentDataBase, FormComponentModel } from '../base';
+import { ObjectID } from 'bson';
 
-export interface SingleSelectData extends FormComponentDataBase {
-  defaultValue: string;
-  options: Array<{ value: string; symbol: symbol }>;
+import { FormComponentModel, FormComponentModelDataBase } from '../base';
+
+export type SingleSelectValueData = string;
+
+export interface SingleSelectData extends FormComponentModelDataBase {
+  defaultValue: SingleSelectValueData;
+  options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
 }
+
 /**
  * 单选框
  */
 export class SingleSelectModel extends FormComponentModel implements SingleSelectData {
-  defaultValue: string;
-  options: Array<{ value: string; symbol: symbol }>;
+  defaultValue: SingleSelectValueData;
+  options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
 
-  value: string;
+  value: SingleSelectValueData;
   constructor(data?: SingleSelectData) {
     const {
+      id = new ObjectID().toHexString(),
       type = 'SingleSelect',
       title = '单项选择',
       size,
       defaultValue = '',
       options = [
-        { value: '选项1', symbol: Symbol('选项') },
-        { value: '选项2', symbol: Symbol('选项') },
-        { value: '选项3', symbol: Symbol('选项') },
+        { value: new ObjectID().toHexString(), text: '选项1' },
+        { value: new ObjectID().toHexString(), text: '选项2' },
+        { value: new ObjectID().toHexString(), text: '选项3' },
       ],
       direction = 'vertical',
       layout,
     } = data ?? {};
-    super({ type, title, size, layout });
+    super({ id, type, title, size, layout });
 
     this.defaultValue = defaultValue;
     this.options = options;
@@ -38,10 +44,19 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
   }
 
   addOption(optionName = '未命名'): void {
-    this.options.push({ value: optionName, symbol: Symbol('选项') });
+    this.options.push({ value: new ObjectID().toHexString(), text: optionName });
   }
 
   getModel(): SingleSelectData {
-    return { ...super.getModel(), defaultValue: this.defaultValue, options: this.options, direction: this.direction };
+    return {
+      ...super.getModel(),
+      defaultValue: this.defaultValue,
+      options: this.options.map((each) => ({ ...each })),
+      direction: this.direction,
+    };
+  }
+
+  getValueData(): SingleSelectValueData {
+    return this.value;
   }
 }

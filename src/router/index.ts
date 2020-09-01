@@ -50,12 +50,6 @@ const routes = [
     name: 'OrganizationAccounts',
     component: () => import(/* webpackChunkName: "organization" */ '@/views/Organization/Accounts.vue'),
   },
-  // //表单设计
-  // {
-  //   path: '/form/designer',
-  //   name: 'FormDesigner',
-  //   component: () => import(/* webpackChunkName: "form" */ '@/views/Form/FormDesigner.vue'),
-  // },
   //应用列表
   {
     path: '/applications',
@@ -72,7 +66,7 @@ const routes = [
       {
         path: '',
         name: 'NoApplication',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Application/NoApplication.vue'),
+        component: () => import(/* webpackChunkName: "application" */ '@/views/Application/NoApplication.vue'),
       },
     ],
   },
@@ -81,6 +75,13 @@ const routes = [
     path: '/form-design/:id',
     name: 'FormDesigner',
     component: () => import(/* webpackChunkName: "form" */ '@/views/Form/FormDesigner.vue'),
+    props: true,
+  },
+  //表单填写
+  {
+    path: '/form-fill/:id',
+    name: 'FormFiller',
+    component: () => import(/* webpackChunkName: "form" */ '@/views/Form/FormFiller.vue'),
     props: true,
   },
 ];

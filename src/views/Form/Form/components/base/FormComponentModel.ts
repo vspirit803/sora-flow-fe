@@ -1,25 +1,30 @@
+import { ObjectID } from 'bson';
+
 import { FormRow } from '../../FormRow';
 import { FormComponentType } from '../FormComponents';
 
-export interface FormComponentDataBase {
+export interface FormComponentModelDataBase {
+  id?: string;
   type: FormComponentType;
   title?: string;
   size?: number;
   layout?: 'vertical' | 'horizontal';
 }
+
+export declare type FormComponentValueDataBase = any;
 /**
  * 表单组件基类
  */
 export class FormComponentModel {
-  symbol: symbol;
+  id: string;
   type: FormComponentType;
   title: string;
   size: number;
   layout: 'vertical' | 'horizontal';
   _row?: FormRow;
-  constructor(data: FormComponentDataBase) {
-    this.symbol = Symbol('type');
-    const { type, title = '无标题', size = 12, layout = 'vertical' } = data;
+  constructor(data: FormComponentModelDataBase) {
+    const { type, title = '无标题', size = 12, layout = 'vertical', id = new ObjectID().toHexString() } = data;
+    this.id = id;
     this.type = type;
     this.title = title;
     this.size = size;
@@ -35,12 +40,20 @@ export class FormComponentModel {
     this._row?.resize();
   }
 
-  get model(): FormComponentDataBase {
+  get model(): FormComponentModelDataBase {
     return this.getModel();
   }
 
-  getModel(): FormComponentDataBase {
-    return { type: this.type, title: this.title, size: this.size, layout: this.layout };
+  getModel(): FormComponentModelDataBase {
+    return { id: this.id, type: this.type, title: this.title, size: this.size, layout: this.layout };
+  }
+
+  get valueData(): FormComponentValueDataBase {
+    return this.getValueData();
+  }
+
+  getValueData(): FormComponentValueDataBase {
+    return undefined;
   }
 
   get canMoveToPrevRow(): boolean {

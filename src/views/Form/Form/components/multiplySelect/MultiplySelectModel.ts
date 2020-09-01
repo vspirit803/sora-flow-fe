@@ -1,34 +1,40 @@
-import { FormComponentDataBase, FormComponentModel } from '../base';
+import { ObjectID } from 'bson';
 
-export interface MultiplySelectData extends FormComponentDataBase {
-  defaultValue: Array<string>;
-  options: Array<{ value: string; symbol: symbol }>;
+import { FormComponentModel, FormComponentModelDataBase } from '../base';
+
+export type MutiplySelectValueData = Array<string>;
+
+export interface MultiplySelectData extends FormComponentModelDataBase {
+  defaultValue: MutiplySelectValueData;
+  options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
 }
+
 /**
  * 多选框
  */
 export class MultiplySelectModel extends FormComponentModel implements MultiplySelectData {
-  defaultValue: Array<string>;
-  options: Array<{ value: string; symbol: symbol }>;
+  defaultValue: MutiplySelectValueData;
+  options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
 
-  value: Array<string>;
+  value: MutiplySelectValueData;
   constructor(data?: MultiplySelectData) {
     const {
+      id = new ObjectID().toHexString(),
       type = 'MultiplySelect',
       title = '多项选择',
       size,
       defaultValue = [],
       options = [
-        { value: '选项1', symbol: Symbol('选项') },
-        { value: '选项2', symbol: Symbol('选项') },
-        { value: '选项3', symbol: Symbol('选项') },
+        { value: new ObjectID().toHexString(), text: '选项1' },
+        { value: new ObjectID().toHexString(), text: '选项2' },
+        { value: new ObjectID().toHexString(), text: '选项3' },
       ],
       direction = 'vertical',
       layout,
     } = data ?? {};
-    super({ type, title, size, layout });
+    super({ id, type, title, size, layout });
 
     this.defaultValue = [...defaultValue];
     this.options = options;
@@ -38,10 +44,19 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
   }
 
   addOption(optionName = '未命名'): void {
-    this.options.push({ value: optionName, symbol: Symbol('选项') });
+    this.options.push({ value: new ObjectID().toHexString(), text: optionName });
   }
 
   getModel(): MultiplySelectData {
-    return { ...super.getModel(), defaultValue: this.defaultValue, options: this.options, direction: this.direction };
+    return {
+      ...super.getModel(),
+      defaultValue: this.defaultValue,
+      options: this.options.map((each) => ({ ...each })),
+      direction: this.direction,
+    };
+  }
+
+  getValueData(): MutiplySelectValueData {
+    return [...this.value];
   }
 }
