@@ -72,12 +72,6 @@
           value="preview"
         />
       </v-radio-group>
-      <v-btn
-        v-if="formStatus==='preview'"
-        @click="onSubmit"
-      >
-        提交
-      </v-btn>
       <draggable
         v-if="form"
         :disabled="formStatus==='preview'"
@@ -306,11 +300,6 @@ export default defineComponent({
       });
     }
 
-    async function onSubmit() {
-      const data = form.value!.valueData;
-      await ApplicationRecordsService.createApplicationRecord(appId, { data });
-    }
-
     return {
       formStatus,
       form,
@@ -326,7 +315,6 @@ export default defineComponent({
       onSave,
       isOnSaving,
       hasEdited,
-      onSubmit,
     };
   },
 });
