@@ -64,7 +64,7 @@
           </v-tab>
           <v-tab
             href="#all"
-            @change="onTabAll"
+            @change="refreshRecords"
           >
             所有数据 
           </v-tab>
@@ -82,17 +82,73 @@
           value="all"
         >
           <v-card flat>
-            <v-card-text>所有数据 未完成</v-card-text>
+            <!-- 数据表格 -->
             <v-data-table
               class="data-table"
-              :headers="[
-                { text: '填写人', value: 'account.name', width: 150 },
-                /* { text: '填写时间', value: 'createdAt', width: 180 },
-                { text: '修改时间', value: 'updatedAt', width: 180 }, */
-                ...headers
-              ]"
+              :headers="headers"
               :items="records"
             >
+              <template
+                v-slot:top
+              >
+                <!-- 列筛选按钮 -->
+                <v-menu
+                  transition="slide-x-transition"
+                  bottom
+                  right
+                  :close-on-content-click="false"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="deep-orange"
+                      color="primary"
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      选择列
+                    </v-btn>
+                  </template>
+                  <v-list
+                    dense
+                    style="width: 180px;"
+                  >
+                    <v-list-item-group
+                      v-model="selectedDataHeaders"
+                      color="primary"
+                      multiple
+                    >
+                      <template v-for="eachOption of dataHeaders">
+                        <v-list-item
+                          :key="eachOption.field.id"
+                          :value="eachOption"
+                        >
+                          <template v-slot:default="{ active }">
+                            <v-list-item-content>
+                              <v-list-item-title v-text="eachOption.text" />
+                            </v-list-item-content>
+                            <v-list-item-action>
+                              <v-checkbox
+                                :input-value="active"
+                              />
+                            </v-list-item-action>
+                          </template>
+                        </v-list-item>
+                      </template>
+                    </v-list-item-group>
+                  </v-list>
+                </v-menu>
+                <!-- 刷新按钮 -->
+                <v-btn
+                  icon
+                  text
+                  color="primary"
+                  title="刷新列表"
+                  @click="refreshRecords"
+                >
+                  <v-icon>mdi-refresh</v-icon>
+                </v-btn>
+              </template>
               <template
                 v-slot:item.createdAt="{ value }"
               >
@@ -104,7 +160,7 @@
                 {{ new Date(value).toLocaleString() }}
               </template>
               <template
-                v-for="eachField of headers"
+                v-for="eachField of dataHeaders"
                 v-slot:[`item.${eachField.value}`]="{ item: currRow,value }"
               >
                 <template v-if="eachField.field.type ==='SingleSelect'">
@@ -126,7 +182,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, Ref, ref, watch } from '@vue/composition-api';
+import { computed, defineComponent, onMounted, Ref, ref, watch } from '@vue/composition-api';
 
 import { Application, ApplicationRecord, ApplicationRecordsService, ApplicationsService } from '@/service';
 import { useRouter } from '@/use';
@@ -153,14 +209,23 @@ export default defineComponent({
     const editName = ref(false);
     const applicationName = ref('');
     const records: Ref<Array<ApplicationRecord>> = ref([]);
-    const headers = ref([] as Array<unknown>);
+    const tab = ref('overview');
+    /**所有表头 */
+    const headers = computed(() => [
+      { text: '填写人', value: 'account.name', width: 150 },
+      ...selectedDataHeaders.value,
+    ]);
+    /**数据的表头 */
+    const dataHeaders = ref([] as Array<{ text: string; value: string; field: any; width: number }>);
     const fieldsMap: Ref<any> = ref(null);
+    const selectedDataHeaders = ref([] as Array<{ text: string; value: string; field: any; width: number }>);
     onMounted(() => {
       onRouteUpdate(props.id);
     });
 
     async function onRouteUpdate(id: string) {
       application.value = undefined;
+      tab.value = 'overview';
       try {
         const { data } = await ApplicationsService.getApplication(id);
         application.value = data;
@@ -185,14 +250,15 @@ export default defineComponent({
       if (!newVal) {
         return;
       }
+      records.value = [];
       const fields = newVal!.formModel.reduce((prev, curr) => [...prev, ...curr]);
-      const dataHeaders = fields
+      dataHeaders.value = fields
         .filter((eachField) => eachField.type !== 'Description' && eachField.type !== 'Table')
         .map((eachField) => ({
-          text: eachField.title,
+          text: eachField.title!,
           value: `data.${eachField.id}`,
           field: eachField,
-          width: 150,
+          width: 120,
         }));
 
       fieldsMap.value = {};
@@ -201,10 +267,10 @@ export default defineComponent({
         .forEach((eachField) => {
           fieldsMap.value[eachField.id!] = eachField;
         });
-      headers.value = [...dataHeaders];
+      selectedDataHeaders.value = dataHeaders.value;
     });
 
-    async function onTabAll() {
+    async function refreshRecords() {
       const { data } = await ApplicationRecordsService.getApplicationRecords(props.id);
       records.value = data;
     }
@@ -212,14 +278,17 @@ export default defineComponent({
     return {
       application,
       onSubmitApplicationName,
-      tab: ref('overview'),
+      tab,
       editName,
       applicationName,
       onRouteUpdate,
-      onTabAll,
+      refreshRecords,
       records,
       headers,
+      dataHeaders,
       fieldsMap,
+      selectedDataHeaders,
+      headerOptions: computed(() => dataHeaders.value.map((eachField) => ({ text: eachField.text, field: eachField }))),
     };
   },
 });
