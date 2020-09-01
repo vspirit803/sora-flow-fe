@@ -49,6 +49,17 @@
             mdi-wrench
           </v-icon>
         </v-btn>
+        <v-btn
+          class="ml-2"
+          color="primary"
+          title="填写表单"
+          icon
+          :to="{ name: 'FormFiller', params: { id } }"
+        >
+          <v-icon>
+            mdi-pencil-plus
+          </v-icon>
+        </v-btn>
 
         <!-- 选项卡 -->
         <v-tabs
