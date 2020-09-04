@@ -1,8 +1,6 @@
 <template>
   <div class="flex-grow-1 ml-2">
-    <v-container 
-      style="height: 100%;"
-    >
+    <v-container style="height: 100%;">
       <v-row
         justify="space-around"
         align="center"

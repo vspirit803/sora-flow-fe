@@ -3,9 +3,7 @@
     v-if="!selectedField"
     outlined
   >
-    <FormComponentDetailHeader
-      title="表格"
-    />
+    <FormComponentDetailHeader title="表格" />
     <v-divider />
 
     <FormComponentPropsCard name="标题">
@@ -84,7 +82,7 @@
           <v-list>
             <v-list-item
               v-for="(eachComponent) in components"
-              :key="eachComponent.name"
+              :key="eachComponent.type"
               @click="onAddField(eachComponent)"
             >
               <v-list-item-title>{{ eachComponent.text }}</v-list-item-title>

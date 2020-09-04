@@ -3,7 +3,7 @@ import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 
-import { AuthService, ProfileService } from '@/service';
+import { AuthService, MenuTreeItem, ProfileService } from '@/service';
 
 Vue.use(Vuex);
 
@@ -27,24 +27,11 @@ interface Profile {
   organizationName?: string;
 }
 
-interface MenuItem {
-  name: string;
-  namePath: Array<string>;
-  idPath: Array<string>;
-  parentId: string;
-  parentName: string;
-  icon: string;
-  enable: boolean;
-  type: 'directory' | 'item';
-  visible: boolean;
-  children: Array<MenuItem>;
-}
-
 export interface StoreType {
   token: string;
   organizations: Array<Organization>;
   profile?: Profile;
-  menus: Array<MenuItem>;
+  menus: Array<MenuTreeItem>;
   loading: boolean;
   requestCount: number;
   errorMsg: string;
@@ -88,7 +75,7 @@ const store: Store<StoreType> = new Store<StoreType>({
     setProfile: function (state, profile: Profile) {
       state.profile = profile;
     },
-    setMenus: function (state, menus: Array<MenuItem>) {
+    setMenus: function (state, menus: Array<MenuTreeItem>) {
       state.menus = menus;
     },
     setLoading: function (state, loading: boolean) {

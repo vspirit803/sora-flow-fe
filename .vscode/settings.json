@@ -1,7 +1,7 @@
 {
   "prettier.packageManager": "yarn",
   "vetur.validation.template": false,
-  "vetur.format.defaultFormatter.html": "none",
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": true
@@ -10,5 +10,6 @@
   "files.eol": "\n",
   "[vue]": {
     "editor.defaultFormatter": "octref.vetur"
-  }
+  },
+  "vetur.experimental.templateInterpolationService": true
 }

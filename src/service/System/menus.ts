@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 export class MenusService {
-  static getMenus() {
+  static getMenus(): Promise<AxiosResponse<Array<MenuTreeItem>>> {
     return axios.get('menus');
   }
 
@@ -34,6 +34,7 @@ export interface UpdateMenuDto {
   readonly id: string;
   readonly name: string;
   readonly icon?: string;
+  readonly type?: 'directory' | 'item';
   readonly url?: string;
   readonly parentId?: string;
 }

@@ -33,9 +33,7 @@
     </v-list-item>
     <v-divider />
     <v-list expand>
-      <v-list-item-group
-        color="primary"
-      >
+      <v-list-item-group color="primary">
         <!--一级菜单-->
         <draggable
           v-model="menus"
@@ -376,7 +374,7 @@
 import { defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
-import { CreateMenuDto, MenusService, UpdateMenuDto } from '@/service';
+import { CreateMenuDto, MenusService, MenuTreeItem, UpdateMenuDto } from '@/service';
 import { useStore } from '@/use';
 
 export default defineComponent({
@@ -384,7 +382,7 @@ export default defineComponent({
   components: { draggable },
   setup() {
     const store = useStore();
-    const menus = ref([]);
+    const menus: Ref<Array<MenuTreeItem>> = ref([]);
     const dialogVisible = ref(false);
     const dialogTitle = ref('');
     const menuModel: Ref<CreateMenuDto | UpdateMenuDto> = ref({
@@ -405,7 +403,7 @@ export default defineComponent({
       refresh();
     });
 
-    function createMenu(parent: { id: string }, type: 'directory' | 'item') {
+    function createMenu(parent: { id: string } | undefined, type: 'directory' | 'item') {
       dialogTitle.value = `创建${type === 'directory' ? '菜单' : '菜单项'}`;
       menuModel.value = {
         name: '',

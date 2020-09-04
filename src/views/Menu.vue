@@ -1,9 +1,7 @@
 <template>
   <v-list expand>
     <!--一级菜单-->
-    <v-list-item-group
-      color="primary"
-    >
+    <v-list-item-group color="primary">
       <template v-for="each of menus">
         <v-list-item
           v-if="each.type === 'item'"

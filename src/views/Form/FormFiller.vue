@@ -13,9 +13,7 @@
       v-else
       class="form-card flex-grow-1 flex-shrink-1 purple lighten-1 pa-2 form-preview"
     >
-      <v-btn
-        @click="onSubmit"
-      >
+      <v-btn @click="onSubmit">
         提交
       </v-btn>
       <div
@@ -29,7 +27,6 @@
               :key="eachItem.id"
               class="component pa-0"
               :cols="eachItem.size"
-              @click="select(eachItem)"
             >
               <div
                 :is="eachItem.type"

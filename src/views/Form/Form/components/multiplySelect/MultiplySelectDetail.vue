@@ -28,7 +28,7 @@
       :item="item"
     />
     <v-divider />
-    
+
     <FormComponentPropsCard name="选项">
       <draggable
         v-model="item.options"
@@ -44,14 +44,10 @@
           hide-details
         >
           <template slot="prepend">
-            <v-icon
-              class="drag-handle"
-            >
+            <v-icon class="drag-handle">
               mdi-drag
             </v-icon>
-            <v-icon
-              @click="deleteOption(each)"
-            >
+            <v-icon @click="deleteOption(each)">
               mdi-delete
             </v-icon>
           </template>
@@ -84,9 +80,7 @@
     <v-divider />
 
     <FormComponentPropsCard name="选项布局">
-      <v-radio-group
-        v-model="item.direction"
-      >
+      <v-radio-group v-model="item.direction">
         <v-radio
           value="vertical"
           label=" 垂直"

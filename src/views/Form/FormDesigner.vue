@@ -14,9 +14,7 @@
       </v-btn>
     </v-fab-transition>
     <v-card class="components-container-card flex-grow-0 flex-shrink-0 align-self-start ma-2">
-      <v-container
-        class="components-container grey lighten-5"
-      >
+      <v-container class="components-container grey lighten-5">
         <v-row no-gutters>
           <draggable
             class="components d-flex flex-wrap"

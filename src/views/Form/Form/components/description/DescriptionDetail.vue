@@ -1,8 +1,6 @@
 <template>
   <v-card outlined>
-    <FormComponentDetailHeader
-      title="描述文字"
-    />
+    <FormComponentDetailHeader title="描述文字" />
     <v-divider />
 
     <FormComponentPropsCard name="描述文字">
@@ -14,7 +12,7 @@
       />
     </FormComponentPropsCard>
     <v-divider />
-    
+
     <FormComponentSizeAdjuster :item="item" />
   </v-card>
 </template>

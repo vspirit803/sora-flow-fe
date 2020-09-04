@@ -5,12 +5,10 @@
   >
     <span class="mt-1">{{ item.title }}</span>
     <v-data-table
-      :headers="[...headers,{ text: '操作',
-                              value: 'actions',
-                              width: 80,
-                              align:'center', 
-                              sortable: false,
-                              filterable: false}]"
+      :headers="[
+        ...headers,
+        { text: '操作', value: 'actions', width: 80, align: 'center', sortable: false, filterable: false },
+      ]"
       :items="item.value"
       class="my-table elevation-1"
       disable-pagination
@@ -27,10 +25,8 @@
           :item="currRow.data[each.value]"
         />
       </template>
-      <template
-        v-slot:item.actions="{item: currRow}"
-      >
-        <IconButton 
+      <template v-slot:item.actions="{ item: currRow }">
+        <IconButton
           icon
           text
           color="primary"
@@ -41,7 +37,7 @@
         </IconButton>
       </template>
       <template v-slot:footer>
-        <IconButton 
+        <IconButton
           icon
           text
           block

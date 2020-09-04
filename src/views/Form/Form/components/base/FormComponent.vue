@@ -46,7 +46,7 @@
       >
         mdi-delete
       </v-icon>
-      <div 
+      <div
         class="d-flex"
         :class="{'flex-column':item.layout!=='horizontal','content-inline':item.layout==='horizontal'}"
       >

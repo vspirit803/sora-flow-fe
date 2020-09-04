@@ -6,7 +6,7 @@
       @back="onBack"
     />
     <v-divider />
-  
+
     <FormComponentPropsCard name="标题">
       <v-text-field
         v-model="item.title"
@@ -16,7 +16,7 @@
       />
     </FormComponentPropsCard>
     <v-divider />
-   
+
     <FormComponentSizeAdjuster
       :item="item"
       :is-table-field="isTableField"
@@ -28,7 +28,7 @@
       :item="item"
     />
     <v-divider />
-    
+
     <FormComponentPropsCard name="默认文本">
       <v-text-field
         v-model="item.defaultValue"

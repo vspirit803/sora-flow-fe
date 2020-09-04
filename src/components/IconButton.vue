@@ -7,7 +7,7 @@
   >
     <slot />
     <span
-      v-if="!iconMode" 
+      v-if="!iconMode"
       class="ml-2"
     >{{ $attrs.title }}</span>
   </v-btn>

@@ -9,9 +9,7 @@
       class="mx-2"
     >
       <v-card-title>
-        <v-chip
-          v-if="!editName"
-        >
+        <v-chip v-if="!editName">
           {{ applicationName }}
           <v-btn
             class="ml-2"
@@ -26,7 +24,7 @@
           </v-btn>
         </v-chip>
         <div
-          v-else 
+          v-else
           style="width: 200px;"
         >
           <v-text-field
@@ -68,30 +66,24 @@
           :height="36"
           style="width: unset;"
         >
-          <v-tab
-            href="#overview"
-          >
-            概览 
+          <v-tab href="#overview">
+            概览
           </v-tab>
           <v-tab
             href="#all"
             @change="refreshRecords"
           >
-            所有数据 
+            所有数据
           </v-tab>
         </v-tabs>
       </v-card-title>
       <v-tabs-items v-model="tab">
-        <v-tab-item
-          value="overview"
-        >
+        <v-tab-item value="overview">
           <v-card flat>
             <v-card-text>概览 未完成</v-card-text>
           </v-card>
         </v-tab-item>
-        <v-tab-item
-          value="all"
-        >
+        <v-tab-item value="all">
           <v-card flat>
             <!-- 数据表格 -->
             <v-data-table
@@ -99,9 +91,7 @@
               :headers="headers"
               :items="records"
             >
-              <template
-                v-slot:top
-              >
+              <template v-slot:top>
                 <!-- 列筛选按钮 -->
                 <v-menu
                   transition="slide-x-transition"
@@ -139,9 +129,7 @@
                               <v-list-item-title v-text="eachOption.text" />
                             </v-list-item-content>
                             <v-list-item-action>
-                              <v-checkbox
-                                :input-value="active"
-                              />
+                              <v-checkbox :input-value="active" />
                             </v-list-item-action>
                           </template>
                         </v-list-item>
@@ -160,14 +148,10 @@
                   <v-icon>mdi-refresh</v-icon>
                 </v-btn>
               </template>
-              <template
-                v-slot:item.createdAt="{ value }"
-              >
+              <template v-slot:item.createdAt="{ value }">
                 {{ new Date(value).toLocaleString() }}
               </template>
-              <template
-                v-slot:item.updatedAt="{ value }"
-              >
+              <template v-slot:item.updatedAt="{ value }">
                 {{ new Date(value).toLocaleString() }}
               </template>
               <template

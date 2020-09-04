@@ -1,7 +1,5 @@
 <template>
-  <FormComponentPropsCard
-    :name="isTableField ? '最小宽度(px)' : '宽度 (%)'"
-  >
+  <FormComponentPropsCard :name="isTableField ? '最小宽度(px)' : '宽度 (%)'">
     <v-btn-toggle
       class="d-flex"
       mandatory
