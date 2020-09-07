@@ -246,7 +246,7 @@ export default defineComponent({
         return;
       }
       records.value = [];
-      const fields = newVal!.formModel.reduce((prev, curr) => [...prev, ...curr]);
+      const fields = newVal!.formModel.reduce((prev, curr) => [...prev, ...curr], []);
       dataHeaders.value = fields
         .filter((eachField) => eachField.type !== 'Description' && eachField.type !== 'Table')
         .map((eachField) => ({
