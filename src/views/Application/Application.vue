@@ -156,7 +156,7 @@
               </template>
               <template
                 v-for="eachField of dataHeaders"
-                v-slot:[`item.${eachField.value}`]="{ item: currRow,value }"
+                v-slot:[`item.${eachField.value}`]="{ item: currRow, value }"
               >
                 <template v-if="eachField.field.type ==='SingleSelect'">
                   {{ eachField.field.options.find((eachOption)=>eachOption.value===value).text }}
@@ -212,7 +212,6 @@ export default defineComponent({
     ]);
     /**数据的表头 */
     const dataHeaders = ref([] as Array<{ text: string; value: string; field: any; width: number }>);
-    const fieldsMap: Ref<any> = ref(null);
     const selectedDataHeaders = ref([] as Array<{ text: string; value: string; field: any; width: number }>);
     onMounted(() => {
       onRouteUpdate(props.id);
@@ -256,12 +255,6 @@ export default defineComponent({
           width: 120,
         }));
 
-      fieldsMap.value = {};
-      fields
-        .filter((eachField) => eachField.type !== 'Description' && eachField.type !== 'Table')
-        .forEach((eachField) => {
-          fieldsMap.value[eachField.id!] = eachField;
-        });
       selectedDataHeaders.value = dataHeaders.value;
     });
 
@@ -281,7 +274,6 @@ export default defineComponent({
       records,
       headers,
       dataHeaders,
-      fieldsMap,
       selectedDataHeaders,
       headerOptions: computed(() => dataHeaders.value.map((eachField) => ({ text: eachField.text, field: eachField }))),
     };
