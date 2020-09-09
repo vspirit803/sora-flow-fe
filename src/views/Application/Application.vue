@@ -329,7 +329,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .data-table {
   /deep/ & > .v-data-table__wrapper th:first-child,
-  /deep/ & > .v-data-table__wrapper td:first-child {
+  /deep/ & > .v-data-table__wrapper > table > tbody > tr > td:first-child {
     position: sticky;
     left: 0;
     border-right: thin solid rgba(0, 0, 0, 0.12);
