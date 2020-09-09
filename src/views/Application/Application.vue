@@ -154,6 +154,51 @@
               <template v-slot:item.updatedAt="{ value }">
                 {{ new Date(value).toLocaleString() }}
               </template>
+              <template v-slot:item.nestedTable>
+                <v-data-table
+                  :headers="[
+                    {
+                      text: 'Dessert (100g serving)',
+                      align: 'start',
+                      value: 'name',
+                    },
+                    { text: 'Calories', value: 'calories' },
+                    { text: 'Fat (g)', value: 'fat' },
+                    { text: 'Carbs (g)', value: 'carbs' },
+                    { text: 'Protein (g)', value: 'protein' },
+                    { text: 'Iron (%)', value: 'iron' },
+                  ]"
+                  :items="[
+                    {
+                      name: 'Frozen Yogurt',
+                      calories: 159,
+                      fat: 6.0,
+                      carbs: 24,
+                      protein: 4.0,
+                      iron: '1%',
+                    },
+                    {
+                      name: 'Ice cream sandwich',
+                      calories: 237,
+                      fat: 9.0,
+                      carbs: 37,
+                      protein: 4.3,
+                      iron: '1%',
+                    },
+                    {
+                      name: 'Eclair',
+                      calories: 262,
+                      fat: 16.0,
+                      carbs: 23,
+                      protein: 6.0,
+                      iron: '7%',
+                    },
+                  ]"
+                  dense
+                  hide-default-header
+                  hide-default-footer
+                />
+              </template>
               <template
                 v-for="eachField of dataHeaders"
                 v-slot:[`item.${eachField.value}`]="{ item: currRow, value }"
@@ -209,6 +254,7 @@ export default defineComponent({
     const headers = computed(() => [
       { text: '填写人', value: 'account.nickname', width: 150 },
       ...selectedDataHeaders.value,
+      { text: '嵌套表格', value: 'nestedTable', width: 300 },
     ]);
     /**数据的表头 */
     const dataHeaders = ref([] as Array<{ text: string; value: string; field: any; width: number }>);
@@ -282,8 +328,8 @@ export default defineComponent({
 </script>
 <style lang="less" scoped>
 .data-table {
-  /deep/ th:first-child,
-  /deep/ td:first-child {
+  /deep/ & > .v-data-table__wrapper th:first-child,
+  /deep/ & > .v-data-table__wrapper td:first-child {
     position: sticky;
     left: 0;
     border-right: thin solid rgba(0, 0, 0, 0.12);
