@@ -148,56 +148,31 @@
                   <v-icon>mdi-refresh</v-icon>
                 </v-btn>
               </template>
+              <template
+                v-for="eachField of dataHeaders.filter((eachField)=>eachField.field.type ==='Table')"
+                v-slot:[`header.${eachField.value}`]="{ header }"
+              >
+                {{ header.text }}
+                <v-simple-table :key="eachField.value">
+                  <tbody>
+                    <tr>
+                      <td
+                        v-for="eachCol of eachField.field.fields"
+                        :key="eachCol.id"
+                        style="width: 80px; font-size: 0.75rem; color: rgba(0, 0, 0, 0.6);"
+                      >
+                        {{ eachCol.title }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-simple-table>
+              </template>
+
               <template v-slot:item.createdAt="{ value }">
                 {{ new Date(value).toLocaleString() }}
               </template>
               <template v-slot:item.updatedAt="{ value }">
                 {{ new Date(value).toLocaleString() }}
-              </template>
-              <template v-slot:item.nestedTable>
-                <v-data-table
-                  :headers="[
-                    {
-                      text: 'Dessert (100g serving)',
-                      align: 'start',
-                      value: 'name',
-                    },
-                    { text: 'Calories', value: 'calories' },
-                    { text: 'Fat (g)', value: 'fat' },
-                    { text: 'Carbs (g)', value: 'carbs' },
-                    { text: 'Protein (g)', value: 'protein' },
-                    { text: 'Iron (%)', value: 'iron' },
-                  ]"
-                  :items="[
-                    {
-                      name: 'Frozen Yogurt',
-                      calories: 159,
-                      fat: 6.0,
-                      carbs: 24,
-                      protein: 4.0,
-                      iron: '1%',
-                    },
-                    {
-                      name: 'Ice cream sandwich',
-                      calories: 237,
-                      fat: 9.0,
-                      carbs: 37,
-                      protein: 4.3,
-                      iron: '1%',
-                    },
-                    {
-                      name: 'Eclair',
-                      calories: 262,
-                      fat: 16.0,
-                      carbs: 23,
-                      protein: 6.0,
-                      iron: '7%',
-                    },
-                  ]"
-                  dense
-                  hide-default-header
-                  hide-default-footer
-                />
               </template>
               <template
                 v-for="eachField of dataHeaders"
@@ -208,6 +183,32 @@
                 </template>
                 <template v-else-if="eachField.field.type ==='MultiplySelect'">
                   {{ value.map((eachValue)=>(eachField.field.options.find((eachOption)=>eachOption.value===eachValue).text)) }}
+                </template>
+                <template v-else-if="eachField.field.type ==='Table'">
+                  <v-simple-table :key="eachField.value">
+                    <tbody>
+                      <tr
+                        v-for="eachRow of value"
+                        :key="eachRow.name"
+                      >
+                        <td
+                          v-for="eachCol of eachField.field.fields"
+                          :key="eachCol.id"
+                          style="width: 80px;"
+                        >
+                          <template v-if="eachCol.type ==='SingleSelect'">
+                            {{ eachCol.options.find((eachOption) => eachOption.value === value).text }}
+                          </template>
+                          <template v-else-if="eachCol.type ==='MultiplySelect'">
+                            {{ value.map((eachValue) => (eachCol.options.find((eachOption) => eachOption.value === eachValue).text)) }}
+                          </template>
+                          <template v-else>
+                            {{ eachRow.data[eachCol.id] }}
+                          </template>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </v-simple-table>
                 </template>
                 <template v-else>
                   {{ value }}
@@ -227,7 +228,7 @@ import { computed, defineComponent, onMounted, Ref, ref, watch } from '@vue/comp
 import { Application, ApplicationRecord, ApplicationRecordsService, ApplicationsService } from '@/service';
 import { useRouter } from '@/use';
 
-import { FormModel } from '../Form/Form';
+import { FormModel, TableData } from '../Form/Form';
 
 const router = useRouter();
 export default defineComponent({
@@ -252,9 +253,8 @@ export default defineComponent({
     const tab = ref('overview');
     /**所有表头 */
     const headers = computed(() => [
-      { text: '填写人', value: 'account.nickname', width: 150 },
+      { text: '填写人', value: 'account.nickname', width: 150, class: 'fillter' },
       ...selectedDataHeaders.value,
-      { text: '嵌套表格', value: 'nestedTable', width: 300 },
     ]);
     /**数据的表头 */
     const dataHeaders = ref([] as Array<{ text: string; value: string; field: any; width: number }>);
@@ -293,12 +293,13 @@ export default defineComponent({
       records.value = [];
       const fields = newVal!.formModel.reduce((prev, curr) => [...prev, ...curr], []);
       dataHeaders.value = fields
-        .filter((eachField) => eachField.type !== 'Description' && eachField.type !== 'Table')
+        .filter((eachField) => eachField.type !== 'Description')
         .map((eachField) => ({
           text: eachField.title!,
           value: `data.${eachField.id}`,
           field: eachField,
-          width: 120,
+          width: eachField.type !== 'Table' ? 120 : (eachField as TableData).fields.length * 100,
+          sortable: eachField.type !== 'Table',
         }));
 
       selectedDataHeaders.value = dataHeaders.value;
