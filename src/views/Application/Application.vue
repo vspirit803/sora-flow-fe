@@ -87,6 +87,7 @@
           <v-card flat>
             <!-- 数据表格 -->
             <v-data-table
+              v-if="false"
               class="data-table"
               :headers="headers"
               :items="records"
@@ -216,6 +217,101 @@
               </template>
             </v-data-table>
           </v-card>
+          <v-card flat>
+            <div>
+              <!-- 列筛选按钮 -->
+              <v-menu
+                transition="slide-x-transition"
+                bottom
+                right
+                :close-on-content-click="false"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    class="deep-orange"
+                    color="primary"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    选择列
+                  </v-btn>
+                </template>
+                <v-list
+                  dense
+                  style="width: 180px;"
+                >
+                  <v-list-item-group
+                    v-model="selectedDataHeaders"
+                    color="primary"
+                    multiple
+                  >
+                    <template v-for="eachOption of dataHeaders">
+                      <v-list-item
+                        :key="eachOption.field.id"
+                        :value="eachOption"
+                      >
+                        <template v-slot:default="{ active }">
+                          <v-list-item-content>
+                            <v-list-item-title v-text="eachOption.text" />
+                          </v-list-item-content>
+                          <v-list-item-action>
+                            <v-checkbox :input-value="active" />
+                          </v-list-item-action>
+                        </template>
+                      </v-list-item>
+                    </template>
+                  </v-list-item-group>
+                </v-list>
+              </v-menu>
+              <!-- 刷新按钮 -->
+              <v-btn
+                icon
+                text
+                color="primary"
+                title="刷新列表"
+                @click="refreshRecords"
+              >
+                <v-icon>mdi-refresh</v-icon>
+              </v-btn>
+            </div>
+            <v-simple-table>
+              <thead>
+                <tr>
+                  <th
+                    v-for="eachField of dataHeaders"
+                    :key="eachField.value"
+                    :colspan="eachField.field.type !== 'Table' ? 1 : eachField.field.fields.length"
+                    :rowspan="eachField.field.type !== 'Table' ? 2 : 1"
+                    :style="{'min-width': (eachField.field.type !== 'Table' ? 120 : eachField.field.fields.length * 100) + 'px',
+                             'text-align': eachField.field.type !== 'Table' ? 'left' : 'center'
+                    }"
+                  >
+                    {{ eachField.text }}
+                  </th>
+                </tr>
+                <tr>
+                  <template v-for="eachField of dataHeaders.filter(eachField => eachField.field.type === 'Table')">
+                    <th
+                      v-for="eachNestedField of eachField.field.fields"
+                      :key="eachNestedField.id"
+                    >
+                      {{ eachNestedField.title }}
+                    </th>
+                  </template>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="eachRecord of records"
+                  :key="eachRecord.id"
+                >
+                  <td>{{ eachRecord.data }}</td>
+                  <td>{{ calculateRowNumber(eachRecord) }}</td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+          </v-card>
         </v-tab-item>
       </v-tabs-items>
     </v-skeleton-loader>
@@ -227,6 +323,7 @@ import { computed, defineComponent, onMounted, Ref, ref, watch } from '@vue/comp
 
 import { Application, ApplicationRecord, ApplicationRecordsService, ApplicationsService } from '@/service';
 import { useRouter } from '@/use';
+import { lcms } from '@/utils/gcd';
 
 import { FormModel, TableData } from '../Form/Form';
 
@@ -310,6 +407,14 @@ export default defineComponent({
       records.value = data;
     }
 
+    function calculateRowNumber(record: ApplicationRecord): number {
+      const rows: Array<number> = [];
+      Object.keys(record.data).forEach((eachKey) => {
+        rows.push(Array.isArray(record.data[eachKey]) ? record.data[eachKey].length : 1);
+      });
+      return lcms(rows);
+    }
+
     return {
       application,
       onSubmitApplicationName,
@@ -323,6 +428,7 @@ export default defineComponent({
       dataHeaders,
       selectedDataHeaders,
       headerOptions: computed(() => dataHeaders.value.map((eachField) => ({ text: eachField.text, field: eachField }))),
+      calculateRowNumber,
     };
   },
 });
