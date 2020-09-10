@@ -275,26 +275,28 @@
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
             </div>
-            <v-simple-table>
+            <v-simple-table style="border-collapse: collapse;">
               <thead>
                 <tr>
                   <th
-                    v-for="eachField of dataHeaders"
+                    v-for="eachField of selectedDataHeaders"
                     :key="eachField.value"
                     :colspan="eachField.field.type !== 'Table' ? 1 : eachField.field.fields.length"
                     :rowspan="eachField.field.type !== 'Table' ? 2 : 1"
+                    style="border: thin solid rgba(0, 0, 0, 0.12)"
                     :style="{'min-width': (eachField.field.type !== 'Table' ? 120 : eachField.field.fields.length * 100) + 'px',
-                             'text-align': eachField.field.type !== 'Table' ? 'left' : 'center'
+                             'text-align': eachField.field.type !== 'Table' ? 'left' : 'center',
                     }"
                   >
                     {{ eachField.text }}
                   </th>
                 </tr>
                 <tr>
-                  <template v-for="eachField of dataHeaders.filter(eachField => eachField.field.type === 'Table')">
+                  <template v-for="eachField of selectedDataHeaders.filter(eachField => eachField.field.type === 'Table')">
                     <th
                       v-for="eachNestedField of eachField.field.fields"
                       :key="eachNestedField.id"
+                      style="border: thin solid rgba(0, 0, 0, 0.12)"
                     >
                       {{ eachNestedField.title }}
                     </th>
@@ -302,13 +304,52 @@
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  v-for="eachRecord of records"
-                  :key="eachRecord.id"
-                >
-                  <td>{{ eachRecord.data }}</td>
-                  <td>{{ calculateRowNumber(eachRecord) }}</td>
-                </tr>
+                <template v-for="eachRecord of records">
+                  <tr
+                    v-for="index of calculateRowNumber(eachRecord)"
+                    :key="eachRecord.id + index"
+                  >
+                    <template v-for="eachField of selectedDataHeaders">
+                      <td
+                        v-if="eachField.field.type !== 'Table' && index === 1"
+                        :key="eachField.field.id"
+                        style="border: thin solid rgba(0, 0, 0, 0.12)"
+                        :rowspan="calculateRowNumber(eachRecord)"
+                      >
+                        <template v-if="eachField.field.type ==='SingleSelect'">
+                          {{ eachField.field.options.find((eachOption) => eachOption.value === eachRecord.data[eachField.field.id]).text }}
+                        </template>
+                        <template v-else-if="eachField.field.type ==='MultiplySelect'">
+                          {{ eachRecord.data[eachField.field.id].map((eachValue) => (eachField.field.options.find((eachOption) => eachOption.value === eachValue).text)) }}
+                        </template>
+                        <template v-else>
+                          {{ eachRecord.data[eachField.field.id] }}
+                        </template>
+                      </td>
+
+                      <template v-else-if="eachField.field.type === 'Table' && eachRecord.data[eachField.field.id].length && (index - 1) % (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length) === 0">
+                        <td
+                          v-for="eachNestedField of eachField.field.fields"
+                          :key="eachNestedField.id"
+                          style="border: thin solid rgba(0, 0, 0, 0.12)"
+                          :rowspan="calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length"
+                        >
+                          {{ eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id] }}
+                        </td>
+                      </template>
+                      <template v-else-if="eachField.field.type === 'Table' && !eachRecord.data[eachField.field.id].length && index === 1">
+                        <td
+                          v-for="eachNestedField of eachField.field.fields"
+                          :key="eachNestedField.id"
+                          style="border: thin solid rgba(0, 0, 0, 0.12)"
+                          :rowspan="calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length"
+                        />
+                      </template>
+                    </template>
+
+                    <!-- <td>{{ calculateRowNumber(eachRecord) }}</td> -->
+                  </tr>
+                </template>
               </tbody>
             </v-simple-table>
           </v-card>
@@ -434,15 +475,15 @@ export default defineComponent({
 });
 </script>
 <style lang="less" scoped>
-.data-table {
-  /deep/ & > .v-data-table__wrapper th:first-child,
-  /deep/ & > .v-data-table__wrapper > table > tbody > tr > td:first-child {
-    position: sticky;
-    left: 0;
-    border-right: thin solid rgba(0, 0, 0, 0.12);
-    background: white;
+// .data-table {
+//   /deep/ & > .v-data-table__wrapper th:first-child,
+//   /deep/ & > .v-data-table__wrapper > table > tbody > tr > td:first-child {
+//     position: sticky;
+//     left: 0;
+//     border-right: thin solid rgba(0, 0, 0, 0.12);
+//     background: white;
 
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12) !important;
-  }
-}
+//     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12) !important;
+//   }
+// }
 </style>
