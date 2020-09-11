@@ -179,13 +179,13 @@
                 v-for="eachField of dataHeaders"
                 v-slot:[`item.${eachField.value}`]="{ item: currRow, value }"
               >
-                <template v-if="eachField.field.type ==='SingleSelect'">
-                  {{ eachField.field.options.find((eachOption)=>eachOption.value===value).text }}
+                <template v-if="eachField.field.type === 'SingleSelect'">
+                  {{ eachField.field.options.find((eachOption) => eachOption.value === value).text }}
                 </template>
-                <template v-else-if="eachField.field.type ==='MultiplySelect'">
-                  {{ value.map((eachValue)=>(eachField.field.options.find((eachOption)=>eachOption.value===eachValue).text)) }}
+                <template v-else-if="eachField.field.type === 'MultiplySelect'">
+                  {{ value.map((eachValue) => (eachField.field.options.find((eachOption) => eachOption.value === eachValue).text)) }}
                 </template>
-                <template v-else-if="eachField.field.type ==='Table'">
+                <template v-else-if="eachField.field.type === 'Table'">
                   <v-simple-table :key="eachField.value">
                     <tbody>
                       <tr
@@ -279,6 +279,13 @@
               <thead>
                 <tr>
                   <th
+                    :rowspan="2"
+                    style="border: thin solid rgba(0, 0, 0, 0.12)"
+                    :style="{ 'min-width': '120px' }"
+                  >
+                    填表人
+                  </th>
+                  <th
                     v-for="eachField of selectedDataHeaders"
                     :key="eachField.value"
                     :colspan="eachField.field.type !== 'Table' ? 1 : eachField.field.fields.length"
@@ -309,7 +316,17 @@
                     v-for="index of calculateRowNumber(eachRecord)"
                     :key="eachRecord.id + index"
                   >
+                    <td
+                      v-if="index === 1"
+                      :key="eachRecord.id"
+                      style="border: thin solid rgba(0, 0, 0, 0.12)"
+                      :style="{ 'min-width': '120px' }"
+                      :rowspan="calculateRowNumber(eachRecord)"
+                    >
+                      {{ eachRecord.account.nickname }}
+                    </td>
                     <template v-for="eachField of selectedDataHeaders">
+                      <!-- 表中主字段 -->
                       <td
                         v-if="eachField.field.type !== 'Table' && index === 1"
                         :key="eachField.field.id"
@@ -326,7 +343,7 @@
                           {{ eachRecord.data[eachField.field.id] }}
                         </template>
                       </td>
-
+                      <!-- 表格字段 -->
                       <template v-else-if="eachField.field.type === 'Table' && eachRecord.data[eachField.field.id].length && (index - 1) % (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length) === 0">
                         <td
                           v-for="eachNestedField of eachField.field.fields"
@@ -337,6 +354,7 @@
                           {{ eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id] }}
                         </td>
                       </template>
+                      <!-- 表格字段为空 -->
                       <template v-else-if="eachField.field.type === 'Table' && !eachRecord.data[eachField.field.id].length && index === 1">
                         <td
                           v-for="eachNestedField of eachField.field.fields"
@@ -486,4 +504,13 @@ export default defineComponent({
 //     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12) !important;
 //   }
 // }
+
+.float-left {
+  position: sticky;
+  left: 0;
+  border-right: thin solid rgba(0, 0, 0, 0.12);
+  // background: white;
+
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12) !important;
+}
 </style>
