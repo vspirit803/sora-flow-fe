@@ -13,6 +13,9 @@ import {
   MultiplySelect,
   MultiplySelectCore,
   MultiplySelectDetail,
+  NumberInput,
+  NumberInputCore,
+  NumberInputDetail,
   SingleLineInput,
   SingleLineInputCore,
   SingleLineInputDetail,
@@ -41,6 +44,10 @@ export default {
     Vue.component('SingleLineInput', SingleLineInput);
     Vue.component('SingleLineInputCore', SingleLineInputCore);
     Vue.component('SingleLineInputDetail', SingleLineInputDetail);
+
+    Vue.component('NumberInput', NumberInput);
+    Vue.component('NumberInputCore', NumberInputCore);
+    Vue.component('NumberInputDetail', NumberInputDetail);
 
     Vue.component('SingleSelect', SingleSelect);
     Vue.component('SingleSelectCore', SingleSelectCore);

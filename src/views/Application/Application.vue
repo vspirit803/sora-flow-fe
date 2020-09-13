@@ -351,7 +351,16 @@
                           style="border: thin solid rgba(0, 0, 0, 0.12)"
                           :rowspan="calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length"
                         >
-                          {{ eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id] }}
+                          <!-- {{ eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id] }} -->
+                          <template v-if="eachField.field.type ==='SingleSelect'">
+                            {{ eachNestedField.field.options.find((eachOption) => eachOption.value === eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id]).text }}
+                          </template>
+                          <template v-else-if="eachField.field.type ==='MultiplySelect'">
+                            {{ eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id].map((eachValue) => (eachNestedField.field.options.find((eachOption) => eachOption.value === eachValue).text)) }}
+                          </template>
+                          <template v-else>
+                            {{ eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id] }}
+                          </template>
                         </td>
                       </template>
                       <!-- 表格字段为空 -->

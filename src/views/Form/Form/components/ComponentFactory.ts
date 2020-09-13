@@ -2,6 +2,7 @@ import { FormComponentModel, FormComponentModelDataBase } from './base';
 import { DescriptionData, DescriptionModel } from './description';
 import { MultiplyLineInputData, MultiplyLineInputModel } from './multiplyLineInput';
 import { MultiplySelectData, MultiplySelectModel } from './multiplySelect';
+import { NumberInputData, NumberInputModel } from './numberInput';
 import { SingleLineInputData, SingleLineInputModel } from './singleLineInput';
 import { SingleSelectData, SingleSelectModel } from './singleSelect';
 import { TableData, TableModel } from './table';
@@ -14,6 +15,8 @@ export class ComponentFactory {
         return new DescriptionModel(data as DescriptionData);
       case 'SingleLineInput':
         return new SingleLineInputModel(data as SingleLineInputData);
+      case 'NumberInput':
+        return new NumberInputModel(data as NumberInputData);
       case 'MultiplyLineInput':
         return new MultiplyLineInputModel(data as MultiplyLineInputData);
       case 'SingleSelect':
