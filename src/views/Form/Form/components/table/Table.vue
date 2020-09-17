@@ -21,6 +21,7 @@
       >
         <div
           :is="each.type + 'Core'"
+          v-if="currRow.data[each.value]"
           :key="each.value"
           :item="currRow.data[each.value]"
         />

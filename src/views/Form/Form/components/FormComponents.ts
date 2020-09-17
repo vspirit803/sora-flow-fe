@@ -1,6 +1,7 @@
 export type FormComponentType =
   | 'Description'
   | 'SingleLineInput'
+  | 'NumberInput'
   | 'MultiplyLineInput'
   | 'SingleSelect'
   | 'MultiplySelect'
@@ -19,6 +20,11 @@ export const formComponents: Array<{
   {
     type: 'SingleLineInput',
     text: '单行文字',
+    enabledInTable: true,
+  },
+  {
+    type: 'NumberInput',
+    text: '数字',
     enabledInTable: true,
   },
   {
