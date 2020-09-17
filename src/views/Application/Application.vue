@@ -87,6 +87,7 @@
           <v-card flat>
             <!-- 数据表格 -->
             <v-data-table
+              v-if="false"
               class="data-table"
               :headers="headers"
               :items="records"
@@ -148,6 +149,26 @@
                   <v-icon>mdi-refresh</v-icon>
                 </v-btn>
               </template>
+              <template
+                v-for="eachField of dataHeaders.filter((eachField)=>eachField.field.type ==='Table')"
+                v-slot:[`header.${eachField.value}`]="{ header }"
+              >
+                {{ header.text }}
+                <v-simple-table :key="eachField.value">
+                  <tbody>
+                    <tr>
+                      <td
+                        v-for="eachCol of eachField.field.fields"
+                        :key="eachCol.id"
+                        style="width: 80px; font-size: 0.75rem; color: rgba(0, 0, 0, 0.6);"
+                      >
+                        {{ eachCol.title }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-simple-table>
+              </template>
+
               <template v-slot:item.createdAt="{ value }">
                 {{ new Date(value).toLocaleString() }}
               </template>
@@ -158,17 +179,197 @@
                 v-for="eachField of dataHeaders"
                 v-slot:[`item.${eachField.value}`]="{ item: currRow, value }"
               >
-                <template v-if="eachField.field.type ==='SingleSelect'">
-                  {{ eachField.field.options.find((eachOption)=>eachOption.value===value).text }}
+                <template v-if="eachField.field.type === 'SingleSelect'">
+                  {{ eachField.field.options.find((eachOption) => eachOption.value === value).text }}
                 </template>
-                <template v-else-if="eachField.field.type ==='MultiplySelect'">
-                  {{ value.map((eachValue)=>(eachField.field.options.find((eachOption)=>eachOption.value===eachValue).text)) }}
+                <template v-else-if="eachField.field.type === 'MultiplySelect'">
+                  {{ value.map((eachValue) => (eachField.field.options.find((eachOption) => eachOption.value === eachValue).text)) }}
+                </template>
+                <template v-else-if="eachField.field.type === 'Table'">
+                  <v-simple-table :key="eachField.value">
+                    <tbody>
+                      <tr
+                        v-for="eachRow of value"
+                        :key="eachRow.name"
+                      >
+                        <td
+                          v-for="eachCol of eachField.field.fields"
+                          :key="eachCol.id"
+                          style="width: 80px;"
+                        >
+                          <template v-if="eachCol.type ==='SingleSelect'">
+                            {{ eachCol.options.find((eachOption) => eachOption.value === value).text }}
+                          </template>
+                          <template v-else-if="eachCol.type ==='MultiplySelect'">
+                            {{ value.map((eachValue) => (eachCol.options.find((eachOption) => eachOption.value === eachValue).text)) }}
+                          </template>
+                          <template v-else>
+                            {{ eachRow.data[eachCol.id] }}
+                          </template>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </v-simple-table>
                 </template>
                 <template v-else>
                   {{ value }}
                 </template>
               </template>
             </v-data-table>
+          </v-card>
+          <v-card flat>
+            <div>
+              <!-- 列筛选按钮 -->
+              <v-menu
+                transition="slide-x-transition"
+                bottom
+                right
+                :close-on-content-click="false"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    class="deep-orange"
+                    color="primary"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    选择列
+                  </v-btn>
+                </template>
+                <v-list
+                  dense
+                  style="width: 180px;"
+                >
+                  <v-list-item-group
+                    v-model="selectedDataHeaders"
+                    color="primary"
+                    multiple
+                  >
+                    <template v-for="eachOption of dataHeaders">
+                      <v-list-item
+                        :key="eachOption.field.id"
+                        :value="eachOption"
+                      >
+                        <template v-slot:default="{ active }">
+                          <v-list-item-content>
+                            <v-list-item-title v-text="eachOption.text" />
+                          </v-list-item-content>
+                          <v-list-item-action>
+                            <v-checkbox :input-value="active" />
+                          </v-list-item-action>
+                        </template>
+                      </v-list-item>
+                    </template>
+                  </v-list-item-group>
+                </v-list>
+              </v-menu>
+              <!-- 刷新按钮 -->
+              <v-btn
+                icon
+                text
+                color="primary"
+                title="刷新列表"
+                @click="refreshRecords"
+              >
+                <v-icon>mdi-refresh</v-icon>
+              </v-btn>
+            </div>
+            <v-simple-table style="border-collapse: collapse;">
+              <thead>
+                <tr>
+                  <th
+                    :rowspan="2"
+                    style="border: thin solid rgba(0, 0, 0, 0.12)"
+                    :style="{ 'min-width': '120px' }"
+                  >
+                    填表人
+                  </th>
+                  <th
+                    v-for="eachField of selectedDataHeaders"
+                    :key="eachField.value"
+                    :colspan="eachField.field.type !== 'Table' ? 1 : eachField.field.fields.length"
+                    :rowspan="eachField.field.type !== 'Table' ? 2 : 1"
+                    style="border: thin solid rgba(0, 0, 0, 0.12)"
+                    :style="{'min-width': (eachField.field.type !== 'Table' ? 120 : eachField.field.fields.length * 100) + 'px',
+                             'text-align': eachField.field.type !== 'Table' ? 'left' : 'center',
+                    }"
+                  >
+                    {{ eachField.text }}
+                  </th>
+                </tr>
+                <tr>
+                  <template v-for="eachField of selectedDataHeaders.filter(eachField => eachField.field.type === 'Table')">
+                    <th
+                      v-for="eachNestedField of eachField.field.fields"
+                      :key="eachNestedField.id"
+                      style="border: thin solid rgba(0, 0, 0, 0.12)"
+                    >
+                      {{ eachNestedField.title }}
+                    </th>
+                  </template>
+                </tr>
+              </thead>
+              <tbody>
+                <template v-for="eachRecord of records">
+                  <tr
+                    v-for="index of calculateRowNumber(eachRecord)"
+                    :key="eachRecord.id + index"
+                  >
+                    <td
+                      v-if="index === 1"
+                      :key="eachRecord.id"
+                      style="border: thin solid rgba(0, 0, 0, 0.12)"
+                      :style="{ 'min-width': '120px' }"
+                      :rowspan="calculateRowNumber(eachRecord)"
+                    >
+                      {{ eachRecord.account.nickname }}
+                    </td>
+                    <template v-for="eachField of selectedDataHeaders">
+                      <!-- 表中主字段 -->
+                      <td
+                        v-if="eachField.field.type !== 'Table' && index === 1"
+                        :key="eachField.field.id"
+                        style="border: thin solid rgba(0, 0, 0, 0.12)"
+                        :rowspan="calculateRowNumber(eachRecord)"
+                      >
+                        <template v-if="eachField.field.type ==='SingleSelect'">
+                          {{ eachField.field.options.find((eachOption) => eachOption.value === eachRecord.data[eachField.field.id]).text }}
+                        </template>
+                        <template v-else-if="eachField.field.type ==='MultiplySelect'">
+                          {{ eachRecord.data[eachField.field.id].map((eachValue) => (eachField.field.options.find((eachOption) => eachOption.value === eachValue).text)) }}
+                        </template>
+                        <template v-else>
+                          {{ eachRecord.data[eachField.field.id] }}
+                        </template>
+                      </td>
+                      <!-- 表格字段 -->
+                      <template v-else-if="eachField.field.type === 'Table' && eachRecord.data[eachField.field.id].length && (index - 1) % (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length) === 0">
+                        <td
+                          v-for="eachNestedField of eachField.field.fields"
+                          :key="eachNestedField.id"
+                          style="border: thin solid rgba(0, 0, 0, 0.12)"
+                          :rowspan="calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length"
+                        >
+                          {{ eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id] }}
+                        </td>
+                      </template>
+                      <!-- 表格字段为空 -->
+                      <template v-else-if="eachField.field.type === 'Table' && !eachRecord.data[eachField.field.id].length && index === 1">
+                        <td
+                          v-for="eachNestedField of eachField.field.fields"
+                          :key="eachNestedField.id"
+                          style="border: thin solid rgba(0, 0, 0, 0.12)"
+                          :rowspan="calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length"
+                        />
+                      </template>
+                    </template>
+
+                    <!-- <td>{{ calculateRowNumber(eachRecord) }}</td> -->
+                  </tr>
+                </template>
+              </tbody>
+            </v-simple-table>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -181,8 +382,9 @@ import { computed, defineComponent, onMounted, Ref, ref, watch } from '@vue/comp
 
 import { Application, ApplicationRecord, ApplicationRecordsService, ApplicationsService } from '@/service';
 import { useRouter } from '@/use';
+import { lcms } from '@/utils/gcd';
 
-import { FormModel } from '../Form/Form';
+import { FormModel, TableData } from '../Form/Form';
 
 const router = useRouter();
 export default defineComponent({
@@ -207,7 +409,7 @@ export default defineComponent({
     const tab = ref('overview');
     /**所有表头 */
     const headers = computed(() => [
-      { text: '填写人', value: 'account.nickname', width: 150 },
+      { text: '填写人', value: 'account.nickname', width: 150, class: 'fillter' },
       ...selectedDataHeaders.value,
     ]);
     /**数据的表头 */
@@ -247,12 +449,13 @@ export default defineComponent({
       records.value = [];
       const fields = newVal!.formModel.reduce((prev, curr) => [...prev, ...curr], []);
       dataHeaders.value = fields
-        .filter((eachField) => eachField.type !== 'Description' && eachField.type !== 'Table')
+        .filter((eachField) => eachField.type !== 'Description')
         .map((eachField) => ({
           text: eachField.title!,
           value: `data.${eachField.id}`,
           field: eachField,
-          width: 120,
+          width: eachField.type !== 'Table' ? 120 : (eachField as TableData).fields.length * 100,
+          sortable: eachField.type !== 'Table',
         }));
 
       selectedDataHeaders.value = dataHeaders.value;
@@ -261,6 +464,14 @@ export default defineComponent({
     async function refreshRecords() {
       const { data } = await ApplicationRecordsService.getApplicationRecords(props.id);
       records.value = data;
+    }
+
+    function calculateRowNumber(record: ApplicationRecord): number {
+      const rows: Array<number> = [];
+      Object.keys(record.data).forEach((eachKey) => {
+        rows.push(Array.isArray(record.data[eachKey]) ? record.data[eachKey].length : 1);
+      });
+      return lcms(rows);
     }
 
     return {
@@ -276,20 +487,30 @@ export default defineComponent({
       dataHeaders,
       selectedDataHeaders,
       headerOptions: computed(() => dataHeaders.value.map((eachField) => ({ text: eachField.text, field: eachField }))),
+      calculateRowNumber,
     };
   },
 });
 </script>
 <style lang="less" scoped>
-.data-table {
-  /deep/ th:first-child,
-  /deep/ td:first-child {
-    position: sticky;
-    left: 0;
-    border-right: thin solid rgba(0, 0, 0, 0.12);
-    background: white;
+// .data-table {
+//   /deep/ & > .v-data-table__wrapper th:first-child,
+//   /deep/ & > .v-data-table__wrapper > table > tbody > tr > td:first-child {
+//     position: sticky;
+//     left: 0;
+//     border-right: thin solid rgba(0, 0, 0, 0.12);
+//     background: white;
 
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12) !important;
-  }
+//     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12) !important;
+//   }
+// }
+
+.float-left {
+  position: sticky;
+  left: 0;
+  border-right: thin solid rgba(0, 0, 0, 0.12);
+  // background: white;
+
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12) !important;
 }
 </style>
