@@ -32,11 +32,12 @@
     <FormComponentPropsCard name="默认值">
       <ValidationProvider
         v-slot="{ errors, valid }"
+        ref="validator"
         name="defaultValue"
         rules="decimal"
       >
         <v-text-field
-          v-model="item.defaultValue"
+          :value="item.defaultValue"
           placeholder="请输入默认值"
           :error-messages="errors"
           :success="valid"
@@ -47,6 +48,7 @@
   </v-card>
 </template>
 <script lang="ts">
+import { nextTick } from '@vue/composition-api';
 import Vue from 'vue';
 
 import { NumberInputModel } from './NumberInputModel';
@@ -69,9 +71,16 @@ export default Vue.extend({
         this.$emit('back');
       }
     },
-    onDefaultValueChange(value: string) {
-      // this.item.defaultValue = parseFloat(value);
-      this.item.value = parseFloat(value);
+    async onDefaultValueChange(value: string) {
+      this.item.defaultValue = (value as unknown) as number;
+      nextTick(async () => {
+        const validateResult = await (this.$refs.validator as any).validate();
+        if (!validateResult.valid) {
+          return;
+        }
+        this.item.defaultValue = parseFloat(value) || undefined;
+        this.item.value = parseFloat(value) || undefined;
+      });
     },
   },
 });
