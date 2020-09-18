@@ -44,12 +44,42 @@
           hide-details
         >
           <template slot="prepend">
-            <v-icon class="drag-handle">
+            <v-icon
+              title="拖动排序"
+              class="drag-handle"
+            >
               mdi-drag
             </v-icon>
-            <v-icon @click="deleteOption(each)">
+            <v-icon
+              title="删除选项"
+              @click="deleteOption(each)"
+            >
               mdi-delete
             </v-icon>
+            <v-menu>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  :color="each.color"
+                  v-bind="attrs"
+                  title="选项颜色"
+                  v-on="on"
+                >
+                  mdi-format-color-fill
+                </v-icon>
+              </template>
+              <v-list>
+                <v-list-item
+                  v-for="eachColor of optionColors"
+                  :key="eachColor"
+                  :input-value="each.color === eachColor"
+                  @click="each.color = eachColor"
+                >
+                  <v-list-item-title :class="eachColor + '--text'">
+                    {{ eachColor }}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </template>
         </v-text-field>
       </draggable>
@@ -117,12 +147,13 @@
   </v-card>
 </template>
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
+import { optionColors } from '../base';
 import { MultiplySelectModel } from './MultiplySelectModel';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'MultiplySelectDetail',
   components: { draggable },
   props: {
@@ -135,21 +166,22 @@ export default Vue.extend({
       default: false,
     },
   },
-  methods: {
-    addOption() {
-      this.item.addOption();
-    },
-    deleteOption(item: { value: string }) {
-      this.item.options = this.item.options.filter((each) => each !== item);
-    },
-    onBack() {
-      if (this.isTableField) {
-        this.$emit('back');
+  setup(props, context) {
+    function addOption() {
+      props.item.addOption();
+    }
+    function deleteOption(item: { value: string }) {
+      props.item.options = props.item.options.filter((each) => each !== item);
+    }
+    function onBack() {
+      if (props.isTableField) {
+        context.emit('back');
       }
-    },
-    onDefaultValueChange(value: Array<string>) {
-      this.item.value = [...value];
-    },
+    }
+    function onDefaultValueChange(value: Array<string>) {
+      props.item.value = [...value];
+    }
+    return { addOption, deleteOption, onBack, onDefaultValueChange, optionColors };
   },
 });
 </script>

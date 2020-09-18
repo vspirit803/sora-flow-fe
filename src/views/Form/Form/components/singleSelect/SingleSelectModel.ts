@@ -1,12 +1,12 @@
 import { ObjectID } from 'bson';
 
-import { FormComponentModel, FormComponentModelDataBase } from '../base';
+import { FormComponentModel, FormComponentModelDataBase, OptionColor } from '../base';
 
 export type SingleSelectValueData = string;
 
 export interface SingleSelectData extends FormComponentModelDataBase {
   defaultValue: SingleSelectValueData;
-  options: Array<{ value: string; text: string }>;
+  options: Array<{ value: string; text: string; color: OptionColor }>;
   direction: 'vertical' | 'horizontal';
   mode: 'dropdown' | 'tiled';
 }
@@ -16,7 +16,7 @@ export interface SingleSelectData extends FormComponentModelDataBase {
  */
 export class SingleSelectModel extends FormComponentModel implements SingleSelectData {
   defaultValue: SingleSelectValueData;
-  options: Array<{ value: string; text: string }>;
+  options: Array<{ value: string; text: string; color: OptionColor }>;
   direction: 'vertical' | 'horizontal';
   mode: 'dropdown' | 'tiled';
 
@@ -29,9 +29,9 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
       size,
       defaultValue = '',
       options = [
-        { value: new ObjectID().toHexString(), text: '选项1' },
-        { value: new ObjectID().toHexString(), text: '选项2' },
-        { value: new ObjectID().toHexString(), text: '选项3' },
+        { value: new ObjectID().toHexString(), text: '选项1', color: 'primary' },
+        { value: new ObjectID().toHexString(), text: '选项2', color: 'primary' },
+        { value: new ObjectID().toHexString(), text: '选项3', color: 'primary' },
       ],
       direction = 'vertical',
       mode = 'tiled',
@@ -47,7 +47,7 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
   }
 
   addOption(optionName = '未命名'): void {
-    this.options.push({ value: new ObjectID().toHexString(), text: optionName });
+    this.options.push({ value: new ObjectID().toHexString(), text: optionName, color: 'primary' });
   }
 
   getModel(): SingleSelectData {

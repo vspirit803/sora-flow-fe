@@ -11,6 +11,7 @@
       :key="each.value"
       :value="each.value"
       :label="each.text"
+      :color="each.color"
     />
   </v-radio-group>
   <v-select
@@ -21,7 +22,10 @@
     class="mt-1 pt-0"
   >
     <template v-slot:selection="{ item }">
-      <v-chip small>
+      <v-chip
+        small
+        :color="item.color"
+      >
         <span>{{ item.text }}</span>
       </v-chip>
     </template>

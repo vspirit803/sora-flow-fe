@@ -1,12 +1,12 @@
 import { ObjectID } from 'bson';
 
-import { FormComponentModel, FormComponentModelDataBase } from '../base';
+import { FormComponentModel, FormComponentModelDataBase, OptionColor } from '../base';
 
 export type MutiplySelectValueData = Array<string>;
 
 export interface MultiplySelectData extends FormComponentModelDataBase {
   defaultValue: MutiplySelectValueData;
-  options: Array<{ value: string; text: string }>;
+  options: Array<{ value: string; text: string; color: OptionColor }>;
   direction: 'vertical' | 'horizontal';
   mode: 'dropdown' | 'tiled';
 }
@@ -16,7 +16,7 @@ export interface MultiplySelectData extends FormComponentModelDataBase {
  */
 export class MultiplySelectModel extends FormComponentModel implements MultiplySelectData {
   defaultValue: MutiplySelectValueData;
-  options: Array<{ value: string; text: string }>;
+  options: Array<{ value: string; text: string; color: OptionColor }>;
   direction: 'vertical' | 'horizontal';
   mode: 'dropdown' | 'tiled';
 
@@ -29,9 +29,9 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
       size,
       defaultValue = [],
       options = [
-        { value: new ObjectID().toHexString(), text: '选项1' },
-        { value: new ObjectID().toHexString(), text: '选项2' },
-        { value: new ObjectID().toHexString(), text: '选项3' },
+        { value: new ObjectID().toHexString(), text: '选项1', color: 'primary' },
+        { value: new ObjectID().toHexString(), text: '选项2', color: 'primary' },
+        { value: new ObjectID().toHexString(), text: '选项3', color: 'primary' },
       ],
       direction = 'vertical',
       mode = 'tiled',
@@ -48,7 +48,7 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
   }
 
   addOption(optionName = '未命名'): void {
-    this.options.push({ value: new ObjectID().toHexString(), text: optionName });
+    this.options.push({ value: new ObjectID().toHexString(), text: optionName, color: 'primary' });
   }
 
   getModel(): MultiplySelectData {
