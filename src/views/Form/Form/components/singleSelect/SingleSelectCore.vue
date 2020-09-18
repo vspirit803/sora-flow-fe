@@ -1,5 +1,6 @@
 <template>
   <v-radio-group
+    v-if="item.mode==='tiled'"
     v-model="item.value"
     :row="item.direction==='horizontal'"
     dense
@@ -12,6 +13,19 @@
       :label="each.text"
     />
   </v-radio-group>
+  <v-select
+    v-else
+    v-model="item.value"
+    :items="item.options"
+    dense
+    class="mt-1 pt-0"
+  >
+    <template v-slot:selection="{ item }">
+      <v-chip small>
+        <span>{{ item.text }}</span>
+      </v-chip>
+    </template>
+  </v-select>
 </template>
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';

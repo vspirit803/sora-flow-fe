@@ -1,5 +1,6 @@
 <template>
   <v-radio-group
+    v-if="item.mode==='tiled'"
     :row="item.direction==='horizontal'"
     dense
     class="mt-1 pt-0"
@@ -15,6 +16,20 @@
       :label="each.text"
     />
   </v-radio-group>
+  <v-select
+    v-else
+    v-model="item.value"
+    :items="item.options"
+    multiple
+    dense
+    class="mt-1 pt-0"
+  >
+    <template v-slot:selection="{ item }">
+      <v-chip small>
+        <span>{{ item.text }}</span>
+      </v-chip>
+    </template>
+  </v-select>
 </template>
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
@@ -28,22 +43,6 @@ export default defineComponent({
       type: MultiplySelectModel,
       required: true,
     },
-  },
-
-  setup(props) {
-    const item = props.item;
-
-    function onComponentValueChange(value: any) {
-      // props.item.value = value;
-      console.log(value);
-    }
-
-    return {
-      onComponentValueChange,
-      onChange(...params: any) {
-        console.log(params);
-      },
-    };
   },
 });
 </script>

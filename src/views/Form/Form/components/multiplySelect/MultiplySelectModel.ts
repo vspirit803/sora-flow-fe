@@ -8,6 +8,7 @@ export interface MultiplySelectData extends FormComponentModelDataBase {
   defaultValue: MutiplySelectValueData;
   options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
+  mode: 'dropdown' | 'tiled';
 }
 
 /**
@@ -17,6 +18,7 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
   defaultValue: MutiplySelectValueData;
   options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
+  mode: 'dropdown' | 'tiled';
 
   value: MutiplySelectValueData;
   constructor(data?: MultiplySelectData) {
@@ -32,6 +34,7 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
         { value: new ObjectID().toHexString(), text: '选项3' },
       ],
       direction = 'vertical',
+      mode = 'tiled',
       layout,
     } = data ?? {};
     super({ id, type, title, size, layout });
@@ -39,6 +42,7 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
     this.defaultValue = [...defaultValue];
     this.options = options;
     this.direction = direction;
+    this.mode = mode;
 
     this.value = [...defaultValue];
   }
@@ -53,6 +57,7 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
       defaultValue: this.defaultValue,
       options: this.options.map((each) => ({ ...each })),
       direction: this.direction,
+      mode: this.mode,
     };
   }
 

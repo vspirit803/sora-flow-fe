@@ -8,6 +8,7 @@ export interface SingleSelectData extends FormComponentModelDataBase {
   defaultValue: SingleSelectValueData;
   options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
+  mode: 'dropdown' | 'tiled';
 }
 
 /**
@@ -17,6 +18,7 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
   defaultValue: SingleSelectValueData;
   options: Array<{ value: string; text: string }>;
   direction: 'vertical' | 'horizontal';
+  mode: 'dropdown' | 'tiled';
 
   value: SingleSelectValueData;
   constructor(data?: SingleSelectData) {
@@ -32,6 +34,7 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
         { value: new ObjectID().toHexString(), text: '选项3' },
       ],
       direction = 'vertical',
+      mode = 'tiled',
       layout,
     } = data ?? {};
     super({ id, type, title, size, layout });
@@ -39,7 +42,7 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
     this.defaultValue = defaultValue;
     this.options = options;
     this.direction = direction;
-
+    this.mode = mode;
     this.value = defaultValue;
   }
 
@@ -53,6 +56,7 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
       defaultValue: this.defaultValue,
       options: this.options.map((each) => ({ ...each })),
       direction: this.direction,
+      mode: this.mode,
     };
   }
 

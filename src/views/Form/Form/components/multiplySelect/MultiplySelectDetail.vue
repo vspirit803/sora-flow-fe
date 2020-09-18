@@ -79,8 +79,31 @@
     </FormComponentPropsCard>
     <v-divider />
 
-    <FormComponentPropsCard name="选项布局">
-      <v-radio-group v-model="item.direction">
+    <FormComponentPropsCard name="模式">
+      <v-radio-group
+        v-model="item.mode"
+        row
+      >
+        <v-radio
+          value="dropdown"
+          label="下拉选择"
+        />
+        <v-radio
+          value="tiled"
+          label="平铺选择"
+        />
+      </v-radio-group>
+    </FormComponentPropsCard>
+    <v-divider />
+
+    <FormComponentPropsCard
+      v-if="item.mode==='tiled'"
+      name="选项布局"
+    >
+      <v-radio-group
+        v-model="item.direction"
+        row
+      >
         <v-radio
           value="vertical"
           label=" 垂直"
