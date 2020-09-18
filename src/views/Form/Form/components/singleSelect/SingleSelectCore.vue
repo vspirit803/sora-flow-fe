@@ -29,6 +29,11 @@
         <span>{{ item.text }}</span>
       </v-chip>
     </template>
+    <template v-slot:item="{ item }">
+      <v-list-item-title :class="item.color + '--text'">
+        {{ item.text }}
+      </v-list-item-title>
+    </template>
   </v-select>
 </template>
 <script lang="ts">
