@@ -11,7 +11,7 @@
     "@mdi/font": "^5.5.55",
     "@vue/composition-api": "1.0.0-beta.14",
     "axios": "^0.19.2",
-    "bson": "^1.1.4",
+    "bson": "^4.1.0",
     "core-js": "^3.6.4",
     "vee-validate": "^3.3.11",
     "vue": "^2.6.12",
