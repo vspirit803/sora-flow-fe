@@ -40,8 +40,8 @@ export class TableModel extends FormComponentModel implements TableData {
           type: 'SingleSelect',
           title: '性别',
           options: [
-            { value: new ObjectID().toHexString(), text: '男' },
-            { value: new ObjectID().toHexString(), text: '女' },
+            { value: new ObjectID().toHexString(), text: '男', color: 'primary' },
+            { value: new ObjectID().toHexString(), text: '女', color: 'primary' },
           ],
           defaultValue: '',
           direction: 'horizontal',
