@@ -1,17 +1,19 @@
 {
   "name": "sora-flow-fe",
-  "version": "0.1.0",
+  "version": "0.0.3",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
   },
   "dependencies": {
     "@mdi/font": "^5.5.55",
     "@vue/composition-api": "1.0.0-beta.14",
     "axios": "^0.19.2",
     "bson": "^4.1.0",
+    "conventional-changelog-cli": "^2.1.0",
     "core-js": "^3.6.4",
     "vee-validate": "^3.3.11",
     "vue": "^2.6.12",
