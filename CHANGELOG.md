@@ -1,3 +1,19 @@
+## [0.0.4](https://github.com/vspirit803/sora-flow-fe/compare/v0.0.3...v0.0.4) (2020-09-21)
+
+
+### Bug Fixes
+
+* **form:** let table initialize correctly ([3012f9c](https://github.com/vspirit803/sora-flow-fe/commit/3012f9cd4d7a09ad4b520c5c8f318ca9621aedd2))
+* **form:** show correct drop-down select option color ([d930575](https://github.com/vspirit803/sora-flow-fe/commit/d930575f36cb7c8f74d4f5fbff90cbf58fd8c3d4))
+
+
+### Features
+
+* **form:** add drop-down mode for select component ([2b29725](https://github.com/vspirit803/sora-flow-fe/commit/2b297257aebc2e6cc725ccf3c0d47c3c60df43dc))
+* **form:** add option color for select component ([9de6dc0](https://github.com/vspirit803/sora-flow-fe/commit/9de6dc05e0eb4b5d8474d3d823f15c92472cf2e8))
+
+
+
 ## [0.0.3](https://github.com/vspirit803/sora-flow-fe/compare/v0.0.2...v0.0.3) (2020-09-18)
 
 
