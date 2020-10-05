@@ -64,6 +64,16 @@
                   required
                 />
               </v-col>
+              <v-col cols="12">
+                <v-select
+                  v-model="departmentModel.supervisor"
+                  color="primary"
+                  item-text="nickname"
+                  item-value="id"
+                  :items="accountList"
+                  label="负责人"
+                />
+              </v-col>
             </v-row>
           </v-container>
         </v-card-text>
@@ -93,7 +103,7 @@
 import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
-import { CreateDepartmentDto, DepartmentsService, DepartmentVo, UpdateDepartmentDto } from '@/service';
+import { CreateDepartmentDto, DepartmentsService, DepartmentVo, ProfileService, UpdateDepartmentDto } from '@/service';
 import { useStore } from '@/use';
 
 export default defineComponent({
@@ -106,6 +116,8 @@ export default defineComponent({
       name: '',
       supervisor: '',
     });
+    const accountList: Ref<Array<Account>> = ref([]);
+
     function isCreateDepartmentDto(dto: CreateDepartmentDto | UpdateDepartmentDto): dto is CreateDepartmentDto {
       return !('id' in dto);
     }
@@ -118,9 +130,9 @@ export default defineComponent({
       departments.value = data;
     }
 
-    function onCreateDepartment({ parentId }: { parentId?: string } = {}) {
+    function onCreateDepartment({ id }: { id?: string } = {}) {
       departmentModel.value = {
-        parentId,
+        parentId: id,
         name: '',
         supervisor: '',
       };
@@ -136,16 +148,24 @@ export default defineComponent({
       dialogVisible.value = true;
     }
 
-    function submit() {
-      console.log(departmentModel.value);
+    async function submit() {
+      if (isCreateDepartmentDto(departmentModel.value)) {
+        await DepartmentsService.createDepartment(departmentModel.value);
+      } else {
+        await DepartmentsService.updateDepartment(departmentModel.value);
+      }
       dialogVisible.value = false;
+      refresh();
     }
 
-    onMounted(() => {
-      refresh();
+    onMounted(async () => {
+      await refresh();
+      const { data: accounts } = await ProfileService.getAccounts();
+      accountList.value = accounts;
     });
 
     return {
+      accountList,
       departments,
       departmentModel,
       onCreateDepartment,
