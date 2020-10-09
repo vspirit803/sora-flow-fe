@@ -17,6 +17,7 @@
       </v-card-title>
       <v-treeview
         activatable
+        :active.sync="activeKeys"
         :items="departments"
       >
         <template v-slot:append="{ item }">
@@ -42,9 +43,79 @@
       </v-treeview>
     </v-card>
     <v-card
+      v-if="selectedDepartment"
       outlined
       class="department-detail"
-    />
+    >
+      负责人: {{ selectedDepartment.supervisor.nickname }}
+      <br>
+      <v-data-table
+        :headers="[
+          { text: '账号', value: 'name', divider: true },
+          { text: '昵称', value: 'nickname', divider: true },
+          { text: '操作', value: 'actions', width: 300 },
+        ]"
+        fixed-header
+        :items="selectedDepartment.members"
+      >
+        <template v-slot:item.roles="{ item }">
+          <v-chip
+            v-for="eachRole of item.roles"
+            :key="eachRole.id"
+            color="primary"
+            class="mr-2"
+          >
+            {{ eachRole.text }}
+          </v-chip>
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <Confirm
+            v-if="item.id!==selectedDepartment.supervisor.id"
+            v-slot="{ on, attrs }"
+            :message="`确认将[${item.nickname}]移出组织吗`"
+            @confirm="onDeleteMember(item)"
+          >
+            <IconButton
+              class="ml-2"
+              color="error"
+              v-bind="attrs"
+              title="移除成员"
+              v-on="on"
+            >
+              <v-icon>mdi-account-remove</v-icon>
+            </IconButton>
+          </Confirm>
+        </template>
+        <template v-slot:top>
+          <v-toolbar flat>
+            <v-btn
+              icon
+              text
+              color="primary"
+              title="刷新列表"
+              @click="refreshSelectedDepartment"
+            >
+              <v-icon>mdi-refresh</v-icon>
+            </v-btn>
+            <v-btn
+              color="primary"
+              @click="addMembersDialogVisible=true"
+            >
+              <v-icon class="mr-2">
+                mdi-account-plus
+              </v-icon>新增成员
+            </v-btn>
+          </v-toolbar>
+        </template>
+      </v-data-table>
+    </v-card>
+    <v-card
+      v-else
+      outlined
+      class="department-detail"
+    >
+      请选择一个部门
+    </v-card>
     <v-dialog
       v-model="dialogVisible"
       persistent
@@ -64,7 +135,10 @@
                   required
                 />
               </v-col>
-              <v-col cols="12">
+              <v-col
+                v-if="isCreateDepartment"
+                cols="12"
+              >
                 <v-select
                   v-model="departmentModel.supervisor"
                   color="primary"
@@ -96,21 +170,72 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog
+      v-model="addMembersDialogVisible"
+      persistent
+      max-width="600px"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="headline">新增成员</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-select
+                  v-model="newMembers"
+                  multiple
+                  color="primary"
+                  item-text="nickname"
+                  item-value="id"
+                  :items="availableAccountList"
+                  label="新成员"
+                />
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="addMembersDialogVisible = false"
+          >
+            取消
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="onAddMembers"
+          >
+            提交
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { computed, defineComponent, onMounted, Ref, ref, watch } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
-import { CreateDepartmentDto, DepartmentsService, DepartmentVo, ProfileService, UpdateDepartmentDto } from '@/service';
+import {
+  CreateDepartmentDto,
+  Department,
+  DepartmentsService,
+  DepartmentVo,
+  ProfileService,
+  UpdateDepartmentDto,
+} from '@/service';
 import { useStore } from '@/use';
 
 export default defineComponent({
   name: 'Department',
   components: { draggable },
   setup() {
-    const store = useStore();
     const departments: Ref<Array<DepartmentVo>> = ref([]);
     const departmentModel: Ref<CreateDepartmentDto | UpdateDepartmentDto> = ref({
       name: '',
@@ -122,8 +247,10 @@ export default defineComponent({
       return !('id' in dto);
     }
 
+    const isCreateDepartment = computed(() => isCreateDepartmentDto(departmentModel.value));
+
     const dialogVisible = ref(false);
-    const dialogTitle = computed(() => (isCreateDepartmentDto(departmentModel.value) ? '新增部门' : '修改部门'));
+    const dialogTitle = computed(() => (isCreateDepartment ? '新增部门' : '修改部门'));
 
     async function refresh() {
       const { data } = await DepartmentsService.getDepartments();
@@ -143,7 +270,6 @@ export default defineComponent({
       departmentModel.value = {
         id,
         name,
-        supervisor,
       };
       dialogVisible.value = true;
     }
@@ -153,16 +279,61 @@ export default defineComponent({
         await DepartmentsService.createDepartment(departmentModel.value);
       } else {
         await DepartmentsService.updateDepartment(departmentModel.value);
+        if (departmentModel.value.id === selectedKey.value) {
+          refreshSelectedDepartment();
+        }
       }
       dialogVisible.value = false;
       refresh();
     }
+
+    const activeKeys = ref<Array<string>>([]);
+    const selectedKey = ref('');
+    watch(activeKeys, (newVal, oldVal) => {
+      if (!newVal.length) {
+        activeKeys.value = oldVal;
+      }
+      selectedKey.value = activeKeys.value[0];
+    });
+
+    const selectedDepartment = ref<Department | undefined>(undefined);
+    const availableAccountList: Ref<Array<Account>> = ref([]);
+
+    async function refreshSelectedDepartment() {
+      newMembers.value = [];
+      const { data } = await DepartmentsService.getDepartment(selectedKey.value);
+      selectedDepartment.value = data;
+
+      if (data.parentId) {
+        // 有父部门则取父部门成员
+        const { data: accounts } = await DepartmentsService.findMembers(data.parentId);
+        availableAccountList.value = accounts;
+      } else {
+        //否则取所有成员
+        availableAccountList.value = accountList.value;
+      }
+    }
+
+    watch(selectedKey, refreshSelectedDepartment);
 
     onMounted(async () => {
       await refresh();
       const { data: accounts } = await ProfileService.getAccounts();
       accountList.value = accounts;
     });
+
+    async function onDeleteMember(member: { id: string }) {
+      await DepartmentsService.removeMember(selectedKey.value, member.id);
+      refreshSelectedDepartment();
+    }
+
+    const newMembers = ref<Array<string>>([]);
+    const addMembersDialogVisible = ref(false);
+    async function onAddMembers() {
+      await DepartmentsService.addMembers(selectedKey.value, newMembers.value);
+      addMembersDialogVisible.value = false;
+      refreshSelectedDepartment();
+    }
 
     return {
       accountList,
@@ -173,6 +344,15 @@ export default defineComponent({
       dialogVisible,
       dialogTitle,
       submit,
+      activeKeys,
+      selectedDepartment,
+      refreshSelectedDepartment,
+      onDeleteMember,
+      newMembers,
+      onAddMembers,
+      addMembersDialogVisible,
+      availableAccountList,
+      isCreateDepartment,
     };
   },
 });

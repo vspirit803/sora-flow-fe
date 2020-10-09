@@ -20,6 +20,18 @@ export class DepartmentsService {
   static deleteDepartment(deleteDepartmentDto: DeleteDepartmentDto) {
     return axios.delete('departments', { data: deleteDepartmentDto });
   }
+
+  static findMembers(id: string) {
+    return axios.get(`departments/${id}/members`);
+  }
+
+  static addMembers(id: string, members: Array<string>) {
+    return axios.post(`departments/${id}/members`, { members });
+  }
+
+  static removeMember(id: string, member: string) {
+    return axios.delete(`departments/${id}/members/${member}`);
+  }
 }
 
 export interface QueryDepartmentDto {
