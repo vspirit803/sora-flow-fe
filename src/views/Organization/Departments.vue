@@ -19,6 +19,7 @@
         activatable
         :active.sync="activeKeys"
         :items="departments"
+        class="department-list"
       >
         <template v-slot:append="{ item }">
           <v-btn
@@ -369,8 +370,10 @@ export default defineComponent({
     width: 320px;
 
     .department-list {
-      height: calc(100% - 68px);
+      max-height: calc(100% - 68px);
       overflow: auto;
+      cursor: pointer;
+      user-select: none;
     }
   }
 
