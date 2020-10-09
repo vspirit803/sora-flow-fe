@@ -39,3 +39,4 @@ export * from './profile';
 export * from './System';
 export * from './applications';
 export * from './applicationRecords';
+export * from './departments';

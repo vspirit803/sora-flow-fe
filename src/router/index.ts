@@ -45,10 +45,18 @@ const routes = [
     name: 'Organization',
     component: () => import(/* webpackChunkName: "organization" */ '@/views/Organization.vue'),
   },
+  //组织用户
   {
     path: '/organization/accounts',
     name: 'OrganizationAccounts',
     component: () => import(/* webpackChunkName: "organization" */ '@/views/Organization/Accounts.vue'),
+  },
+  //组织部门
+  {
+    path: '/organization/departments',
+    name: 'OrganizationDepartments',
+    component: () => import(/* webpackChunkName: "organization" */ '@/views/Organization/Departments.vue'),
+    props: true,
   },
   //应用列表
   {
