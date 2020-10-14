@@ -9734,10 +9734,10 @@ vue@^2.6.12:
   resolved "https://registry.npm.taobao.org/vue/download/vue-2.6.12.tgz?cache=0&sync_timestamp=1600441232542&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue%2Fdownload%2Fvue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha1-9evU+mvShpQD4pqJau1JBEVskSM=
 
-vuedraggable@^2.24.1:
-  version "2.24.1"
-  resolved "https://registry.npm.taobao.org/vuedraggable/download/vuedraggable-2.24.1.tgz#304abd7644dde05c1f199a227bf9e9107f56197a"
-  integrity sha1-MEq9dkTd4FwfGZoie/npEH9WGXo=
+vuedraggable@^2.24.2:
+  version "2.24.2"
+  resolved "https://registry.npm.taobao.org/vuedraggable/download/vuedraggable-2.24.2.tgz#cd98faec99905238469e9b4d235fba5a59fb7da2"
+  integrity sha1-zZj67JmQUjhGnptNI1+6Wln7faI=
   dependencies:
     sortablejs "^1.10.1"
 
