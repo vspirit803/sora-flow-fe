@@ -2317,13 +2317,12 @@ browserslist@^4.0.0, browserslist@^4.12.0, browserslist@^4.8.5:
     escalade "^3.1.0"
     node-releases "^1.1.61"
 
-bson@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.npm.taobao.org/bson/download/bson-4.1.0.tgz#8135dbaaf90d78d0ee4675f31600162d4c12be28"
-  integrity sha1-gTXbqvkNeNDuRnXzFgAWLUwSvig=
+bson@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.npm.taobao.org/bson/download/bson-4.2.0.tgz#15b5beffed6e44883de9922a2e1896fba4042cd4"
+  integrity sha1-FbW+/+1uRIg96ZIqLhiW+6QELNQ=
   dependencies:
-    buffer "^5.1.0"
-    long "^4.0.0"
+    buffer "^5.6.0"
 
 buffer-from@^1.0.0:
   version "1.1.1"
@@ -2354,7 +2353,7 @@ buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buffer@^5.1.0:
+buffer@^5.6.0:
   version "5.6.0"
   resolved "https://registry.npm.taobao.org/buffer/download/buffer-5.6.0.tgz#a31749dc7d81d84db08abf937b6b8c4033f62786"
   integrity sha1-oxdJ3H2B2E2wir+Te2uMQDP2J4Y=
@@ -6184,11 +6183,6 @@ loglevel@^1.6.8:
   version "1.7.0"
   resolved "https://registry.npm.taobao.org/loglevel/download/loglevel-1.7.0.tgz?cache=0&sync_timestamp=1598447630738&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Floglevel%2Fdownload%2Floglevel-1.7.0.tgz#728166855a740d59d38db01cf46f042caa041bb0"
   integrity sha1-coFmhVp0DVnTjbAc9G8ELKoEG7A=
-
-long@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npm.taobao.org/long/download/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
-  integrity sha1-mntxz7fTYaGU6lVSQckvdGjVvyg=
 
 loose-envify@^1.0.0:
   version "1.4.0"
