@@ -9749,10 +9749,10 @@ vuetify-loader@^1.6.0:
     file-loader "^4.0.0"
     loader-utils "^1.2.0"
 
-vuetify@^2.3.10:
-  version "2.3.12"
-  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.3.12.tgz#799410de0878d8aae10cfae14e40549b9a88ca87"
-  integrity sha1-eZQQ3gh42KrhDPrhTkBUm5qIyoc=
+vuetify@^2.3.14:
+  version "2.3.14"
+  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.3.14.tgz#42a864b8f28b67775758a5e5e42fc50733f1bdbe"
+  integrity sha1-QqhkuPKLZ3dXWKXl5C/FBzPxvb4=
 
 vuex-persistedstate@^3.1.0:
   version "3.1.0"
