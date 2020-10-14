@@ -918,10 +918,10 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@mdi/font@^5.6.55":
-  version "5.6.55"
-  resolved "https://registry.npm.taobao.org/@mdi/font/download/@mdi/font-5.6.55.tgz#3536d7a7671eda9d5d9ba191b9fb9aceccc0a07e"
-  integrity sha1-NTbXp2ce2p1dm6GRufuazszAoH4=
+"@mdi/font@^5.7.55":
+  version "5.7.55"
+  resolved "https://registry.npm.taobao.org/@mdi/font/download/@mdi/font-5.7.55.tgz#8e05c27824f0c29c236389fc59db39bde5e92d8d"
+  integrity sha1-jgXCeCTwwpwjY4n8Wds5veXpLY0=
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
