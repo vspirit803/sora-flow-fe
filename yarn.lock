@@ -9703,10 +9703,10 @@ vue-property-decorator@^9.0.0:
   resolved "https://registry.npm.taobao.org/vue-property-decorator/download/vue-property-decorator-9.0.0.tgz#0a5f6d47d33ca62a8876108ccfa65c2c4fb7325a"
   integrity sha1-Cl9tR9M8piqIdhCMz6ZcLE+3Mlo=
 
-vue-router@^3.4.3:
-  version "3.4.5"
-  resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-3.4.5.tgz#d396ec037b35931bdd1e9b7edd86f9788dc15175"
-  integrity sha1-05bsA3s1kxvdHpt+3Yb5eI3BUXU=
+vue-router@^3.4.7:
+  version "3.4.7"
+  resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-3.4.7.tgz#bf189bafd16f4e4ef783c4a6250a3090f2c1fa1b"
+  integrity sha1-vxibr9FvTk73g8SmJQowkPLB+hs=
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.2"
