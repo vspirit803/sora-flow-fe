@@ -1510,10 +1510,10 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/composition-api@1.0.0-beta.14":
-  version "1.0.0-beta.14"
-  resolved "https://registry.npm.taobao.org/@vue/composition-api/download/@vue/composition-api-1.0.0-beta.14.tgz#b243d906ae5dcda7483e0b5a2b5ea1aa971a4e00"
-  integrity sha1-skPZBq5dzadIPgtaK16hqpcaTgA=
+"@vue/composition-api@1.0.0-beta.17":
+  version "1.0.0-beta.17"
+  resolved "https://registry.npm.taobao.org/@vue/composition-api/download/@vue/composition-api-1.0.0-beta.17.tgz#63b65b3ed7cab649c53e4459fb0c5d3d1c545a96"
+  integrity sha1-Y7ZbPtfKtknFPkRZ+wxdPRxUWpY=
   dependencies:
     tslib "^2.0.1"
 
