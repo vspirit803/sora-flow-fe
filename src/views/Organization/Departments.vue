@@ -255,7 +255,7 @@ export default defineComponent({
     const isCreateDepartment = computed(() => isCreateDepartmentDto(departmentModel.value));
 
     const dialogVisible = ref(false);
-    const dialogTitle = computed(() => (isCreateDepartment ? '新增部门' : '修改部门'));
+    const dialogTitle = computed(() => (isCreateDepartment.value ? '新增部门' : '修改部门'));
 
     async function refresh() {
       const { data } = await DepartmentsService.getDepartments();
