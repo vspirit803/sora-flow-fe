@@ -54,7 +54,7 @@
         :headers="[
           { text: '账号', value: 'name', divider: true },
           { text: '昵称', value: 'nickname', divider: true },
-          { text: '操作', value: 'actions', width: 300 },
+          { text: '操作', value: 'actions', width: 320 },
         ]"
         fixed-header
         :items="selectedDepartment.members"
@@ -73,7 +73,7 @@
           <Confirm
             v-if="item.id!==selectedDepartment.supervisor.id"
             v-slot="{ on, attrs }"
-            :message="`确认将[${item.nickname}]移出组织吗`"
+            :message="`确认将[${item.nickname}]移出部门吗`"
             @confirm="onDeleteMember(item)"
           >
             <IconButton
@@ -84,6 +84,22 @@
               v-on="on"
             >
               <v-icon>mdi-account-remove</v-icon>
+            </IconButton>
+          </Confirm>
+          <Confirm
+            v-if="item.id!==selectedDepartment.supervisor.id"
+            v-slot="{ on, attrs }"
+            :message="`确认将[${item.nickname}]设为部门负责人吗`"
+            @confirm="onChangeSupervisor(item)"
+          >
+            <IconButton
+              class="ml-2"
+              color="primary"
+              v-bind="attrs"
+              title="设为负责人"
+              v-on="on"
+            >
+              <v-icon>mdi-account</v-icon>
             </IconButton>
           </Confirm>
         </template>
@@ -332,6 +348,11 @@ export default defineComponent({
       refreshSelectedDepartment();
     }
 
+    async function onChangeSupervisor(member: { id: string }) {
+      await DepartmentsService.updateDepartment({ id: selectedDepartment.value!.id, supervisor: member.id });
+      refreshSelectedDepartment();
+    }
+
     const newMembers = ref<Array<string>>([]);
     const addMembersDialogVisible = ref(false);
     async function onAddMembers() {
@@ -353,6 +374,7 @@ export default defineComponent({
       selectedDepartment,
       refreshSelectedDepartment,
       onDeleteMember,
+      onChangeSupervisor,
       newMembers,
       onAddMembers,
       addMembersDialogVisible,
