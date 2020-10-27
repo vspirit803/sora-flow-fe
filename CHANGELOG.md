@@ -1,3 +1,14 @@
+## [0.0.5](https://github.com/vspirit803/sora-flow-fe/compare/v0.0.4...v0.0.5) (2020-10-27)
+
+
+### Features
+
+* **departments:** change the cursor style in the department list to pointer ([955e6e4](https://github.com/vspirit803/sora-flow-fe/commit/955e6e4f100248026e7bf7cd091db60502004282))
+* **departments:** set the correct type for the account ([095cc71](https://github.com/vspirit803/sora-flow-fe/commit/095cc710aaeec16cf724ee41e54e5cb95e79d2cd))
+* add departments module ([fc06c6d](https://github.com/vspirit803/sora-flow-fe/commit/fc06c6d4b05c399bf75de935b96d6caa9e930d71))
+
+
+
 ## [0.0.4](https://github.com/vspirit803/sora-flow-fe/compare/v0.0.3...v0.0.4) (2020-09-21)
 
 
