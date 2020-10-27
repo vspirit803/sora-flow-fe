@@ -231,7 +231,11 @@ import {
   ProfileService,
   UpdateDepartmentDto,
 } from '@/service';
-import { useStore } from '@/use';
+
+interface Account {
+  nickname: string;
+  id: string;
+}
 
 export default defineComponent({
   name: 'Department',
