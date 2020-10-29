@@ -8,12 +8,6 @@
       fixed-header
       :items="organizationList"
     >
-      <template v-slot:item.version="{ item }">
-        {{ item.version.name }}
-      </template>
-      <template v-slot:item.supervisor="{ item }">
-        {{ item.supervisor && item.supervisor.name }}
-      </template>
       <template v-slot:item.actions="{ item }">
         <IconButton
           title="修改组织"
@@ -199,8 +193,8 @@ export default defineComponent({
     let oldModel: UpdateOrganizationDto;
     const headers = [
       { text: '名称', value: 'name', divider: true },
-      { text: '版本', value: 'version', divider: true },
-      { text: '负责人', value: 'supervisor', divider: true },
+      { text: '版本', value: 'version.name', divider: true },
+      { text: '负责人', value: 'supervisor.nickname', divider: true },
       { text: '成员数', value: 'totalMembers', divider: true },
       { text: '操作', value: 'actions' },
     ];
