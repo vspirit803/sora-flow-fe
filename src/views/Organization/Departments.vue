@@ -52,13 +52,23 @@
       <br>
       <v-data-table
         :headers="[
-          { text: '账号', value: 'name', divider: true },
-          { text: '昵称', value: 'nickname', divider: true },
+          { text: '账号', value: 'name', divider: true, width: 480},
+          { text: '昵称', value: 'nickname', divider: true, width: 480},
           { text: '操作', value: 'actions', width: 320 },
         ]"
         fixed-header
         :items="selectedDepartment.members"
       >
+        <template v-slot:item.name="{ item }">
+          {{ item.name }}
+          <v-icon
+            v-if="item.id === selectedDepartment.supervisor.id"
+            class="ml-4"
+            color="primary"
+          >
+            mdi-account-star
+          </v-icon>
+        </template>
         <template v-slot:item.roles="{ item }">
           <v-chip
             v-for="eachRole of item.roles"
