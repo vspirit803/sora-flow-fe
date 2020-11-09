@@ -1213,14 +1213,6 @@
     "@typescript-eslint/typescript-estree" "4.6.1"
     debug "^4.1.1"
 
-"@typescript-eslint/scope-manager@4.4.0":
-  version "4.4.0"
-  resolved "https://registry.npm.taobao.org/@typescript-eslint/scope-manager/download/@typescript-eslint/scope-manager-4.4.0.tgz#2f3dd27692a12cc9a046a90ba6a9d8cb7731190a"
-  integrity sha1-Lz3SdpKhLMmgRqkLpqnYy3cxGQo=
-  dependencies:
-    "@typescript-eslint/types" "4.4.0"
-    "@typescript-eslint/visitor-keys" "4.4.0"
-
 "@typescript-eslint/scope-manager@4.6.1":
   version "4.6.1"
   resolved "https://registry.npm.taobao.org/@typescript-eslint/scope-manager/download/@typescript-eslint/scope-manager-4.6.1.tgz?cache=0&sync_timestamp=1604341911197&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40typescript-eslint%2Fscope-manager%2Fdownload%2F%40typescript-eslint%2Fscope-manager-4.6.1.tgz#21872b91cbf7adfc7083f17b8041149148baf992"
@@ -1229,29 +1221,10 @@
     "@typescript-eslint/types" "4.6.1"
     "@typescript-eslint/visitor-keys" "4.6.1"
 
-"@typescript-eslint/types@4.4.0":
-  version "4.4.0"
-  resolved "https://registry.npm.taobao.org/@typescript-eslint/types/download/@typescript-eslint/types-4.4.0.tgz#63440ef87a54da7399a13bdd4b82060776e9e621"
-  integrity sha1-Y0QO+HpU2nOZoTvdS4IGB3bp5iE=
-
 "@typescript-eslint/types@4.6.1":
   version "4.6.1"
   resolved "https://registry.npm.taobao.org/@typescript-eslint/types/download/@typescript-eslint/types-4.6.1.tgz?cache=0&sync_timestamp=1604341910760&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40typescript-eslint%2Ftypes%2Fdownload%2F%40typescript-eslint%2Ftypes-4.6.1.tgz#d3ad7478f53f22e7339dc006ab61aac131231552"
   integrity sha1-0610ePU/IuczncAGq2GqwTEjFVI=
-
-"@typescript-eslint/typescript-estree@4.4.0":
-  version "4.4.0"
-  resolved "https://registry.npm.taobao.org/@typescript-eslint/typescript-estree/download/@typescript-eslint/typescript-estree-4.4.0.tgz#16a2df7c16710ddd5406b32b86b9c1124b1ca526"
-  integrity sha1-FqLffBZxDd1UBrMrhrnBEkscpSY=
-  dependencies:
-    "@typescript-eslint/types" "4.4.0"
-    "@typescript-eslint/visitor-keys" "4.4.0"
-    debug "^4.1.1"
-    globby "^11.0.1"
-    is-glob "^4.0.1"
-    lodash "^4.17.15"
-    semver "^7.3.2"
-    tsutils "^3.17.1"
 
 "@typescript-eslint/typescript-estree@4.6.1":
   version "4.6.1"
@@ -1266,14 +1239,6 @@
     lodash "^4.17.15"
     semver "^7.3.2"
     tsutils "^3.17.1"
-
-"@typescript-eslint/visitor-keys@4.4.0":
-  version "4.4.0"
-  resolved "https://registry.npm.taobao.org/@typescript-eslint/visitor-keys/download/@typescript-eslint/visitor-keys-4.4.0.tgz#0a9118344082f14c0f051342a74b42dfdb012640"
-  integrity sha1-CpEYNECC8UwPBRNCp0tC39sBJkA=
-  dependencies:
-    "@typescript-eslint/types" "4.4.0"
-    eslint-visitor-keys "^2.0.0"
 
 "@typescript-eslint/visitor-keys@4.6.1":
   version "4.6.1"
@@ -3185,10 +3150,10 @@ core-js-compat@^3.6.2, core-js-compat@^3.6.5:
     browserslist "^4.8.5"
     semver "7.0.0"
 
-core-js@^3.6.4, core-js@^3.6.5:
-  version "3.6.5"
-  resolved "https://registry.npm.taobao.org/core-js/download/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
-  integrity sha1-c5XcJzrzf7LlDpvT2f6EEoUjHRo=
+core-js@^3.6.5, core-js@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.npm.taobao.org/core-js/download/core-js-3.7.0.tgz?cache=0&sync_timestamp=1604675708759&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcore-js%2Fdownload%2Fcore-js-3.7.0.tgz#b0a761a02488577afbf97179e4681bf49568520f"
+  integrity sha1-sKdhoCSIV3r7+XF55Ggb9JVoUg8=
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
