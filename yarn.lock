@@ -4032,10 +4032,10 @@ eslint-plugin-simple-import-sort@^5.0.3:
   resolved "https://registry.npm.taobao.org/eslint-plugin-simple-import-sort/download/eslint-plugin-simple-import-sort-5.0.3.tgz#9ae258ddada6efffc55e47a134afbd279eb31fc6"
   integrity sha1-muJY3a2m7//FXkehNK+9J56zH8Y=
 
-eslint-plugin-standard@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.npm.taobao.org/eslint-plugin-standard/download/eslint-plugin-standard-4.0.1.tgz#ff0519f7ffaff114f76d1bd7c3996eef0f6e20b4"
-  integrity sha1-/wUZ9/+v8RT3bRvXw5lu7w9uILQ=
+eslint-plugin-standard@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.npm.taobao.org/eslint-plugin-standard/download/eslint-plugin-standard-4.1.0.tgz#0c3bf3a67e853f8bbbc580fb4945fbf16f41b7c5"
+  integrity sha1-DDvzpn6FP4u7xYD7SUX78W9Bt8U=
 
 eslint-plugin-vue@^7.1.0:
   version "7.1.0"
