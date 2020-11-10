@@ -92,6 +92,19 @@ const routes = [
     component: () => import(/* webpackChunkName: "form" */ '@/views/Form/FormFiller.vue'),
     props: true,
   },
+  //待办任务
+  {
+    path: '/tasks',
+    name: 'Tasks',
+    component: () => import(/* webpackChunkName: "task" */ '@/views/Tasks.vue'),
+  },
+  //待办任务
+  {
+    path: '/application-record-report/:id',
+    name: 'ApplicationRecordReport',
+    component: () => import(/* webpackChunkName: "task" */ '@/views/ApplicationRecordReport.vue'),
+    props: true,
+  },
 ];
 
 const router = new VueRouter({

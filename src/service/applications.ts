@@ -18,7 +18,7 @@ export class ApplicationsService {
   }
 
   static getApplications(queryApplicationDto?: QueryApplicationDto): Promise<AxiosResponse<Array<Application>>> {
-    return axios.get('applications', { data: queryApplicationDto });
+    return axios.get('applications', { params: queryApplicationDto });
   }
 
   static createApplication(createApplicationDto: CreateApplicationDto) {

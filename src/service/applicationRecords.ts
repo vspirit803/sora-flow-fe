@@ -31,6 +31,7 @@ export interface QueryApplicationRecordDto {
 }
 
 export interface CreateApplicationRecordDto {
+  readonly task?: string;
   readonly data: FormValue;
 }
 

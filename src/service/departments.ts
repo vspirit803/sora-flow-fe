@@ -6,7 +6,7 @@ export class DepartmentsService {
   }
 
   static getDepartments(queryDepartmentDto?: QueryDepartmentDto): Promise<AxiosResponse<Array<DepartmentVo>>> {
-    return axios.get('departments', { data: queryDepartmentDto });
+    return axios.get('departments', { params: queryDepartmentDto });
   }
 
   static createDepartment(createDepartmentDto: CreateDepartmentDto) {
