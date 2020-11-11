@@ -8,10 +8,10 @@ export type FormValue = Record<string, FormComponentValueDataBase>;
  */
 export class Form {
   rows: Array<FormRow>;
-  constructor(data: FormModel = [[{ type: 'Description', title: '描述文字', size: 12 }]]) {
+  constructor(data: FormModel = [[{ type: 'Description', title: '描述文字', size: 12 }]], formValue?: FormValue) {
     this.rows = [];
     data.forEach((eachRow) => {
-      const currRow = new FormRow(eachRow);
+      const currRow = new FormRow(eachRow, formValue);
       this.addRow(currRow);
     });
   }

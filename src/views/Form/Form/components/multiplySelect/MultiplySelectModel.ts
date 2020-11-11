@@ -21,7 +21,7 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
   mode: 'dropdown' | 'tiled';
 
   value: MutiplySelectValueData;
-  constructor(data?: MultiplySelectData) {
+  constructor(data?: MultiplySelectData, value?: MutiplySelectValueData) {
     const {
       id = new ObjectID().toHexString(),
       type = 'MultiplySelect',
@@ -44,7 +44,7 @@ export class MultiplySelectModel extends FormComponentModel implements MultiplyS
     this.direction = direction;
     this.mode = mode;
 
-    this.value = [...defaultValue];
+    this.value = [...(value ?? defaultValue)];
   }
 
   addOption(optionName = '未命名'): void {

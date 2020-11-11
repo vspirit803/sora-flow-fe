@@ -17,8 +17,6 @@ export type TableValueData = Array<TableRowValueData>;
 export interface TableData extends FormComponentModelDataBase {
   fields: Array<FormComponentModelDataBase>;
   rowNumber: number;
-
-  value?: TableValueData;
 }
 /**
  * 表单组件-表格
@@ -28,7 +26,7 @@ export class TableModel extends FormComponentModel implements TableData {
   rowNumber: number;
   value: TableValueData;
 
-  constructor(data?: TableData) {
+  constructor(data?: TableData, value?: TableValueData) {
     const {
       id = new ObjectID().toHexString(),
       type = 'Table',
@@ -47,9 +45,7 @@ export class TableModel extends FormComponentModel implements TableData {
           direction: 'horizontal',
         },
       ] as Array<FormComponentModelDataBase>,
-      rowNumber = 1,
-
-      value = [],
+      rowNumber = 0,
     } = data ?? {};
     super({ id, type, title, size });
 
@@ -58,18 +54,25 @@ export class TableModel extends FormComponentModel implements TableData {
       return ComponentFactory.create(eachField);
     });
     this.value = [];
+    this.setValueData(value ?? []);
+  }
 
-    for (let i = 0; i < this.rowNumber; i++) {
-      const currRow: TableRowValueData = { id: new ObjectID().toHexString(), data: {} };
+  setValueData(value: TableValueData): void {
+    const newValue: TableValueData = [];
+    value.forEach((currRowValueData) => {
+      const currRow: TableRowValueData = { id: currRowValueData.id, data: {} };
       this.fields.forEach((each) => {
         const id = each.id;
         currRow.data[id] = ComponentFactory.create(each.model);
-        if (value[i]?.data?.[id] && 'value' in currRow.data[id]) {
-          currRow.data[id].value = value[i].data?.[id];
+        if ('value' in currRow.data[id]) {
+          currRow.data[id].value = currRowValueData.data[id];
         }
       });
-      this.value.push(currRow);
-    }
+      newValue.push(currRow);
+    });
+
+    this.value = newValue;
+    this.rowNumber = newValue.length;
   }
 
   addField(type: FormComponentType): void {

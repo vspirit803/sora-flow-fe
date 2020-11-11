@@ -17,7 +17,7 @@ export class SingleLineInputModel extends FormComponentModel implements SingleLi
   defaultValue: SingleLineInputValueData;
 
   value: SingleLineInputValueData;
-  constructor(data?: SingleLineInputData) {
+  constructor(data?: SingleLineInputData, value?: SingleLineInputValueData) {
     const {
       id = new ObjectID().toHexString(),
       type = 'SingleLineInput',
@@ -32,7 +32,7 @@ export class SingleLineInputModel extends FormComponentModel implements SingleLi
     this.placeholder = placeholder;
     this.defaultValue = defaultValue;
 
-    this.value = defaultValue;
+    this.value = value ?? defaultValue;
   }
 
   getModel(): SingleLineInputData {

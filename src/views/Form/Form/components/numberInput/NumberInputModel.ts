@@ -17,7 +17,7 @@ export class NumberInputModel extends FormComponentModel implements NumberInputD
   defaultValue: NumberInputValueData | undefined;
 
   value: NumberInputValueData | undefined;
-  constructor(data?: NumberInputData) {
+  constructor(data?: NumberInputData, value?: NumberInputValueData) {
     const {
       id = new ObjectID().toHexString(),
       type = 'NumberInput',
@@ -32,7 +32,7 @@ export class NumberInputModel extends FormComponentModel implements NumberInputD
     this.placeholder = placeholder;
     this.defaultValue = defaultValue;
 
-    this.value = defaultValue;
+    this.value = value ?? defaultValue;
   }
 
   getModel(): NumberInputData {

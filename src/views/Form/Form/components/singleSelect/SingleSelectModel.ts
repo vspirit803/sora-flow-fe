@@ -21,7 +21,7 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
   mode: 'dropdown' | 'tiled';
 
   value: SingleSelectValueData;
-  constructor(data?: SingleSelectData) {
+  constructor(data?: SingleSelectData, value?: SingleSelectValueData) {
     const {
       id = new ObjectID().toHexString(),
       type = 'SingleSelect',
@@ -43,7 +43,7 @@ export class SingleSelectModel extends FormComponentModel implements SingleSelec
     this.options = options;
     this.direction = direction;
     this.mode = mode;
-    this.value = defaultValue;
+    this.value = value ?? defaultValue;
   }
 
   addOption(optionName = '未命名'): void {

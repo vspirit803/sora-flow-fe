@@ -22,7 +22,7 @@ export class FormComponentModel {
   size: number;
   layout: 'vertical' | 'horizontal';
   _row?: FormRow;
-  constructor(data: FormComponentModelDataBase) {
+  constructor(data: FormComponentModelDataBase, value?: FormComponentValueDataBase) {
     const { type, title = '无标题', size = 12, layout = 'vertical', id = new ObjectID().toHexString() } = data;
     this.id = id;
     this.type = type;

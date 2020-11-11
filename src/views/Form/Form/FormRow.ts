@@ -6,7 +6,7 @@ import {
   FormComponentModelDataBase,
   FormComponentValueDataBase,
 } from './components';
-import { Form } from './Form';
+import { Form, FormValue } from './Form';
 
 export type FormRowModel = Array<FormComponentModelDataBase>;
 
@@ -14,10 +14,11 @@ export class FormRow {
   components: Array<FormComponentModel>;
   id: string;
   _form?: Form;
-  constructor(data: FormRowModel = []) {
+  constructor(data: FormRowModel = [], formValue: FormValue = {}) {
     this.components = [];
     data.forEach((eachComponent) => {
-      const currComponent = ComponentFactory.create(eachComponent);
+      const id = eachComponent.id!;
+      const currComponent = ComponentFactory.create(eachComponent, formValue[id]);
       this.addComponent(currComponent);
     });
     this.id = new ObjectID().toHexString();

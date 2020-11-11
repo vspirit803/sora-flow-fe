@@ -17,7 +17,7 @@ export class MultiplyLineInputModel extends FormComponentModel implements Multip
   defaultValue: string;
   rowNumber: number;
   value: string;
-  constructor(data?: MultiplyLineInputData) {
+  constructor(data?: MultiplyLineInputData, value?: MutiplyLineValueData) {
     const {
       id = new ObjectID().toHexString(),
       type = 'MultiplyLineInput',
@@ -34,7 +34,7 @@ export class MultiplyLineInputModel extends FormComponentModel implements Multip
     this.defaultValue = defaultValue;
     this.rowNumber = rowNumber;
 
-    this.value = defaultValue;
+    this.value = value ?? defaultValue;
   }
 
   getModel(): MultiplyLineInputData {
