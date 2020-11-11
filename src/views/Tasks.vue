@@ -59,7 +59,6 @@ export default defineComponent({
       useRouter().push({
         name: 'ApplicationRecordReport',
         params: {
-          id: task.metadata.application,
           task: task.id,
         },
       });

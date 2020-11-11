@@ -100,7 +100,7 @@ const routes = [
   },
   //待办任务
   {
-    path: '/application-record-report/:id',
+    path: '/application-record-report/:task',
     name: 'ApplicationRecordReport',
     component: () => import(/* webpackChunkName: "task" */ '@/views/ApplicationRecordReport.vue'),
     props: true,

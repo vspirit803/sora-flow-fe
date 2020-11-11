@@ -14,7 +14,7 @@
       class="form-card flex-grow-1 flex-shrink-1 purple lighten-1 pa-2 form-preview"
     >
       <v-btn @click="onSubmit">
-        提交
+        {{ applicationRecordReportTask.metadata.applicationRecord ? '更新': '提交' }}
       </v-btn>
       <div
         v-for="eachRow of form.rows"
@@ -44,7 +44,7 @@
 <script lang="ts">
 import { defineComponent, provide, Ref, ref } from '@vue/composition-api';
 
-import { ApplicationRecordsService, ApplicationsService } from '@/service';
+import { ApplicationRecordReportTask, ApplicationRecordsService, ApplicationsService, TasksService } from '@/service';
 import { useRouter } from '@/use';
 
 import { Form, FormComponentModel } from './Form/Form';
@@ -52,30 +52,76 @@ import { Form, FormComponentModel } from './Form/Form';
 export default defineComponent({
   name: 'ApplicationRecordReport',
   props: {
-    id: { type: String, required: true },
-    task: { type: String, required: false },
+    task: { type: String, required: true },
   },
   setup(props) {
     const form: Ref<Form | undefined> = ref();
-    const selectedItem: Ref<FormComponentModel | null> = ref(null);
+    const selectedItem: Ref<FormComponentModel | undefined> = ref();
     provide('selectedItem', selectedItem);
     const formStatus = ref('filling');
     provide('formStatus', formStatus);
+    const applicationRecordReportTask: Ref<ApplicationRecordReportTask | undefined> = ref();
 
-    const applicationId = props.id;
-    ApplicationsService.getApplication(applicationId).then(({ data }) => {
-      form.value = new Form(data.formModel);
+    TasksService.getTasks({ id: props.task }).then(({ data }) => {
+      applicationRecordReportTask.value = data[0] as ApplicationRecordReportTask;
+      if (applicationRecordReportTask.value!.metadata.applicationRecord) {
+        //已经有对应的填报记录了
+        Promise.all([
+          ApplicationsService.getApplication(applicationRecordReportTask.value!.metadata.application),
+          ApplicationRecordsService.getApplicationRecords(applicationRecordReportTask.value!.metadata.application, {
+            id: applicationRecordReportTask.value!.metadata.applicationRecord,
+          }),
+        ]).then(
+          ([
+            {
+              data: { formModel },
+            },
+            {
+              data: [{ data: formValue }],
+            },
+          ]) => {
+            form.value = new Form(formModel, formValue);
+          },
+        );
+      } else {
+        //没有对应的填报记录
+        ApplicationsService.getApplication(applicationRecordReportTask.value!.metadata.application).then(
+          ({ data: { formModel } }) => {
+            form.value = new Form(formModel);
+          },
+        );
+      }
     });
 
     async function onSubmit() {
       const data = form.value!.valueData;
-      await ApplicationRecordsService.createApplicationRecord(applicationId, { data, task: props.task });
+      if (applicationRecordReportTask.value!.metadata.applicationRecord) {
+        //已有记录,修改
+        await ApplicationRecordsService.updateApplicationRecord(
+          applicationRecordReportTask.value!.metadata.application,
+          {
+            id: applicationRecordReportTask.value!.metadata.applicationRecord,
+            data,
+          },
+        );
+      } else {
+        //没有记录,新增
+        await ApplicationRecordsService.createApplicationRecord(
+          applicationRecordReportTask.value!.metadata.application,
+          {
+            data,
+            task: applicationRecordReportTask.value!.id,
+          },
+        );
+      }
       useRouter().back();
     }
 
     return {
       formStatus,
       form,
+
+      applicationRecordReportTask,
       onSubmit,
     };
   },

@@ -7,7 +7,7 @@ export class ApplicationRecordsService {
     applicationId: string,
     queryApplicationRecordDto?: QueryApplicationRecordDto,
   ): Promise<AxiosResponse<Array<ApplicationRecord>>> {
-    return axios.get(`applications/${applicationId}/records`, { data: queryApplicationRecordDto });
+    return axios.get(`applications/${applicationId}/records`, { params: queryApplicationRecordDto });
   }
 
   static createApplicationRecord(applicationId: string, createApplicationRecordDto: CreateApplicationRecordDto) {
@@ -37,8 +37,7 @@ export interface CreateApplicationRecordDto {
 
 export interface UpdateApplicationRecordDto {
   readonly id: string;
-  readonly name?: string;
-  readonly formModel?: FormModel;
+  readonly data: FormValue;
 }
 
 export interface DeleteApplicationRecordDto {

@@ -56,3 +56,13 @@ export interface Task {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface ApplicationRecordReportTask extends Task {
+  type: 'ApplicationRecordReport';
+  metadata: {
+    application: string;
+    applicationRecordCollectionTask: string;
+    title: string;
+    applicationRecord: string;
+  };
+}
