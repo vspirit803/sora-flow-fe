@@ -41,3 +41,4 @@ export * from './applications';
 export * from './applicationRecords';
 export * from './departments';
 export * from './tasks';
+export * from './applicationRecordCollectionTasks';

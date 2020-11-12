@@ -1,9 +1,12 @@
+import { nextTick } from '@vue/composition-api';
 import Vue from 'vue';
-import VueRouter from 'vue-router';
+import VueRouter, { RouteConfig } from 'vue-router';
+
+import { ApplicationRecordCollectionTasksService } from '@/service';
 
 Vue.use(VueRouter);
 
-const routes = [
+const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
@@ -105,15 +108,26 @@ const routes = [
     component: () => import(/* webpackChunkName: "task" */ '@/views/ApplicationRecordReport.vue'),
     props: true,
   },
+  //应用数据收集任务
+  {
+    path: '/application-record-collection/:id',
+    name: 'ApplicationRecordCollectionTask',
+    props: true,
+    beforeEnter: (to, _, next) => {
+      nextTick(() => {
+        ApplicationRecordCollectionTasksService.getApplicationRecordCollectionTaskInfo(to.params.id).then(
+          ({ data }) => {
+            next({ name: 'ApplicationRecordReport', params: { task: data.task.id } });
+          },
+        );
+      });
+    },
+  },
 ];
 
 const router = new VueRouter({
   routes,
   mode: 'history',
-});
-
-router.beforeEach((to, from, next) => {
-  next();
 });
 
 export default router;

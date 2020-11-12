@@ -1,24 +1,38 @@
 import axios, { AxiosResponse } from 'axios';
 
+import { Task } from './tasks';
+
 export class ApplicationRecordCollectionTasksService {
-  static getApplicationRecordCollectionTasks(queryTaskDto?: QueryTaskDto): Promise<AxiosResponse<Array<Task>>> {
-    return axios.get('tasks', { data: queryTaskDto });
+  static getApplicationRecordCollectionTasks(
+    queryApplicationRecordCollectionTaskDto?: QueryApplicationRecordCollectionTaskDto,
+  ): Promise<AxiosResponse<Array<ApplicationRecordCollectionTask>>> {
+    return axios.get('application-record-collection-tasks', { params: queryApplicationRecordCollectionTaskDto });
   }
 
-  static createApplicationRecordCollectionTask(createTaskDto: CreateTaskDto): Promise<AxiosResponse> {
-    return axios.post('tasks', createTaskDto);
+  static getApplicationRecordCollectionTaskInfo(id: string): Promise<AxiosResponse<ApplicationRecordCollectionTask>> {
+    return axios.get(`application-record-collection-tasks/${id}`);
   }
 
-  static updateApplicationRecordCollectionTask(updateTaskDto: UpdateTaskDto): Promise<AxiosResponse> {
-    return axios.patch('tasks', updateTaskDto);
+  static createApplicationRecordCollectionTask(
+    createApplicationRecordCollectionTaskDto: CreateApplicationRecordCollectionTaskDto,
+  ): Promise<AxiosResponse> {
+    return axios.post('application-record-collection-tasks', createApplicationRecordCollectionTaskDto);
   }
 
-  static deleteApplicationRecordCollectionTask(deleteTaskDto: DeleteTaskDto): Promise<AxiosResponse> {
-    return axios.delete('tasks', { data: deleteTaskDto });
+  static updateApplicationRecordCollectionTask(
+    updateApplicationRecordCollectionTaskDto: UpdateApplicationRecordCollectionTaskDto,
+  ): Promise<AxiosResponse> {
+    return axios.patch('application-record-collection-tasks', updateApplicationRecordCollectionTaskDto);
+  }
+
+  static deleteApplicationRecordCollectionTask(
+    deleteApplicationRecordCollectionTaskDto: DeleteApplicationRecordCollectionTaskDto,
+  ): Promise<AxiosResponse> {
+    return axios.delete('application-record-collection-tasks', { data: deleteApplicationRecordCollectionTaskDto });
   }
 }
 
-export interface QueryTaskDto {
+export interface QueryApplicationRecordCollectionTaskDto {
   readonly id?: string;
   readonly organization?: string;
   readonly account?: string;
@@ -27,7 +41,7 @@ export interface QueryTaskDto {
   readonly metadata?: Record<string, string>;
 }
 
-export interface CreateTaskDto {
+export interface CreateApplicationRecordCollectionTaskDto {
   readonly organization?: string;
   readonly account?: string;
   readonly type: string;
@@ -36,23 +50,15 @@ export interface CreateTaskDto {
   readonly metadata: Record<string, string>;
 }
 
-export interface UpdateTaskDto {
+export interface UpdateApplicationRecordCollectionTaskDto {
   readonly id: string;
   readonly status: string;
 }
 
-export interface DeleteTaskDto {
+export interface DeleteApplicationRecordCollectionTaskDto {
   readonly id: string;
 }
 
-export interface Task {
-  id: string;
-  organization: string;
-  account: string;
-  type: string;
-  status: string;
-  finalTime: Date;
-  metadata: Record<string, string>;
-  createdAt: Date;
-  updatedAt: Date;
+export interface ApplicationRecordCollectionTask {
+  task: Task;
 }
