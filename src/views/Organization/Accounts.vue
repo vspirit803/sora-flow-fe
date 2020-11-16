@@ -8,7 +8,7 @@
       fixed-header
       :items="accountList"
     >
-      <template v-slot:item.roles="{ item }">
+      <template #item.roles="{ item }">
         <v-chip
           v-for="eachRole of item.roles"
           :key="eachRole.id"
@@ -18,7 +18,7 @@
           {{ eachRole.text }}
         </v-chip>
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <IconButton
           color="primary"
           title="修改成员"
@@ -44,7 +44,7 @@
           </IconButton>
         </Confirm>
       </template>
-      <template v-slot:top>
+      <template #top>
         <v-toolbar flat>
           <v-btn
             icon

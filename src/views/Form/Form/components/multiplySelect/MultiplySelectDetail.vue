@@ -57,7 +57,7 @@
               mdi-delete
             </v-icon>
             <v-menu>
-              <template v-slot:activator="{ on, attrs }">
+              <template #activator="{ on, attrs }">
                 <v-icon
                   :color="each.color"
                   v-bind="attrs"

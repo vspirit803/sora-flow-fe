@@ -88,7 +88,7 @@
               v-else
               :key="each.id"
             >
-              <template v-slot:activator>
+              <template #activator>
                 <v-list-item-icon
                   v-if="sortable"
                   class="menu-handle mr-2"
@@ -202,7 +202,7 @@
                     :key="eachSub.id"
                     sub-group
                   >
-                    <template v-slot:activator>
+                    <template #activator>
                       <v-list-item-icon
                         v-if="sortable"
                         class="menu-handle mr-2"

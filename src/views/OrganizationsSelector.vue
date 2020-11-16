@@ -4,7 +4,7 @@
     offset-y
     :disabled="!organizations.length"
   >
-    <template v-slot:activator="{ on, attrs }">
+    <template #activator="{ on, attrs }">
       <v-btn
         text
         v-bind="attrs"

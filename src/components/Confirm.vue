@@ -3,7 +3,7 @@
     v-model="visible"
     :close-on-content-click="false"
   >
-    <template v-slot:activator="{ on, attrs }">
+    <template #activator="{ on, attrs }">
       <slot v-bind="{ on, attrs }" />
     </template>
 

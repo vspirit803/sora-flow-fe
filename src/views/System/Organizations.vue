@@ -8,7 +8,7 @@
       fixed-header
       :items="organizationList"
     >
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <IconButton
           title="修改组织"
           color="primary"
@@ -34,7 +34,7 @@
           </IconButton>
         </Confirm>
       </template>
-      <template v-slot:top>
+      <template #top>
         <v-toolbar flat>
           <v-btn
             icon
@@ -51,7 +51,7 @@
             persistent
             max-width="500px"
           >
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <v-btn
                 color="primary"
                 @v-bind="attrs"

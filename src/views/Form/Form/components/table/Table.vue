@@ -17,7 +17,7 @@
     >
       <template
         v-for="each of headers"
-        v-slot:[`item.${each.value}`]="{ item: currRow }"
+        #[`item.${each.value}`]="{ item: currRow }"
       >
         <div
           :is="each.type + 'Core'"
@@ -26,7 +26,7 @@
           :item="currRow.data[each.value]"
         />
       </template>
-      <template v-slot:item.actions="{ item: currRow }">
+      <template #item.actions="{ item: currRow }">
         <IconButton
           icon
           text
@@ -37,7 +37,7 @@
           <v-icon>mdi-table-row-remove</v-icon>
         </IconButton>
       </template>
-      <template v-slot:footer>
+      <template #footer>
         <IconButton
           icon
           text

@@ -10,7 +10,7 @@
           v-model="dialogVisible"
           width="500"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-btn
               color="primary"
               icon
@@ -82,7 +82,7 @@
           <v-list-item-group color="primary">
             <v-hover
               v-for="application of applications"
-              v-slot:default="{ hover }"
+              v-slot="{ hover }"
               :key="application.id"
             >
               <v-list-item

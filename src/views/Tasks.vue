@@ -16,10 +16,10 @@
             :items="applicationRecordReportTasks"
             hide-default-footer
           >
-            <template v-slot:item.finalTime="{ item }">
+            <template #item.finalTime="{ item }">
               {{ new Date(item.finalTime).toLocaleDateString() }}
             </template>
-            <template v-slot:item.actions="{ item }">
+            <template #item.actions="{ item }">
               <v-btn
                 text
                 color="primary"

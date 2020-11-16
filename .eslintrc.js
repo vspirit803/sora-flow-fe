@@ -52,5 +52,14 @@ module.exports = {
     'import/no-duplicates': 'error',
 
     'vue/attributes-order': 'error',
+    'vue/valid-v-slot': [
+      'error',
+      {
+        allowModifiers: true,
+      },
+    ],
+    'vue/no-unused-vars': 'warn',
+    'vue/no-mutating-props': 'off',
+    'vue/custom-event-name-casing': 'off',
   },
 };

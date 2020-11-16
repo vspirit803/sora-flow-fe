@@ -21,7 +21,7 @@
         :items="departments"
         class="department-list"
       >
-        <template v-slot:append="{ item }">
+        <template #append="{ item }">
           <v-btn
             color="primary"
             class="mr-2"
@@ -59,7 +59,7 @@
         fixed-header
         :items="selectedDepartment.members"
       >
-        <template v-slot:item.name="{ item }">
+        <template #item.name="{ item }">
           {{ item.name }}
           <v-icon
             v-if="item.id === selectedDepartment.supervisor.id"
@@ -69,7 +69,7 @@
             mdi-account-star
           </v-icon>
         </template>
-        <template v-slot:item.roles="{ item }">
+        <template #item.roles="{ item }">
           <v-chip
             v-for="eachRole of item.roles"
             :key="eachRole.id"
@@ -79,7 +79,7 @@
             {{ eachRole.text }}
           </v-chip>
         </template>
-        <template v-slot:item.actions="{ item }">
+        <template #item.actions="{ item }">
           <Confirm
             v-if="item.id!==selectedDepartment.supervisor.id"
             v-slot="{ on, attrs }"
@@ -113,7 +113,7 @@
             </IconButton>
           </Confirm>
         </template>
-        <template v-slot:top>
+        <template #top>
           <v-toolbar flat>
             <v-btn
               icon
@@ -247,7 +247,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref, watch } from '@vue/composition-api';
-import draggable from 'vuedraggable';
 
 import {
   CreateDepartmentDto,
@@ -265,7 +264,6 @@ interface Account {
 
 export default defineComponent({
   name: 'Department',
-  components: { draggable },
   setup() {
     const departments: Ref<Array<DepartmentVo>> = ref([]);
     const departmentModel: Ref<CreateDepartmentDto | UpdateDepartmentDto> = ref({

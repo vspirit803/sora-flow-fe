@@ -18,7 +18,7 @@
           v-else
           :key="each.id"
         >
-          <template v-slot:activator>
+          <template #activator>
             <v-list-item-icon v-if="each.icon">
               <v-icon>{{ each.icon }}</v-icon>
             </v-list-item-icon>
@@ -44,7 +44,7 @@
               :key="eachSub.id"
               sub-group
             >
-              <template v-slot:activator>
+              <template #activator>
                 <v-list-item-icon v-if="eachSub.icon">
                   <v-icon>{{ eachSub.icon }}</v-icon>
                 </v-list-item-icon>

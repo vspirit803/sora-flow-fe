@@ -25,7 +25,7 @@
     dense
     class="mt-1 pt-0"
   >
-    <template v-slot:selection="{ item }">
+    <template #selection="{ item }">
       <v-chip
         small
         :color="item.color"
@@ -33,7 +33,7 @@
         <span>{{ item.text }}</span>
       </v-chip>
     </template>
-    <template v-slot:item="{ item }">
+    <template #item="{ item }">
       <v-list-item-title :class="item.color + '--text'">
         {{ item.text }}
       </v-list-item-title>

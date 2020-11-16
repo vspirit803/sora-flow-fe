@@ -92,7 +92,7 @@
               :headers="headers"
               :items="records"
             >
-              <template v-slot:top>
+              <template #top>
                 <!-- 列筛选按钮 -->
                 <v-menu
                   transition="slide-x-transition"
@@ -100,7 +100,7 @@
                   right
                   :close-on-content-click="false"
                 >
-                  <template v-slot:activator="{ on, attrs }">
+                  <template #activator="{ on, attrs }">
                     <v-btn
                       class="deep-orange"
                       color="primary"
@@ -125,7 +125,7 @@
                           :key="eachOption.field.id"
                           :value="eachOption"
                         >
-                          <template v-slot:default="{ active }">
+                          <template #default="{ active }">
                             <v-list-item-content>
                               <v-list-item-title v-text="eachOption.text" />
                             </v-list-item-content>
@@ -151,7 +151,7 @@
               </template>
               <template
                 v-for="eachField of dataHeaders.filter((eachField)=>eachField.field.type ==='Table')"
-                v-slot:[`header.${eachField.value}`]="{ header }"
+                #[`header.${eachField.value}`]="{ header }"
               >
                 {{ header.text }}
                 <v-simple-table :key="eachField.value">
@@ -169,15 +169,15 @@
                 </v-simple-table>
               </template>
 
-              <template v-slot:item.createdAt="{ value }">
+              <template #item.createdAt="{ value }">
                 {{ new Date(value).toLocaleString() }}
               </template>
-              <template v-slot:item.updatedAt="{ value }">
+              <template #item.updatedAt="{ value }">
                 {{ new Date(value).toLocaleString() }}
               </template>
               <template
                 v-for="eachField of dataHeaders"
-                v-slot:[`item.${eachField.value}`]="{ item: currRow, value }"
+                #[`item.${eachField.value}`]="{ item: currRow, value }"
               >
                 <template v-if="eachField.field.type === 'SingleSelect'">
                   {{ eachField.field.options.find((eachOption) => eachOption.value === value).text }}
@@ -226,7 +226,7 @@
                 right
                 :close-on-content-click="false"
               >
-                <template v-slot:activator="{ on, attrs }">
+                <template #activator="{ on, attrs }">
                   <v-btn
                     class="deep-orange"
                     color="primary"
@@ -251,7 +251,7 @@
                         :key="eachOption.field.id"
                         :value="eachOption"
                       >
-                        <template v-slot:default="{ active }">
+                        <template #default="{ active }">
                           <v-list-item-content>
                             <v-list-item-title v-text="eachOption.text" />
                           </v-list-item-content>
@@ -403,6 +403,7 @@ export default defineComponent({
     this.onRouteUpdate(to.params.id);
     next();
   },
+  emits: ['onApplicationChanged'],
   setup(props, context) {
     const application: Ref<
       | (Application & {
