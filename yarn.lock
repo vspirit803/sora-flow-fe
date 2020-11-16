@@ -991,10 +991,10 @@
     "@types/connect" "*"
     "@types/node" "*"
 
-"@types/bson@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.npm.taobao.org/@types/bson/download/@types/bson-4.0.2.tgz#7accb85942fc39bbdb7515d4de437c04f698115f"
-  integrity sha1-esy4WUL8ObvbdRXU3kN8BPaYEV8=
+"@types/bson@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.npm.taobao.org/@types/bson/download/@types/bson-4.0.3.tgz#30889d2ffde6262abbe38659364c631454999fbf"
+  integrity sha1-MIidL/3mJiq744ZZNkxjFFSZn78=
   dependencies:
     "@types/node" "*"
 
