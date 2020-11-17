@@ -2,6 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 
 import { FormModel } from '@/views/Form/Form';
 
+export type ApplicationStatus = 'Designing' | 'Published' | 'Archive';
+
 export class ApplicationsService {
   static getApplication(id: string): Promise<AxiosResponse<ApplicationVo>> {
     return axios.get(`applications/${id}`);
@@ -36,6 +38,7 @@ export interface UpdateApplicationDto {
   readonly id: string;
   readonly name?: string;
   readonly formModel?: FormModel;
+  readonly status?: ApplicationStatus;
 }
 
 export interface DeleteApplicationDto {

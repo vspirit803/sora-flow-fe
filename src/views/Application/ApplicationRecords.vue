@@ -72,7 +72,6 @@
           >
             填表人
           </th>
-
           <template v-for="eachField of selectedDataHeaders">
             <th
               v-if="eachField.field.type !== 'Table'"
@@ -94,6 +93,13 @@
               {{ eachField.text }}
             </th>
           </template>
+          <!-- <td
+            :rowspan="2"
+            class="table-cell sticky-column sticky-header"
+            style="left: unset; right: 0; z-index: 5;"
+          >
+            我是最后一列
+          </td> -->
         </tr>
         <tr>
           <template v-for="eachField of selectedDataHeaders.filter(eachField => eachField.field.type === 'Table')">
@@ -170,6 +176,15 @@
                 />
               </template>
             </template>
+            <!-- <td
+              v-if="index === 1"
+              :key="eachRecord.id + 'tail' "
+              :rowspan="calculateRowNumber(eachRecord)"
+              class="table-cell sticky-column"
+              style="left: unset; right: 0;"
+            >
+              我是最后一列
+            </td> -->
           </tr>
         </template>
       </tbody>

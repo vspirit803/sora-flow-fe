@@ -39,17 +39,63 @@
             @click:append="onSubmitApplicationName"
           />
         </div>
-        <v-btn
-          class="ml-2"
-          color="primary"
-          title="编辑表单模型"
-          icon
-          :to="{ name: 'FormDesigner', params: { id } }"
-        >
-          <v-icon>
-            mdi-wrench
-          </v-icon>
-        </v-btn>
+        <template v-if="application.status === 'Designing'">
+          <v-btn
+            class="ml-2"
+            color="primary"
+            title="编辑表单模型"
+            icon
+            :to="{ name: 'FormDesigner', params: { id } }"
+          >
+            <v-icon>
+              mdi-wrench
+            </v-icon>
+          </v-btn>
+          <v-dialog
+            v-model="visiblePuslishApplicationDialog"
+            max-width="300px"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                color="primary"
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
+                发布应用
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>发布后将不可修改应用</v-card-title>
+              <v-divider />
+              <v-card-actions>
+                <v-spacer />
+                <v-btn
+                  color="primary"
+                  text
+                  @click="visiblePuslishApplicationDialog = false"
+                >
+                  取消
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  text
+                  @click="publishApplication"
+                >
+                  发布
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </template>
+        <template v-else>
+          <v-btn
+            class="ml-2"
+            color="primary"
+          >
+            发起新的填报
+          </v-btn>
+        </template>
         <v-btn
           class="ml-2"
           color="primary"
@@ -143,6 +189,17 @@ export default defineComponent({
       editName.value = false;
     }
 
+    const visiblePuslishApplicationDialog = ref(false);
+    async function publishApplication() {
+      try {
+        await ApplicationsService.updateApplication({ id: props.id, status: 'Published' });
+        await onRouteUpdate(props.id);
+      } catch (error) {
+        console.log(error);
+      }
+      visiblePuslishApplicationDialog.value = false;
+    }
+
     return {
       application,
       onSubmitApplicationName,
@@ -150,6 +207,8 @@ export default defineComponent({
       editName,
       applicationName,
       onRouteUpdate,
+      publishApplication,
+      visiblePuslishApplicationDialog,
     };
   },
 });
