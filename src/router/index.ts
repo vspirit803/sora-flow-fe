@@ -123,6 +123,12 @@ const routes: Array<RouteConfig> = [
       });
     },
   },
+  //应用数据收集任务
+  {
+    path: '/test',
+    name: 'Test',
+    component: () => import(/* webpackChunkName: "test" */ '@/views/Test.vue'),
+  },
 ];
 
 const router = new VueRouter({
