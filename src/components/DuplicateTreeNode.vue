@@ -30,7 +30,6 @@
       <DuplicateTreeNode
         v-for="eachNode of item[childrenKey]"
         :key="eachNode[valueKey]"
-        ref="childrenNodes"
         v-bind="{value, textKey, valueKey, childrenKey, item: eachNode, level: level + 1}"
         @change="(value) => $emit('change', value)"
       />
