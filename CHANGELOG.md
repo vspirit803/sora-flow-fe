@@ -1,3 +1,29 @@
+## [0.0.6](https://github.com/vspirit803/sora-flow-fe/compare/v0.0.5...v0.0.6) (2020-11-18)
+
+
+### Bug Fixes
+
+* **departments:** use the correct title when editing a department ([e568c10](https://github.com/vspirit803/sora-flow-fe/commit/e568c10296771e300efce9caa9aa5d6605bc8479))
+
+
+### Features
+
+* **application:** allow creation of application record collection tasks ([b42138d](https://github.com/vspirit803/sora-flow-fe/commit/b42138d214e576e3474d1a8e768bec0bf9a1d8bf))
+* **application-record-collection-tasks:** allow update of existing application records ([624adc8](https://github.com/vspirit803/sora-flow-fe/commit/624adc8c11585d2c4ef6a50d1a4a67dd6c0e4b5d))
+* **application-record-collection-tasks:** route to the related application record report task when entering a application record collection task page ([9116cb6](https://github.com/vspirit803/sora-flow-fe/commit/9116cb63a64debd7eb980c217db76c4c7f4e37de))
+* **application-records:** freeze the first row and first column when displaying all records ([ba05e66](https://github.com/vspirit803/sora-flow-fe/commit/ba05e66e09f9ff673fec03857256e14d0d2ec673))
+* **applications:** allow publishing applications ([5b55aa0](https://github.com/vspirit803/sora-flow-fe/commit/5b55aa08a2205911290d65d7c70cd32542c54982))
+* **departments:** allow change of department supervisor ([cb814ba](https://github.com/vspirit803/sora-flow-fe/commit/cb814ba3bddd384ad447f016c5f0b136ed6e6c18))
+* **departments:** display a special icon after the name ofdepartment supervisor ([41cb48a](https://github.com/vspirit803/sora-flow-fe/commit/41cb48a74c8dd645c7375ee35a84607642b702a7))
+* **duplicate-tree:** allow expansion and contraction of nodes when there are child nodes ([5dc2f12](https://github.com/vspirit803/sora-flow-fe/commit/5dc2f123cc8fe4a5319b013fc5225a3ba1793544))
+* **duplicate-tree:** modify style of duplicate tree ([b48d3db](https://github.com/vspirit803/sora-flow-fe/commit/b48d3dbee40b6d543903e5f1aee8281814f00996))
+* add duplicate tree component ([411a043](https://github.com/vspirit803/sora-flow-fe/commit/411a04393b40a8d9ff304114676a3cf6eebd1604))
+* **form:** allow the form to be initialized with the data ([85b6fcc](https://github.com/vspirit803/sora-flow-fe/commit/85b6fcc52bd27065e11c37ad3dc70e4c673c28f0))
+* add tasks module ([7fa5552](https://github.com/vspirit803/sora-flow-fe/commit/7fa555202396dfaa8173f2b93c993255c8f232b3))
+* **organizations:** show supervisor's nickname of instead of account name ([e7cd178](https://github.com/vspirit803/sora-flow-fe/commit/e7cd17832e3ece5efa2e5feb3f225b5cb0513bae))
+
+
+
 ## [0.0.5](https://github.com/vspirit803/sora-flow-fe/compare/v0.0.4...v0.0.5) (2020-10-27)
 
 
