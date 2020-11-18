@@ -1,6 +1,6 @@
 <!--可带有重复值的树结点-->
 <template>
-  <div :class="'ml-' + level * 4">
+  <div :style="`margin-left: ${level * 24}px;`">
     <v-checkbox
       class="mt-0"
       :input-value="isSelected"
@@ -8,9 +8,24 @@
       :label="item[textKey]"
       hide-details
       @click="onSelect(!isSelected)"
-    />
+    >
+      <template #prepend>
+        <v-icon
+          v-if="item[childrenKey] && item[childrenKey].length"
+          @click="isExpanded = !isExpanded"
+        >
+          {{ isExpanded ? 'mdi-menu-down' : 'mdi-menu-right' }}
+        </v-icon>
+        <v-icon
+          v-else
+          class="mr-6"
+        >
+          mdi-blank
+        </v-icon>
+      </template>
+    </v-checkbox>
 
-    <template v-if="item[childrenKey] && item[childrenKey].length">
+    <template v-if="isExpanded && item[childrenKey] && item[childrenKey].length">
       <DuplicateTreeNode
         v-for="eachNode of item[childrenKey]"
         :key="eachNode[valueKey]"
@@ -23,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 
 function extractValues(item: Record<string, unknown>, valueKey: string, childrenKey: string): Array<string> {
   if (Array.isArray(item[childrenKey]) && (item[childrenKey] as Array<Record<string, unknown>>).length) {
@@ -71,6 +86,8 @@ export default defineComponent({
       isLeaf.value ? false : !isSelected.value && allValues.some((eachValue) => props.value.includes(eachValue)),
     );
 
+    const isExpanded = ref(false);
+
     function onSelect(value: boolean) {
       const newValues = new Set(props.value);
 
@@ -82,7 +99,7 @@ export default defineComponent({
 
       emit('change', Array.from(newValues));
     }
-    return { onSelect, allValues, isSelected, isIndeterminate, isLeaf };
+    return { onSelect, allValues, isSelected, isIndeterminate, isLeaf, isExpanded };
   },
 });
 </script>
