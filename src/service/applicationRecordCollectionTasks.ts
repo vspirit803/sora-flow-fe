@@ -36,18 +36,14 @@ export interface QueryApplicationRecordCollectionTaskDto {
   readonly id?: string;
   readonly organization?: string;
   readonly account?: string;
-  readonly type?: string;
   readonly status?: string;
-  readonly metadata?: Record<string, string>;
 }
 
 export interface CreateApplicationRecordCollectionTaskDto {
-  readonly organization?: string;
-  readonly account?: string;
-  readonly type: string;
-  readonly status?: string;
+  readonly application: string;
+  readonly title: string;
   readonly finalTime: Date;
-  readonly metadata: Record<string, string>;
+  readonly reporters: Array<string>;
 }
 
 export interface UpdateApplicationRecordCollectionTaskDto {

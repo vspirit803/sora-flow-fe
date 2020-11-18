@@ -89,12 +89,29 @@
           </v-dialog>
         </template>
         <template v-else>
-          <v-btn
-            class="ml-2"
-            color="primary"
+          <v-dialog
+            v-model="visibleCreateApplicationCollectionTaskDialog"
+            max-width="400px"
+            scrollable
+            persistent
           >
-            发起新的填报
-          </v-btn>
+            <template #activator="{ on, attrs }">
+              <v-btn
+                class="ml-2"
+                color="primary"
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
+                发起新的填报
+              </v-btn>
+            </template>
+            <ApplicationCollectionTaskForm
+              :application-id="id"
+              @cancel="visibleCreateApplicationCollectionTaskDialog = false"
+              @submit="onCreateCollectionTask"
+            />
+          </v-dialog>
         </template>
         <v-btn
           class="ml-2"
@@ -141,16 +158,22 @@
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 
-import { ApplicationsService, ApplicationVo } from '@/service';
+import {
+  ApplicationRecordCollectionTasksService,
+  ApplicationsService,
+  ApplicationVo,
+  CreateApplicationRecordCollectionTaskDto,
+} from '@/service';
 import { useRouter } from '@/use';
 
+import ApplicationCollectionTaskForm from './ApplicationCollectionTaskForm.vue';
 import ApplicationRecords from './ApplicationRecords.vue';
 
 const router = useRouter();
 export default defineComponent({
   name: 'Application',
   props: { id: { type: String, required: true } },
-  components: { ApplicationRecords },
+  components: { ApplicationRecords, ApplicationCollectionTaskForm },
   beforeRouteUpdate(to, from, next) {
     this.onRouteUpdate(to.params.id);
     next();
@@ -193,11 +216,22 @@ export default defineComponent({
     async function publishApplication() {
       try {
         await ApplicationsService.updateApplication({ id: props.id, status: 'Published' });
+        visiblePuslishApplicationDialog.value = false;
         await onRouteUpdate(props.id);
       } catch (error) {
         console.log(error);
       }
-      visiblePuslishApplicationDialog.value = false;
+    }
+
+    const visibleCreateApplicationCollectionTaskDialog = ref(false);
+
+    async function onCreateCollectionTask(newTask: CreateApplicationRecordCollectionTaskDto) {
+      try {
+        await ApplicationRecordCollectionTasksService.createApplicationRecordCollectionTask(newTask);
+        visibleCreateApplicationCollectionTaskDialog.value = false;
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     return {
@@ -209,6 +243,8 @@ export default defineComponent({
       onRouteUpdate,
       publishApplication,
       visiblePuslishApplicationDialog,
+      visibleCreateApplicationCollectionTaskDialog,
+      onCreateCollectionTask,
     };
   },
 });
