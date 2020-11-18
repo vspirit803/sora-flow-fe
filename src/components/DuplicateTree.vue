@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 
 import DuplicateTreeNode from './DuplicateTreeNode.vue';
 
@@ -46,7 +46,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    function onChange(newValues: Array<any>) {
+    function onChange(newValues: Array<unknown>) {
       emit('change', newValues);
     }
 

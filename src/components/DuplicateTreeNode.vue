@@ -2,13 +2,14 @@
 <template>
   <div :style="`margin-left: ${level * 24}px;`">
     <v-checkbox
-      class="mt-0"
       :input-value="isSelected"
       :indeterminate="isIndeterminate"
-      :label="item[textKey]"
       hide-details
       @click="onSelect(!isSelected)"
     >
+      <template #label>
+        <span style="color: rgba(0,0,0,.87);">{{ item[textKey] }}</span>
+      </template>
       <template #prepend>
         <v-icon
           v-if="item[childrenKey] && item[childrenKey].length"
@@ -79,11 +80,11 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const allValues = extractValues(props.item, props.valueKey, props.childrenKey);
-    const isLeaf = computed(() => !props.item[props.childrenKey]?.length);
+    const isLeaf = !props.item[props.childrenKey]?.length;
 
     const isSelected = computed(() => allValues.every((eachValue) => props.value.includes(eachValue)));
     const isIndeterminate = computed(() =>
-      isLeaf.value ? false : !isSelected.value && allValues.some((eachValue) => props.value.includes(eachValue)),
+      isLeaf ? false : !isSelected.value && allValues.some((eachValue) => props.value.includes(eachValue)),
     );
 
     const isExpanded = ref(false);
