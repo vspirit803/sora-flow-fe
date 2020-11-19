@@ -2,11 +2,13 @@
   应用记录展示
 -->
 <template>
-  <v-card
-    v-if="application && records.length"
-    flat
-  >
-    <div>
+  <div>
+    <v-skeleton-loader
+      v-if="!application"
+      loading
+      type="article,table"
+    />
+    <template v-else>
       <!-- 列筛选按钮 -->
       <v-menu
         transition="slide-x-transition"
@@ -62,121 +64,121 @@
       >
         <v-icon>mdi-refresh</v-icon>
       </v-btn>
-    </div>
-    <v-simple-table class="table">
-      <thead>
-        <tr>
-          <th
-            :rowspan="2"
-            class="table-cell sticky-column sticky-header"
-          >
-            填表人
-          </th>
-          <template v-for="eachField of selectedDataHeaders">
+      <!-- 数据表 -->
+      <v-simple-table class="table">
+        <thead>
+          <tr>
             <th
-              v-if="eachField.field.type !== 'Table'"
-              :key="eachField.value"
               :rowspan="2"
-              class="table-cell sticky-header"
+              class="table-cell sticky-column sticky-header"
             >
-              {{ eachField.text }}
+              填表人
             </th>
-            <th
-              v-else
-              :key="eachField.value"
-              :colspan="eachField.field.fields.length"
-              class="table-cell sticky-header"
-              :style="{'min-width': eachField.width + 'px',
-                       'text-align': 'center',
-              }"
-            >
-              {{ eachField.text }}
-            </th>
-          </template>
-          <!-- <td
+            <template v-for="eachField of selectedDataHeaders">
+              <th
+                v-if="eachField.field.type !== 'Table'"
+                :key="eachField.value"
+                :rowspan="2"
+                class="table-cell sticky-header"
+              >
+                {{ eachField.text }}
+              </th>
+              <th
+                v-else
+                :key="eachField.value"
+                :colspan="eachField.field.fields.length"
+                class="table-cell sticky-header"
+                :style="{'min-width': eachField.width + 'px',
+                         'text-align': 'center',
+                }"
+              >
+                {{ eachField.text }}
+              </th>
+            </template>
+            <!-- <td
             :rowspan="2"
             class="table-cell sticky-column sticky-header"
             style="left: unset; right: 0; z-index: 5;"
           >
             我是最后一列
           </td> -->
-        </tr>
-        <tr>
-          <template v-for="eachField of selectedDataHeaders.filter(eachField => eachField.field.type === 'Table')">
-            <th
-              v-for="eachNestedField of eachField.field.fields"
-              :key="eachNestedField.id"
-              class="table-cell sticky-subheader"
+          </tr>
+          <tr>
+            <template v-for="eachField of selectedDataHeaders.filter(eachField => eachField.field.type === 'Table')">
+              <th
+                v-for="eachNestedField of eachField.field.fields"
+                :key="eachNestedField.id"
+                class="table-cell sticky-subheader"
+              >
+                {{ eachNestedField.title }}
+              </th>
+            </template>
+          </tr>
+        </thead>
+        <tbody v-if="records.length">
+          <template v-for="eachRecord of records">
+            <tr
+              v-for="index of calculateRowNumber(eachRecord)"
+              :key="eachRecord.id + index"
             >
-              {{ eachNestedField.title }}
-            </th>
-          </template>
-        </tr>
-      </thead>
-      <tbody>
-        <template v-for="eachRecord of records">
-          <tr
-            v-for="index of calculateRowNumber(eachRecord)"
-            :key="eachRecord.id + index"
-          >
-            <td
-              v-if="index === 1"
-              :key="eachRecord.id"
-              class="table-cell sticky-column"
-              :rowspan="calculateRowNumber(eachRecord)"
-            >
-              {{ eachRecord.account.nickname }}
-            </td>
-            <template v-for="eachField of selectedDataHeaders">
-              <!-- 表中主字段 -->
               <td
-                v-if="eachField.field.type !== 'Table' && index === 1"
-                :key="eachField.field.id"
-                class="table-cell"
+                v-if="index === 1"
+                :key="eachRecord.id"
+                class="table-cell sticky-column"
                 :rowspan="calculateRowNumber(eachRecord)"
               >
-                <template v-if="!eachRecord.data[eachField.field.id]" />
-                <template v-else-if="eachField.field.type ==='SingleSelect'">
-                  {{ eachField.field.options.find((eachOption) => eachOption.value === eachRecord.data[eachField.field.id]).text }}
-                </template>
-                <template v-else-if="eachField.field.type ==='MultiplySelect'">
-                  {{ eachRecord.data[eachField.field.id].map((eachValue) => (eachField.field.options.find((eachOption) => eachOption.value === eachValue).text)) }}
-                </template>
-                <template v-else>
-                  {{ eachRecord.data[eachField.field.id] }}
-                </template>
+                {{ eachRecord.account.nickname }}
               </td>
-              <!-- 表格字段 -->
-              <template v-else-if="eachField.field.type === 'Table' && eachRecord.data[eachField.field.id].length && (index - 1) % (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length) === 0">
+              <template v-for="eachField of selectedDataHeaders">
+                <!-- 表中主字段 -->
                 <td
-                  v-for="eachNestedField of eachField.field.fields"
-                  :key="eachNestedField.id"
+                  v-if="eachField.field.type !== 'Table' && index === 1"
+                  :key="eachField.field.id"
                   class="table-cell"
-                  :rowspan="calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length"
+                  :rowspan="calculateRowNumber(eachRecord)"
                 >
-                  <template v-if="!eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id]" />
+                  <template v-if="!eachRecord.data[eachField.field.id]" />
                   <template v-else-if="eachField.field.type ==='SingleSelect'">
-                    {{ eachNestedField.field.options.find((eachOption) => eachOption.value === eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id]).text }}
+                    {{ eachField.field.options.find((eachOption) => eachOption.value === eachRecord.data[eachField.field.id]).text }}
                   </template>
                   <template v-else-if="eachField.field.type ==='MultiplySelect'">
-                    {{ eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id].map((eachValue) => (eachNestedField.field.options.find((eachOption) => eachOption.value === eachValue).text)) }}
+                    {{ eachRecord.data[eachField.field.id].map((eachValue) => (eachField.field.options.find((eachOption) => eachOption.value === eachValue).text)) }}
                   </template>
                   <template v-else>
-                    {{ eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id] }}
+                    {{ eachRecord.data[eachField.field.id] }}
                   </template>
                 </td>
+                <!-- 表格字段 -->
+                <template v-else-if="eachField.field.type === 'Table' && eachRecord.data[eachField.field.id].length && (index - 1) % (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length) === 0">
+                  <td
+                    v-for="eachNestedField of eachField.field.fields"
+                    :key="eachNestedField.id"
+                    class="table-cell"
+                    :rowspan="calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length"
+                  >
+                    <template v-if="!eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id]" />
+                    <template v-else-if="eachField.field.type ==='SingleSelect'">
+                      {{ eachNestedField.field.options.find((eachOption) => eachOption.value === eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id]).text }}
+                    </template>
+                    <template v-else-if="eachField.field.type ==='MultiplySelect'">
+                      {{ eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id].map((eachValue) => (eachNestedField.field.options.find((eachOption) => eachOption.value === eachValue).text)) }}
+                    </template>
+                    <template v-else>
+                      {{ eachRecord.data[eachField.field.id][(index-1) / (calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length )].data[eachNestedField.id] }}
+                    </template>
+                  </td>
+                </template>
+                <!-- 表格字段为空 -->
+                <template v-else-if="eachField.field.type === 'Table' && !eachRecord.data[eachField.field.id].length && index === 1">
+                  <td
+                    v-for="eachNestedField of eachField.field.fields"
+                    :key="eachNestedField.id"
+                    class="table-cell"
+                    :rowspan="calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length"
+                  />
+                </template>
               </template>
-              <!-- 表格字段为空 -->
-              <template v-else-if="eachField.field.type === 'Table' && !eachRecord.data[eachField.field.id].length && index === 1">
-                <td
-                  v-for="eachNestedField of eachField.field.fields"
-                  :key="eachNestedField.id"
-                  class="table-cell"
-                  :rowspan="calculateRowNumber(eachRecord) / eachRecord.data[eachField.field.id].length"
-                />
-              </template>
-            </template>
-            <!-- <td
+              <!-- <td
               v-if="index === 1"
               :key="eachRecord.id + 'tail' "
               :rowspan="calculateRowNumber(eachRecord)"
@@ -185,11 +187,20 @@
             >
               我是最后一列
             </td> -->
-          </tr>
-        </template>
-      </tbody>
-    </v-simple-table>
-  </v-card>
+            </tr>
+          </template>
+        </tbody>
+      </v-simple-table>
+      <!-- 无数据提示 -->
+      <div
+        v-if="!records.length"
+        class="text-center pa-4"
+        style="color: rgba(0, 0, 0, 0.38); font-size: 0.875rem;"
+      >
+        没有数据
+      </div>
+    </template>
+  </div>
 </template>
 
 <script lang="ts">
@@ -209,7 +220,7 @@ export default defineComponent({
     const records: Ref<Array<ApplicationRecord>> = ref([]);
     /**所有表头 */
     const headers = computed(() => [
-      { text: '填写人', value: 'account.nickname', width: 150, class: 'fillter' },
+      { text: '填写人', value: 'account.nickname', width: 150 },
       ...selectedDataHeaders.value,
     ]);
     /**数据的表头 */
@@ -244,6 +255,7 @@ export default defineComponent({
     });
 
     async function refreshRecords() {
+      records.value = [];
       const { data } = await ApplicationRecordsService.getApplicationRecords(props.id);
       records.value = data;
     }
