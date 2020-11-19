@@ -23,7 +23,12 @@
               <v-btn
                 text
                 color="primary"
-                @click="onClickReport(item)"
+                :to="{
+                  name: 'ApplicationRecordReport',
+                  params: {
+                    task: item.id,
+                  }
+                }"
               >
                 填报
               </v-btn>
@@ -39,7 +44,6 @@
 import { computed, defineComponent, Ref, ref } from '@vue/composition-api';
 
 import { Task, TasksService } from '@/service';
-import { useRouter } from '@/use';
 
 export default defineComponent({
   name: 'Tasks',
@@ -55,19 +59,9 @@ export default defineComponent({
       allTasks.value = response.data;
     });
 
-    function onClickReport(task: Task) {
-      useRouter().push({
-        name: 'ApplicationRecordReport',
-        params: {
-          task: task.id,
-        },
-      });
-    }
-
     return {
       allTasks,
       applicationRecordReportTasks,
-      onClickReport,
     };
   },
 });
