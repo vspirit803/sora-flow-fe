@@ -6,7 +6,7 @@
     <v-skeleton-loader
       v-if="!application"
       loading
-      type="article"
+      type="article,table"
       class="mx-2"
     />
     <template v-else>
@@ -103,7 +103,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                发起新的填报
+                发起新的采集任务
               </v-btn>
             </template>
             <ApplicationCollectionTaskForm
@@ -143,8 +143,56 @@
       <v-tabs-items v-model="tab">
         <v-tab-item value="overview">
           <v-card flat>
-            <v-card-text>概览 未完成</v-card-text>
-            {{ application.status === 'Designing' ? '设计中' : '已发布' }}
+            <v-data-table
+              :headers="[
+                { text: '标题', value: 'title', divider: true, width: 200},
+                { text: '状态', value: 'status',divider: true, width: 200 },
+                { text: '截止时间', value: 'finalTime', divider: true, width: 200},
+                { text: '进度', value: 'progress', divider: true, width: 200},
+                { text: '操作', value: 'actions', width: 200 },
+              ]"
+              fixed-header
+              :items="applicationRecordCollectionTasks"
+              hide-default-footer
+            >
+              <template #item.finalTime="{ item }">
+                {{ new Date(item.finalTime).toLocaleDateString() }}
+              </template>
+              <template #item.progress="{ item }">
+                <v-tooltip
+                  bottom
+                  content-class="pa-0"
+                  :open-delay="200"
+                  :close-delay="200"
+                >
+                  <template #activator="{ on, attrs }">
+                    <v-progress-linear
+                      v-bind="attrs"
+                      :value="item.tasks.filter((each) => each.status === 'completed').length / item.tasks.length * 100"
+                      height="25"
+                      v-on="on"
+                    >
+                      <strong>{{ item.tasks.filter((each) => each.status === 'completed').length }} / {{ item.tasks.length }}</strong>
+                    </v-progress-linear>
+                  </template>
+                  <v-card class="pa-4 pb-1">
+                    <p> 预计填报数: {{ item.tasks.length }}</p>
+                    <p>
+                      完成填报数: {{ item.tasks.filter((each) => each.status === 'completed').length }}
+                    </p>
+                  </v-card>
+                </v-tooltip>
+              </template>
+              <template #item.actions="{ item }">
+                <v-btn
+                  text
+                  color="primary"
+                  disabled
+                >
+                  查看详情
+                </v-btn>
+              </template>
+            </v-data-table>
           </v-card>
         </v-tab-item>
         <v-tab-item value="all">
@@ -159,6 +207,7 @@
 import { defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 
 import {
+  ApplicationRecordCollectionTask,
   ApplicationRecordCollectionTasksService,
   ApplicationsService,
   ApplicationVo,
@@ -183,6 +232,9 @@ export default defineComponent({
     const application: Ref<ApplicationVo | undefined> = ref();
     const editName = ref(false);
     const applicationName = ref('');
+
+    const applicationRecordCollectionTasks: Ref<Array<ApplicationRecordCollectionTask>> = ref([]);
+
     const tab = ref('overview');
 
     onMounted(() => {
@@ -194,6 +246,12 @@ export default defineComponent({
       tab.value = 'overview';
       try {
         const { data } = await ApplicationsService.getApplication(id);
+
+        const { data: tasks } = await ApplicationRecordCollectionTasksService.getApplicationRecordCollectionTasks({
+          application: id,
+        });
+        applicationRecordCollectionTasks.value = tasks;
+
         application.value = data;
         applicationName.value = data.name;
       } catch {
@@ -245,6 +303,7 @@ export default defineComponent({
       visiblePuslishApplicationDialog,
       visibleCreateApplicationCollectionTaskDialog,
       onCreateCollectionTask,
+      applicationRecordCollectionTasks,
     };
   },
 });

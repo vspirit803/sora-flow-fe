@@ -9,7 +9,9 @@ export class ApplicationRecordCollectionTasksService {
     return axios.get('application-record-collection-tasks', { params: queryApplicationRecordCollectionTaskDto });
   }
 
-  static getApplicationRecordCollectionTaskInfo(id: string): Promise<AxiosResponse<ApplicationRecordCollectionTask>> {
+  static getApplicationRecordCollectionTaskInfo(
+    id: string,
+  ): Promise<AxiosResponse<ApplicationRecordCollectionTaskInfo>> {
     return axios.get(`application-record-collection-tasks/${id}`);
   }
 
@@ -35,8 +37,9 @@ export class ApplicationRecordCollectionTasksService {
 export interface QueryApplicationRecordCollectionTaskDto {
   readonly id?: string;
   readonly organization?: string;
-  readonly account?: string;
+  readonly publisher?: string;
   readonly status?: string;
+  readonly application?: string;
 }
 
 export interface CreateApplicationRecordCollectionTaskDto {
@@ -55,6 +58,17 @@ export interface DeleteApplicationRecordCollectionTaskDto {
   readonly id: string;
 }
 
-export interface ApplicationRecordCollectionTask {
+export interface ApplicationRecordCollectionTaskInfo {
   task: Task;
+}
+
+export interface ApplicationRecordCollectionTask {
+  /**标题 */
+  title: string;
+
+  /**状态 */
+  status: string;
+
+  /**截止时间 */
+  finalTime: Date;
 }

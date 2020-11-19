@@ -8,7 +8,7 @@
       @click="onSelect(!isSelected)"
     >
       <template #label>
-        <span style="color: rgba(0,0,0,.87);">{{ item[textKey] }}</span>
+        <span style="color: rgba(0, 0, 0, .87);">{{ item[textKey] }}</span>
       </template>
       <template #prepend>
         <v-icon
