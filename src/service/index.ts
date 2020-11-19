@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useStore } from '@/use';
 
 axios.defaults.baseURL = '/api';
-
+axios.defaults.headers['Cache-Control'] = 'no-cache';
 // 添加请求拦截器
 axios.interceptors.request.use(
   function (config) {
