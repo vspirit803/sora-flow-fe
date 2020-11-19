@@ -44,7 +44,8 @@ module.exports = {
     // 'no-eval': 'off',
     // 'computed-property-even-spacing': 'off',
     // 'standard/computed-property-even-spacing': 'off'
-    'simple-import-sort/sort': 'error',
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
 
     'import/order': 'off',
     'import/first': 'error',

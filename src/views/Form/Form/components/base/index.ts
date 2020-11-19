@@ -10,11 +10,11 @@ import FormComponentSizeAdjuster from './FormComponentSizeAdjuster.vue';
 export {
   FormComponent,
   FormComponentDetailHeader,
+  FormComponentLayout,
   FormComponentModel,
   FormComponentModelDataBase,
-  FormComponentValueDataBase,
-  FormComponentSizeAdjuster,
   FormComponentPropsCard,
-  FormComponentLayout,
+  FormComponentSizeAdjuster,
+  FormComponentValueDataBase,
 };
 export * from './OptionColor';

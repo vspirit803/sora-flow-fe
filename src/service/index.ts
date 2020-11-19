@@ -34,11 +34,11 @@ axios.interceptors.response.use(
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).axios = axios;
 
+export * from './applicationRecordCollectionTasks';
+export * from './applicationRecords';
+export * from './applications';
 export * from './auth';
+export * from './departments';
 export * from './profile';
 export * from './System';
-export * from './applications';
-export * from './applicationRecords';
-export * from './departments';
 export * from './tasks';
-export * from './applicationRecordCollectionTasks';
