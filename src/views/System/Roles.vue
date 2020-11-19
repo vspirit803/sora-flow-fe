@@ -136,7 +136,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
 
-import { CreateRoleDto, MenusService, MenuTreeItem, Role, RolesService, UpdateRoleDto } from '@/service';
+import { CreateRoleDto, MenuTreeItem, ProfileService, Role, RolesService, UpdateRoleDto } from '@/service';
 import { useStore } from '@/use';
 
 export default defineComponent({
@@ -167,7 +167,7 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      const { data: menuTreeData } = await MenusService.getMenus();
+      const { data: menuTreeData } = await ProfileService.getMenus();
       menuTree.value = menuTreeData;
 
       await refreshRoleList();
