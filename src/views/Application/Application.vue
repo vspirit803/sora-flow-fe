@@ -143,7 +143,18 @@
       <v-tabs-items v-model="tab">
         <v-tab-item value="overview">
           <v-card flat>
+            <!-- 刷新按钮 -->
+            <v-btn
+              icon
+              text
+              color="primary"
+              title="刷新列表"
+              @click="refreshApplicationRecordCollectionTasks"
+            >
+              <v-icon>mdi-refresh</v-icon>
+            </v-btn>
             <v-data-table
+              :loading="isLoading"
               :headers="[
                 { text: '标题', value: 'title', divider: true, width: 200},
                 { text: '状态', value: 'status',divider: true, width: 200 },
@@ -246,17 +257,23 @@ export default defineComponent({
       tab.value = 'overview';
       try {
         const { data } = await ApplicationsService.getApplication(id);
-
-        const { data: tasks } = await ApplicationRecordCollectionTasksService.getApplicationRecordCollectionTasks({
-          application: id,
-        });
-        applicationRecordCollectionTasks.value = tasks;
-
         application.value = data;
         applicationName.value = data.name;
+        await refreshApplicationRecordCollectionTasks();
       } catch {
         router.push({ name: 'NoApplication' });
       }
+    }
+
+    const isLoading = ref(true);
+    async function refreshApplicationRecordCollectionTasks() {
+      isLoading.value = true;
+      applicationRecordCollectionTasks.value = [];
+      const { data: tasks } = await ApplicationRecordCollectionTasksService.getApplicationRecordCollectionTasks({
+        application: props.id,
+      });
+      applicationRecordCollectionTasks.value = tasks;
+      isLoading.value = false;
     }
 
     async function onSubmitApplicationName() {
@@ -304,6 +321,8 @@ export default defineComponent({
       visibleCreateApplicationCollectionTaskDialog,
       onCreateCollectionTask,
       applicationRecordCollectionTasks,
+      refreshApplicationRecordCollectionTasks,
+      isLoading,
     };
   },
 });
