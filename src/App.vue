@@ -87,14 +87,15 @@ export default defineComponent({
       }
     });
 
-    onMounted(() => {
+    onMounted(async () => {
       const { token, organizationId } = store.state;
       if (token) {
         store.commit('setToken', token);
-        store.dispatch('getOrganizations');
-      }
-      if (organizationId) {
-        store.dispatch('authOrganization', { id: organizationId });
+        await store.dispatch('getOrganizations');
+
+        if (organizationId) {
+          store.dispatch('authOrganization', { id: organizationId });
+        }
       }
     });
 

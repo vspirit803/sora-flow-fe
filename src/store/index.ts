@@ -97,7 +97,7 @@ const store: Store<StoreType> = new Store<StoreType>({
       }
     },
     requestError: function (state, error) {
-      state.errorMsg = error?.response?.data?.message ?? error.message;
+      state.errorMsg = error.response?.data?.message ?? error.message;
       state.isError = true;
       state.requestCount--;
       if (state.requestCount <= 0) {

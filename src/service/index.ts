@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { useStore } from '@/use';
+import { useRouter, useStore } from '@/use';
 
 axios.defaults.baseURL = '/api';
 axios.defaults.headers['Cache-Control'] = 'no-cache';
@@ -26,6 +26,9 @@ axios.interceptors.response.use(
   },
   function (error) {
     // 对响应错误做点什么
+    if (error.response.status === 401 && useRouter().currentRoute.name !== 'Login') {
+      useRouter().push({ name: 'Login' });
+    }
     useStore().commit('requestError', error);
     return Promise.reject(error);
   },
