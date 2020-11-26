@@ -1,3 +1,25 @@
+## [0.0.7](https://github.com/vspirit803/sora-flow-fe/compare/v0.0.6...v0.0.7) (2020-11-26)
+
+
+### Bug Fixes
+
+* **logout:** fix the problem that the organization selector is visible after logging out and logging in again ([0b4fdc6](https://github.com/vspirit803/sora-flow-fe/commit/0b4fdc6766c332619fce9aadd572f00bdb3d9413))
+* **roles:** fetch authorized menus instead of all menus ([db3f963](https://github.com/vspirit803/sora-flow-fe/commit/db3f963c85f07bb7b73b1719d6f535121d7c0d98))
+
+
+### Features
+
+* add log out function ([7ea280e](https://github.com/vspirit803/sora-flow-fe/commit/7ea280ef1e1bdba77f240a10fc5e28390094a716))
+* route to the tasks page after changing the organization ([3767c10](https://github.com/vspirit803/sora-flow-fe/commit/3767c1042eac215febd10b3faa9b9e0d08fd641e))
+* **applications:** add a button to refresh application record collection tasks ([446c42d](https://github.com/vspirit803/sora-flow-fe/commit/446c42d16152d340d9eb99afcc2053fdfb9847a3))
+* **applications:** display a skeleton loader when fetching application records ([9bff76d](https://github.com/vspirit803/sora-flow-fe/commit/9bff76d01c280bb58415e4c1743948e8e64c2829))
+* **authorization:** route to login page if not authorized ([115d4f8](https://github.com/vspirit803/sora-flow-fe/commit/115d4f8965787f8233db4a31357a5ae39f381b4b))
+* disable local cache ([0bafc78](https://github.com/vspirit803/sora-flow-fe/commit/0bafc78db67a57a6dd062222d0d02b96280bf777))
+* enable simple chinese language package ([ce1890e](https://github.com/vspirit803/sora-flow-fe/commit/ce1890e70c796567c1318dcfdd22b5935bbd1c8d))
+* **applications:** display existing application record collection tasks ([9fe8fa3](https://github.com/vspirit803/sora-flow-fe/commit/9fe8fa3ff4c95b062b8dc25f9f531127f73ece97))
+
+
+
 ## [0.0.6](https://github.com/vspirit803/sora-flow-fe/compare/v0.0.5...v0.0.6) (2020-11-18)
 
 
