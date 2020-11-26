@@ -41,9 +41,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from '@vue/composition-api';
+import { computed, defineComponent, Ref, ref, watch } from '@vue/composition-api';
 
 import { Task, TasksService } from '@/service';
+import { useStore } from '@/use';
 
 export default defineComponent({
   name: 'Tasks',
@@ -55,9 +56,20 @@ export default defineComponent({
       allTasks.value.filter((eachTask) => eachTask.type === 'ApplicationRecordReport'),
     );
 
-    TasksService.getTasks({ status: 'processing' }).then((response) => {
-      allTasks.value = response.data;
-    });
+    function refreshTasks() {
+      TasksService.getTasks({ status: 'processing' }).then((response) => {
+        allTasks.value = response.data;
+      });
+    }
+
+    refreshTasks();
+
+    watch(
+      () => useStore().state.organizationId,
+      () => {
+        refreshTasks();
+      },
+    );
 
     return {
       allTasks,

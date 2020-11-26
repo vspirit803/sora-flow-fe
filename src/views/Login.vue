@@ -51,7 +51,10 @@ export default defineComponent({
     });
 
     async function selectOrganization({ id }: { id: string; name: string }) {
-      store.dispatch('authOrganization', { id });
+      await store.dispatch('authOrganization', { id });
+      if (router.currentRoute.name !== 'Tasks') {
+        router.push({ name: 'Tasks' });
+      }
     }
 
     async function submit() {
@@ -62,7 +65,6 @@ export default defineComponent({
         console.log('没有组织');
       } /*if (organizations.length === 1) */ else {
         await selectOrganization(organizations[0]);
-        router.push({ name: 'Home' });
       }
     }
 
