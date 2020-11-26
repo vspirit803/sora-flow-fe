@@ -66,6 +66,14 @@ const store: Store<StoreType> = new Store<StoreType>({
       state.token = token;
       axios.defaults.headers['Authorization'] = 'Bearer ' + token;
     },
+    clearToken: function (state) {
+      state.token = '';
+      delete axios.defaults.headers['Authorization'];
+      state.organizationId = '';
+      state.organizations = [];
+      state.profile = undefined;
+      state.menus = [];
+    },
     setOrganizationId(state, organizationId: string) {
       state.organizationId = organizationId;
     },

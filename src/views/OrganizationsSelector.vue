@@ -1,8 +1,8 @@
 <template>
   <v-menu
+    v-if="profile"
     v-model="showList"
     offset-y
-    :disabled="!organizations.length"
   >
     <template #activator="{ on, attrs }">
       <v-btn
@@ -10,7 +10,8 @@
         v-bind="attrs"
         v-on="on"
       >
-        {{ organizationName || '选择组织' }}<v-icon v-if="organizations.length">
+        {{ organizationName || '选择组织' }}
+        <v-icon v-if="organizations.length">
           mdi-menu-down
         </v-icon>
       </v-btn>
@@ -22,6 +23,13 @@
         @click="onSelect(eachOrganization)"
       >
         <v-list-item-title>{{ eachOrganization.name }}</v-list-item-title>
+      </v-list-item>
+      <v-list-item @click="onLogout">
+        <v-list-item-title>
+          <v-icon style="color: green;">
+            mdi-exit-run
+          </v-icon> 退出账号
+        </v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
@@ -38,17 +46,25 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const showList = ref(false);
+    const profile = computed(() => store.state.profile);
     const organizations = computed(() => store.state.organizations);
     const organizationName = computed(() => store.state.profile?.organizationName);
 
     async function onSelect(organization: { name: string; id: string }) {
       await store.dispatch('authOrganization', { id: organization.id });
-
       if (router.currentRoute.name !== 'Tasks') {
         router.push({ name: 'Tasks' });
       }
     }
-    return { showList, organizations, onSelect, organizationName };
+
+    async function onLogout() {
+      useStore().commit('clearToken');
+      if (router.currentRoute.name !== 'Login') {
+        router.push({ name: 'Login' });
+      }
+    }
+
+    return { showList, organizations, onSelect, organizationName, onLogout, profile };
   },
 });
 </script>
