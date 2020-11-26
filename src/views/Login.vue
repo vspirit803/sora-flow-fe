@@ -21,10 +21,7 @@
             label="密码"
             required
           />
-          <v-btn
-            class="mr-4"
-            @click="submit"
-          >
+          <v-btn @click="submit">
             登录
           </v-btn>
         </v-form>

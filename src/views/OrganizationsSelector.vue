@@ -58,6 +58,7 @@ export default defineComponent({
     }
 
     async function onLogout() {
+      showList.value = false;
       useStore().commit('clearToken');
       if (router.currentRoute.name !== 'Login') {
         router.push({ name: 'Login' });
