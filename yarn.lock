@@ -1213,14 +1213,6 @@
     "@typescript-eslint/typescript-estree" "4.8.2"
     debug "^4.1.1"
 
-"@typescript-eslint/scope-manager@4.8.1":
-  version "4.8.1"
-  resolved "https://registry.npm.taobao.org/@typescript-eslint/scope-manager/download/@typescript-eslint/scope-manager-4.8.1.tgz#e343c475f8f1d15801b546cb17d7f309b768fdce"
-  integrity sha1-40PEdfjx0VgBtUbLF9fzCbdo/c4=
-  dependencies:
-    "@typescript-eslint/types" "4.8.1"
-    "@typescript-eslint/visitor-keys" "4.8.1"
-
 "@typescript-eslint/scope-manager@4.8.2":
   version "4.8.2"
   resolved "https://registry.npm.taobao.org/@typescript-eslint/scope-manager/download/@typescript-eslint/scope-manager-4.8.2.tgz#a18388c63ae9c17adde519384f539392f2c4f0d9"
@@ -1229,29 +1221,10 @@
     "@typescript-eslint/types" "4.8.2"
     "@typescript-eslint/visitor-keys" "4.8.2"
 
-"@typescript-eslint/types@4.8.1":
-  version "4.8.1"
-  resolved "https://registry.npm.taobao.org/@typescript-eslint/types/download/@typescript-eslint/types-4.8.1.tgz#23829c73c5fc6f4fcd5346a7780b274f72fee222"
-  integrity sha1-I4Kcc8X8b0/NU0aneAsnT3L+4iI=
-
 "@typescript-eslint/types@4.8.2":
   version "4.8.2"
   resolved "https://registry.npm.taobao.org/@typescript-eslint/types/download/@typescript-eslint/types-4.8.2.tgz#c862dd0e569d9478eb82d6aee662ea53f5661a36"
   integrity sha1-yGLdDladlHjrgtau5mLqU/VmGjY=
-
-"@typescript-eslint/typescript-estree@4.8.1":
-  version "4.8.1"
-  resolved "https://registry.npm.taobao.org/@typescript-eslint/typescript-estree/download/@typescript-eslint/typescript-estree-4.8.1.tgz#7307e3f2c9e95df7daa8dc0a34b8c43b7ec0dd32"
-  integrity sha1-cwfj8snpXffaqNwKNLjEO37A3TI=
-  dependencies:
-    "@typescript-eslint/types" "4.8.1"
-    "@typescript-eslint/visitor-keys" "4.8.1"
-    debug "^4.1.1"
-    globby "^11.0.1"
-    is-glob "^4.0.1"
-    lodash "^4.17.15"
-    semver "^7.3.2"
-    tsutils "^3.17.1"
 
 "@typescript-eslint/typescript-estree@4.8.2":
   version "4.8.2"
@@ -1266,14 +1239,6 @@
     lodash "^4.17.15"
     semver "^7.3.2"
     tsutils "^3.17.1"
-
-"@typescript-eslint/visitor-keys@4.8.1":
-  version "4.8.1"
-  resolved "https://registry.npm.taobao.org/@typescript-eslint/visitor-keys/download/@typescript-eslint/visitor-keys-4.8.1.tgz#794f68ee292d1b2e3aa9690ebedfcb3a8c90e3c3"
-  integrity sha1-eU9o7iktGy46qWkOvt/LOoyQ48M=
-  dependencies:
-    "@typescript-eslint/types" "4.8.1"
-    eslint-visitor-keys "^2.0.0"
 
 "@typescript-eslint/visitor-keys@4.8.2":
   version "4.8.2"
@@ -2345,10 +2310,10 @@ browserslist@^4.0.0, browserslist@^4.12.0, browserslist@^4.8.5:
     escalade "^3.1.0"
     node-releases "^1.1.61"
 
-bson@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.npm.taobao.org/bson/download/bson-4.2.0.tgz#15b5beffed6e44883de9922a2e1896fba4042cd4"
-  integrity sha1-FbW+/+1uRIg96ZIqLhiW+6QELNQ=
+bson@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.npm.taobao.org/bson/download/bson-4.2.2.tgz#ac01bb32b8ab30839550b98e0f44fced931df75d"
+  integrity sha1-rAG7MrirMIOVULmOD0T87ZMd910=
   dependencies:
     buffer "^5.6.0"
 
