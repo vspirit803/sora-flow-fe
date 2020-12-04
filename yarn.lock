@@ -9649,10 +9649,10 @@ vue-class-component@^7.2.6:
   resolved "https://registry.npm.taobao.org/vue-class-component/download/vue-class-component-7.2.6.tgz#8471e037b8e4762f5a464686e19e5afc708502e4"
   integrity sha1-hHHgN7jkdi9aRkaG4Z5a/HCFAuQ=
 
-vue-cli-plugin-vuetify@~2.0.7:
-  version "2.0.7"
-  resolved "https://registry.npm.taobao.org/vue-cli-plugin-vuetify/download/vue-cli-plugin-vuetify-2.0.7.tgz#fcb4f1655e7c9199ee40dcbf6465e2355fd074d5"
-  integrity sha1-/LTxZV58kZnuQNy/ZGXiNV/QdNU=
+vue-cli-plugin-vuetify@~2.0.8:
+  version "2.0.8"
+  resolved "https://registry.npm.taobao.org/vue-cli-plugin-vuetify/download/vue-cli-plugin-vuetify-2.0.8.tgz#026051aad7820b356ec9cea208bf0f06e95a53a2"
+  integrity sha1-AmBRqteCCzVuyc6iCL8PBulaU6I=
   dependencies:
     null-loader "^3.0.0"
     semver "^7.1.2"
