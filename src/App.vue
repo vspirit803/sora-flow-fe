@@ -20,13 +20,14 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-spacer />
-      <!-- <v-btn to="/">
-        Home
+      <v-btn
+        v-if="showLoginBtn"
+        text
+        active-class="cancel-active-class"
+        :to="{name: 'Login'}"
+      >
+        登录
       </v-btn>
-      <v-btn to="/login">
-        Login
-      </v-btn> -->
-      <v-spacer />
       <OrganizationsSelector />
       <v-progress-linear
         :active="loading"
@@ -60,6 +61,7 @@ export default defineComponent({
     const isError = computed(() => store.state.isError);
     const drawer = ref(true);
     const snackbar = ref(false);
+
     provide('drawer', drawer);
     watch(isError, () => {
       snackbar.value = isError.value;
@@ -82,7 +84,13 @@ export default defineComponent({
       }
     });
 
-    return { drawer, loading, errorMsg, snackbar };
+    return {
+      drawer,
+      loading,
+      errorMsg,
+      snackbar,
+      showLoginBtn: computed(() => !store.state.token),
+    };
   },
 });
 </script>
@@ -90,5 +98,9 @@ export default defineComponent({
 <style lang="less" scoped>
 .scroller-container {
   max-height: calc(100vh - 64px);
+}
+
+.cancel-active-class::before {
+  opacity: 0;
 }
 </style>
