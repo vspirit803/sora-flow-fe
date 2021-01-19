@@ -12,17 +12,17 @@
         <v-form class="login-form">
           <v-text-field
             v-model="name"
-            label="账号"
+            :label="t('username')"
             required
           />
           <v-text-field
             v-model="password"
             type="password"
-            label="密码"
+            :label="t('password')"
             required
           />
           <v-btn @click="submit">
-            登录
+            {{ t('login') }}
           </v-btn>
         </v-form>
       </v-col>
@@ -32,6 +32,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import { useRouter, useStore } from '@/use';
 
@@ -65,7 +66,7 @@ export default defineComponent({
       }
     }
 
-    return { submit, name, password, organizations, selectOrganization };
+    return { submit, name, password, organizations, selectOrganization, ...useI18n() };
   },
 });
 </script>

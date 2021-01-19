@@ -26,7 +26,7 @@
         active-class="cancel-active-class"
         :to="{name: 'Login'}"
       >
-        登录
+        {{ t('login') }}
       </v-btn>
       <OrganizationsSelector />
       <v-progress-linear
@@ -45,6 +45,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, provide, ref, watch } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import { provideStore, useStore } from '@/use';
 import Menu from '@/views/Menu.vue';
@@ -90,6 +91,7 @@ export default defineComponent({
       errorMsg,
       snackbar,
       showLoginBtn: computed(() => !store.state.token),
+      ...useI18n(),
     };
   },
 });
