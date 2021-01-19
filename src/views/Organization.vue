@@ -6,7 +6,7 @@
     {{ organizationName }}
     <Confirm
       v-slot="{ on, attrs }"
-      :message="`确认退出组织[${organizationName}]吗`"
+      :message="t('organization.confirmLeaveOrganization', [organizationName])"
       @confirm="leaveOrganization"
     >
       <v-btn
@@ -15,7 +15,7 @@
         v-bind="attrs"
         v-on="on"
       >
-        <v-icon>mdi-exit-run</v-icon>退出组织
+        <v-icon>mdi-exit-run</v-icon>{{ t('organization.leaveOrganization') }}
       </v-btn>
     </Confirm>
   </div>
@@ -23,6 +23,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import { ProfileService } from '@/service';
 import { useRouter, useStore } from '@/use';
@@ -50,7 +51,7 @@ export default defineComponent({
         router.push({ name: 'Home' });
       }
     }
-    return { organizations, organizationName, leaveOrganization };
+    return { organizations, organizationName, leaveOrganization, ...useI18n() };
   },
 });
 </script>

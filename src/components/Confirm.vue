@@ -17,7 +17,7 @@
           x-small
           @click="cancel"
         >
-          取消
+          {{ t('cancel') }}
         </v-btn>
         <v-btn
           color="primary"
@@ -25,7 +25,7 @@
           x-small
           @click="confirm"
         >
-          确认
+          {{ t('confirm') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 export default defineComponent({
   name: 'Confirm',
@@ -50,7 +51,7 @@ export default defineComponent({
       visible.value = false;
       context.emit('confirm');
     }
-    return { cancel, confirm, visible };
+    return { cancel, confirm, visible, ...useI18n() };
   },
 });
 </script>

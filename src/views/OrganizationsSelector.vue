@@ -10,7 +10,7 @@
         v-bind="attrs"
         v-on="on"
       >
-        {{ organizationName || '选择组织' }}
+        {{ organizationName || t('selectOrgainzation') }}
         <v-icon v-if="organizations.length">
           mdi-menu-down
         </v-icon>
@@ -28,7 +28,7 @@
         <v-list-item-title>
           <v-icon style="color: green;">
             mdi-exit-run
-          </v-icon> 退出账号
+          </v-icon> {{ t('logout') }}
         </v-list-item-title>
       </v-list-item>
     </v-list>
@@ -37,6 +37,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import { useRouter, useStore } from '@/use';
 
@@ -65,7 +66,7 @@ export default defineComponent({
       }
     }
 
-    return { showList, organizations, onSelect, organizationName, onLogout, profile };
+    return { showList, organizations, onSelect, organizationName, onLogout, profile, ...useI18n() };
   },
 });
 </script>
