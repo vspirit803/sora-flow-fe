@@ -11,6 +11,11 @@ const zhCN = {
   },
   confirm: '确认',
   cancel: '取消',
+  system: {
+    accounts: {
+      updateAccount: '修改账号',
+    },
+  },
 };
 
 export { zhCN };

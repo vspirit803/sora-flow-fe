@@ -13,6 +13,11 @@ const en: LocaleType = {
   },
   confirm: 'confirm',
   cancel: 'cancel',
+  system: {
+    accounts: {
+      updateAccount: 'edit',
+    },
+  },
 };
 
 export { en };

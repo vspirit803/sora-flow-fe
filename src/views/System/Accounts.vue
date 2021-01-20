@@ -11,7 +11,7 @@
       <template #item.actions="{ item }">
         <IconButton
           color="primary"
-          title="修改账号"
+          :title="t('system.accounts.updateAccount')"
           @click="onUpdateAccount(item)"
         >
           <v-icon>
@@ -151,6 +151,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import { Account, AccountsService, CreateAccountDto, MenuTreeItem, UpdateAccountDto } from '@/service';
 
@@ -240,6 +241,7 @@ export default defineComponent({
       headers,
       isCreateAccount,
       refreshAccountList,
+      ...useI18n(),
     };
   },
 });
