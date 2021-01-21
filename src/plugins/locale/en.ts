@@ -13,9 +13,15 @@ const en: LocaleType = {
   },
   confirm: 'confirm',
   cancel: 'cancel',
+  refresh: 'refresh',
   system: {
     accounts: {
-      updateAccount: 'edit',
+      update: 'update',
+      delete: 'delete',
+      add: 'add',
+      confirmDelete: 'Confirm to delete the account [{0}]?',
+      name: 'name',
+      nickname: 'nickname',
     },
   },
 };

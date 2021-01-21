@@ -11,7 +11,7 @@
       <template #item.actions="{ item }">
         <IconButton
           color="primary"
-          :title="t('system.accounts.updateAccount')"
+          :title="t('system.accounts.update')"
           @click="onUpdateAccount(item)"
         >
           <v-icon>
@@ -20,14 +20,14 @@
         </IconButton>
         <Confirm
           v-slot="{ on, attrs }"
-          :message="`确认删除账号[${item.nickname}]吗`"
+          :message="t('system.accounts.confirmDelete', [item.nickname])"
           @confirm="onDeleteAccount(item)"
         >
           <IconButton
             class="ml-2"
             color="error"
             v-bind="attrs"
-            title="删除账号"
+            :title="t('system.accounts.delete')"
             v-on="on"
           >
             <v-icon>mdi-account-remove</v-icon>
@@ -40,7 +40,7 @@
             icon
             text
             color="primary"
-            title="刷新列表"
+            :title="t('refresh')"
             @click="refreshAccountList"
           >
             <v-icon>mdi-refresh</v-icon>
@@ -59,7 +59,8 @@
               >
                 <v-icon class="mr-2">
                   mdi-account-plus
-                </v-icon>新增账号
+                </v-icon>
+                {{ t('system.accounts.add') }}
               </v-btn>
             </template>
             <ValidationObserver
@@ -82,7 +83,7 @@
                           >
                             <v-text-field
                               v-model="accountModel.name"
-                              label="账号"
+                              :label="t('system.accounts.name')"
                               :error-messages="errors"
                               :success="valid"
                               :readonly="!isCreateAccount"
@@ -97,7 +98,7 @@
                           >
                             <v-text-field
                               v-model="accountModel.nickname"
-                              label="昵称"
+                              :label="t('system.accounts.nickname')"
                               :error-messages="errors"
                               :success="valid"
                             />
@@ -129,7 +130,7 @@
                     text
                     @click="dialogVisible = false"
                   >
-                    取消
+                    {{ t('cancel' ) }}
                   </v-btn>
                   <v-btn
                     color="primary"

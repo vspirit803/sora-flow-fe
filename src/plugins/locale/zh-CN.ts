@@ -11,9 +11,15 @@ const zhCN = {
   },
   confirm: '确认',
   cancel: '取消',
+  refresh: '刷新',
   system: {
     accounts: {
-      updateAccount: '修改账号',
+      update: '修改',
+      delete: '删除',
+      add: '增加',
+      confirmDelete: '确认删除账号[{0}]吗？',
+      name: '账号',
+      nickname: '昵称',
     },
   },
 };

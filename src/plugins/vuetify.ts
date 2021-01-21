@@ -22,8 +22,6 @@ switch (navigator.language) {
     current = 'zhHans';
 }
 
-console.log(current);
-
 export default new Vuetify({
   lang: {
     locales: { zhHans, en },
