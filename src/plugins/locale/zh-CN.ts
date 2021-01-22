@@ -21,7 +21,8 @@ const zhCN = {
       name: '账号',
       nickname: '昵称',
     },
+    test: '确认把[{name}]移出组织[{organization}]吗？',
   },
-};
+} as const;
 
 export { zhCN };
