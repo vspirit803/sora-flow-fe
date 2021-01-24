@@ -13,6 +13,8 @@ const zhCN = {
   cancel: '取消',
   refresh: '刷新',
   system: {
+    test: '确认把[{name}]移出组织[{organization}]吗？',
+    test2: '确认把[{name}]移出组织[{organization}]吗？',
     accounts: {
       update: '修改',
       delete: '删除',
