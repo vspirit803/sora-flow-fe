@@ -279,6 +279,7 @@ export default defineComponent({
       await ProfileService.leaveOrganization({ accountId: id });
       refreshAccountList();
     }
+
     return {
       accountList,
       accountModel,
@@ -295,7 +296,7 @@ export default defineComponent({
       headers,
       isCreateAccount,
       refreshAccountList,
-      ...useI18n,
+      ...useI18n(),
     };
   },
 });
