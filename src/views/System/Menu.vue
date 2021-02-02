@@ -2,10 +2,10 @@
   <div>
     <v-list-item>
       <v-list-item-title class="d-flex flex-row">
-        <span class="align-self-center">菜单</span>
+        <span class="align-self-center">{{ t('menu.menu') }}</span>
         <v-switch
           v-model="sortable"
-          label="调整顺序"
+          :label="t('menu.adjustOrder')"
           hide-details
           class="ml-8 mt-0 pt-0"
         />
@@ -15,7 +15,7 @@
           icon
           text
           color="primary"
-          title="添加菜单项"
+          :title="`${t('add')}${t('menu.menuItem')}`"
           @click.stop="createMenu(undefined, 'item')"
         >
           <v-icon>mdi-file-plus</v-icon>
@@ -24,7 +24,7 @@
           icon
           text
           color="primary"
-          title="添加子菜单"
+          :title="`${t('add')}${t('menu.subMenu')}`"
           @click.stop="createMenu(undefined, 'directory')"
         >
           <v-icon>mdi-folder-plus</v-icon>
@@ -61,21 +61,21 @@
                   icon
                   text
                   color="primary"
-                  title="编辑菜单项"
+                  :title="`${t('update')}${t('menu.menuItem')}`"
                   @click.stop="updateMenu(each)"
                 >
                   <v-icon>mdi-file-document-edit</v-icon>
                 </IconButton>
                 <Confirm
                   v-slot="{ on, attrs }"
-                  :message="`确认删除菜单[${each.name}]吗`"
+                  :message="t('menu.confirmDeleteMenuItem', [each.name])"
                   @confirm="deleteMenu(each)"
                 >
                   <IconButton
                     icon
                     text
                     color="error"
-                    title="删除菜单项"
+                    :title="`${t('delete')}${t('menu.menuItem')}`"
                     v-bind="attrs"
                     v-on="on"
                   >
@@ -104,7 +104,7 @@
                     icon
                     text
                     color="primary"
-                    title="添加菜单项"
+                    :title="`${t('add')}${t('menu.menuItem')}`"
                     @click.stop="createMenu(each, 'item')"
                   >
                     <v-icon>mdi-file-plus</v-icon>
@@ -113,7 +113,7 @@
                     icon
                     text
                     color="primary"
-                    title="添加子菜单"
+                    :title="`${t('add')}${t('menu.subMenu')}`"
                     @click.stop="createMenu(each, 'directory')"
                   >
                     <v-icon>mdi-folder-plus</v-icon>
@@ -122,21 +122,21 @@
                     icon
                     text
                     color="primary"
-                    title="编辑菜单"
+                    :title="`${t('update')}${t('menu.menu')}`"
                     @click.stop="updateMenu(each)"
                   >
                     <v-icon>mdi-folder-edit</v-icon>
                   </IconButton>
                   <Confirm
                     v-slot="{ on, attrs }"
-                    :message="`确认删除菜单[${each.name}]吗`"
+                    :message="t('menu.confirmDeleteMenu', [each.name])"
                     @confirm="deleteMenu(each)"
                   >
                     <IconButton
                       icon
                       text
                       color="error"
-                      title="删除菜单"
+                      :title="`${t('delete')}${t('menu.menu')}`"
                       v-bind="attrs"
                       v-on="on"
                     >
@@ -174,21 +174,21 @@
                         icon
                         text
                         color="primary"
-                        title="编辑菜单项"
+                        :title="`${t('update')}${t('menu.menuItem')}`"
                         @click.stop="updateMenu(eachSub)"
                       >
                         <v-icon>mdi-file-document-edit</v-icon>
                       </IconButton>
                       <Confirm
                         v-slot="{ on, attrs }"
-                        :message="`确认删除菜单[${eachSub.name}]吗`"
+                        :message="t('menu.confirmDeleteMenuItem', [eachSub.name])"
                         @confirm="deleteMenu(eachSub)"
                       >
                         <IconButton
                           icon
                           text
                           color="error"
-                          title="删除菜单项"
+                          :title="`${t('delete')}${t('menu.menuItem')}`"
                           v-bind="attrs"
                           v-on="on"
                         >
@@ -218,7 +218,7 @@
                           icon
                           text
                           color="primary"
-                          title="添加菜单项"
+                          :title="`${t('add')}${t('menu.menuItem')}`"
                           @click.stop="createMenu(eachSub, 'item')"
                         >
                           <v-icon>mdi-file-plus</v-icon>
@@ -227,21 +227,21 @@
                           icon
                           text
                           color="primary"
-                          title="编辑菜单"
+                          :title="`${t('update')}${t('menu.menu')}`"
                           @click.stop="updateMenu(eachSub)"
                         >
                           <v-icon>mdi-folder-edit</v-icon>
                         </IconButton>
                         <Confirm
                           v-slot="{ on, attrs }"
-                          :message="`确认删除菜单[${eachSub.name}]吗`"
+                          :message="t('menu.confirmDeleteMenu', [eachSub.name])"
                           @confirm="deleteMenu(eachSub)"
                         >
                           <IconButton
                             icon
                             text
                             color="error"
-                            title="删除菜单"
+                            :title="`${t('delete')}${t('menu.menu')}`"
                             v-bind="attrs"
                             v-on="on"
                           >
@@ -277,21 +277,21 @@
                             icon
                             text
                             color="primary"
-                            title="编辑菜单项"
+                            :title="`${t('update')}${t('menu.menuItem')}`"
                             @click.stop="updateMenu(eachSubSub)"
                           >
                             <v-icon>mdi-file-document-edit</v-icon>
                           </IconButton>
                           <Confirm
                             v-slot="{ on, attrs }"
-                            :message="`确认删除菜单[${eachSubSub.name}]吗`"
+                            :message="t('menu.confirmDeleteMenuItem', [eachSubSub.name])"
                             @confirm="deleteMenu(eachSubSub)"
                           >
                             <IconButton
                               icon
                               text
                               color="error"
-                              title="删除菜单项"
+                              :title="`${t('delete')}${t('menu.menuItem')}`"
                               v-bind="attrs"
                               v-on="on"
                             >
@@ -325,14 +325,14 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="menuModel.name"
-                  label="名称"
+                  :label="t('menu.name')"
                   required
                 />
               </v-col>
               <v-col cols="12">
                 <v-text-field
                   v-model="menuModel.icon"
-                  label="icon"
+                  :label="t('menu.icon')"
                 />
               </v-col>
               <v-col
@@ -341,7 +341,7 @@
               >
                 <v-text-field
                   v-model="menuModel.url"
-                  label="url"
+                  :label="t('menu.url')"
                   required
                 />
               </v-col>
@@ -355,14 +355,14 @@
             text
             @click="dialogVisible = false"
           >
-            取消
+            {{ t('cancel') }}
           </v-btn>
           <v-btn
             color="blue darken-1"
             text
             @click="submit"
           >
-            提交
+            {{ t('submit') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -372,6 +372,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 import draggable from 'vuedraggable';
 
 import { CreateMenuDto, MenusService, MenuTreeItem, UpdateMenuDto } from '@/service';
@@ -382,6 +383,7 @@ export default defineComponent({
   components: { draggable },
   setup() {
     const store = useStore();
+    const { t } = useI18n();
     const menus: Ref<Array<MenuTreeItem>> = ref([]);
     const dialogVisible = ref(false);
     const dialogTitle = ref('');
@@ -404,7 +406,7 @@ export default defineComponent({
     });
 
     function createMenu(parent: { id: string } | undefined, type: 'directory' | 'item') {
-      dialogTitle.value = `创建${type === 'directory' ? '菜单' : '菜单项'}`;
+      dialogTitle.value = `${t('add')}${type === 'directory' ? t('menu.menu') : t('menu.menuItem')}`;
       menuModel.value = {
         name: '',
         icon: '',
@@ -428,7 +430,7 @@ export default defineComponent({
       url: string;
       type: 'directory' | 'item';
     }) {
-      dialogTitle.value = `编辑${type === 'directory' ? '菜单' : '菜单项'}`;
+      dialogTitle.value = `${t('update')}${type === 'directory' ? t('menu.menu') : t('menu.menuItem')}`;
       menuModel.value = {
         id,
         name,
@@ -470,6 +472,7 @@ export default defineComponent({
       dialogTitle,
       submit,
       menuModel,
+      ...useI18n(),
     };
   },
 });

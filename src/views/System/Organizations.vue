@@ -10,7 +10,7 @@
     >
       <template #item.actions="{ item }">
         <IconButton
-          title="修改组织"
+          :title="`${t('update')}${t('organization.organization')}`"
           color="primary"
           @click="onUpdateOrganization(item)"
         >
@@ -20,14 +20,14 @@
         </IconButton>
         <Confirm
           v-slot="{ on, attrs }"
-          :message="`确认删除组织[${item.name}]吗`"
+          :message="t('confirmDelete', [item.name])"
           @confirm="onDeleteOrganization(item)"
         >
           <IconButton
             class="ml-2"
             color="error"
             v-bind="attrs"
-            title="删除组织"
+            :title="`${t('delete')}${t('organization.organization')}`"
             v-on="on"
           >
             <v-icon>mdi-home-remove</v-icon>
@@ -40,7 +40,7 @@
             icon
             text
             color="primary"
-            title="刷新列表"
+            :title="t('refresh')"
             @click="refreshOrganizationList"
           >
             <v-icon>mdi-refresh</v-icon>
@@ -59,7 +59,8 @@
               >
                 <v-icon class="mr-2">
                   mdi-home-plus
-                </v-icon>新增组织
+                </v-icon>
+                {{ t('add') }}
               </v-btn>
             </template>
             <ValidationObserver
@@ -82,7 +83,7 @@
                           >
                             <v-text-field
                               v-model="organizationModel.name"
-                              label="名称"
+                              :label="t('organization.name')"
                               :error-messages="errors"
                               :success="valid"
                             />
@@ -102,7 +103,7 @@
                               item-text="name"
                               item-value="id"
                               :items="versionList"
-                              label="版本"
+                              :label="t('organization.version')"
                             />
                           </ValidationProvider>
                         </v-col>
@@ -119,7 +120,7 @@
                               item-text="name"
                               item-value="id"
                               :items="accountList"
-                              label="负责人"
+                              :label="t('organization.supervisor')"
                             />
                           </ValidationProvider>
                         </v-col>
@@ -134,7 +135,7 @@
                     text
                     @click="dialogVisible = false"
                   >
-                    取消
+                    {{ t('cancel') }}
                   </v-btn>
                   <v-btn
                     color="primary"
@@ -142,7 +143,7 @@
                     :disabled="invalid || !validated"
                     @click="passes(submitAccount)"
                   >
-                    提交
+                    {{ t('submit') }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -156,6 +157,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import {
   Account,
@@ -178,6 +180,7 @@ type Obs = {
 export default defineComponent({
   name: 'Organizations',
   setup(props, { root }) {
+    const { t } = useI18n();
     const obs: Ref<Obs> = ref() as Ref<Obs>;
     const organizationList: Ref<Array<Organization>> = ref([]);
     const authorizedOperations: Ref<Array<string>> = ref([]);
@@ -192,18 +195,18 @@ export default defineComponent({
     });
     let oldModel: UpdateOrganizationDto;
     const headers = [
-      { text: '名称', value: 'name', divider: true },
-      { text: '版本', value: 'version.name', divider: true },
-      { text: '负责人', value: 'supervisor.nickname', divider: true },
-      { text: '成员数', value: 'totalMembers', divider: true },
-      { text: '操作', value: 'actions' },
+      { text: t('organization.name'), value: 'name', divider: true },
+      { text: t('organization.version'), value: 'version.name', divider: true },
+      { text: t('organization.supervisor'), value: 'supervisor.nickname', divider: true },
+      { text: t('organization.totalMembers'), value: 'totalMembers', divider: true },
+      { text: t('actions'), value: 'actions' },
     ];
     function isCreateOrganizationDto(dto: CreateOrganizationDto | UpdateOrganizationDto): dto is CreateOrganizationDto {
       return !('id' in dto);
     }
 
     const isCreate = computed(() => isCreateOrganizationDto(organizationModel.value));
-    const dialogTitle = computed(() => (isCreate.value ? '新增组织' : '修改组织'));
+    const dialogTitle = computed(() => `${isCreate.value ? t('add') : t('update')} ${t('organization.organization')}`);
 
     async function refreshOrganizationList() {
       const { data } = await OrganizationsService.getOrganizations();
@@ -274,6 +277,7 @@ export default defineComponent({
       refreshOrganizationList,
       versionList,
       accountList,
+      ...useI18n(),
     };
   },
 });

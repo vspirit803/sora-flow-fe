@@ -14,7 +14,7 @@
       class="form-card flex-grow-1 flex-shrink-1 purple lighten-1 pa-2 form-preview"
     >
       <v-btn @click="onSubmit">
-        {{ applicationRecordReportTask.metadata.applicationRecord ? '更新': '提交' }}
+        {{ applicationRecordReportTask.metadata.applicationRecord ? t('update'): t('submit') }}
       </v-btn>
       <div
         v-for="eachRow of form.rows"
@@ -43,6 +43,7 @@
 
 <script lang="ts">
 import { defineComponent, provide, Ref, ref } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import { ApplicationRecordReportTask, ApplicationRecordsService, ApplicationsService, TasksService } from '@/service';
 import { useRouter } from '@/use';
@@ -60,16 +61,16 @@ export default defineComponent({
     provide('selectedItem', selectedItem);
     const formStatus = ref('filling');
     provide('formStatus', formStatus);
-    const applicationRecordReportTask: Ref<ApplicationRecordReportTask | undefined> = ref();
+    const applicationRecordReportTask: Ref<ApplicationRecordReportTask> = ref() as Ref<ApplicationRecordReportTask>;
 
     TasksService.getTasks({ id: props.task }).then(({ data }) => {
       applicationRecordReportTask.value = data[0] as ApplicationRecordReportTask;
-      if (applicationRecordReportTask.value!.metadata.applicationRecord) {
+      if (applicationRecordReportTask.value.metadata.applicationRecord) {
         //已经有对应的填报记录了
         Promise.all([
-          ApplicationsService.getApplication(applicationRecordReportTask.value!.metadata.application),
-          ApplicationRecordsService.getApplicationRecords(applicationRecordReportTask.value!.metadata.application, {
-            id: applicationRecordReportTask.value!.metadata.applicationRecord,
+          ApplicationsService.getApplication(applicationRecordReportTask.value.metadata.application),
+          ApplicationRecordsService.getApplicationRecords(applicationRecordReportTask.value.metadata.application, {
+            id: applicationRecordReportTask.value.metadata.applicationRecord,
           }),
         ]).then(
           ([
@@ -85,7 +86,7 @@ export default defineComponent({
         );
       } else {
         //没有对应的填报记录
-        ApplicationsService.getApplication(applicationRecordReportTask.value!.metadata.application).then(
+        ApplicationsService.getApplication(applicationRecordReportTask.value.metadata.application).then(
           ({ data: { formModel } }) => {
             form.value = new Form(formModel);
           },
@@ -95,22 +96,22 @@ export default defineComponent({
 
     async function onSubmit() {
       const data = form.value!.valueData;
-      if (applicationRecordReportTask.value!.metadata.applicationRecord) {
+      if (applicationRecordReportTask.value.metadata.applicationRecord) {
         //已有记录,修改
         await ApplicationRecordsService.updateApplicationRecord(
-          applicationRecordReportTask.value!.metadata.application,
+          applicationRecordReportTask.value.metadata.application,
           {
-            id: applicationRecordReportTask.value!.metadata.applicationRecord,
+            id: applicationRecordReportTask.value.metadata.applicationRecord,
             data,
           },
         );
       } else {
         //没有记录,新增
         await ApplicationRecordsService.createApplicationRecord(
-          applicationRecordReportTask.value!.metadata.application,
+          applicationRecordReportTask.value.metadata.application,
           {
             data,
-            task: applicationRecordReportTask.value!.id,
+            task: applicationRecordReportTask.value.id,
           },
         );
       }
@@ -123,6 +124,7 @@ export default defineComponent({
 
       applicationRecordReportTask,
       onSubmit,
+      ...useI18n(),
     };
   },
 });

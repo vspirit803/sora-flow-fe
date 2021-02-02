@@ -58,7 +58,7 @@ const store: Store<StoreType> = new Store<StoreType>({
     requestCount: 0,
     errorMsg: '',
     isError: false,
-    settings: { iconMode: false },
+    settings: { iconMode: true },
   },
   getters: {},
   mutations: {

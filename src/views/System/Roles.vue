@@ -5,14 +5,15 @@
       class="role-list-card flex-grow-0"
     >
       <v-card-title class="d-flex justify-space-between">
-        <span>角色列表</span>
+        <span>{{ t('role.roleList') }}</span>
         <v-btn
           color="primary"
           @click="onCreateRole"
         >
           <v-icon class="mr-2">
             mdi-account-plus
-          </v-icon>新增角色
+          </v-icon>
+          {{ t('add') }}
         </v-btn>
       </v-card-title>
       <v-list class="py-2 role-list">
@@ -31,21 +32,21 @@
               icon
               text
               color="primary"
-              title="编辑角色"
+              :title="t('update')"
               @click.stop="onUpdateRole(eachRole)"
             >
               <v-icon>mdi-account-edit</v-icon>
             </v-btn>
             <Confirm
               v-slot="{ on, attrs }"
-              :message="`确认删除角色[${eachRole.name}]吗`"
+              :message="t('role.confirmDelete', [eachRole.text])"
               @confirm="onDeleteRole(eachRole)"
             >
               <v-btn
                 icon
                 text
                 color="error"
-                title="删除角色"
+                :title="t('delete')"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -61,13 +62,13 @@
       class="role-detail"
     >
       <v-card-title class="d-flex justify-space-between">
-        <span>角色权限</span>
+        <span>{{ t('role.rolePermissions') }}</span>
         <v-btn
           v-if="selectedRole"
           color="primary"
           @click="submitAuthorizedOperations"
         >
-          确定
+          {{ t('submit') }}
         </v-btn>
       </v-card-title>
       <div class="py-2 menu-tree">
@@ -98,14 +99,14 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="roleModel.name"
-                  label="名称"
+                  :label="t('role.name')"
                   required
                 />
               </v-col>
               <v-col cols="12">
                 <v-text-field
                   v-model="roleModel.text"
-                  label="显示名称"
+                  :label="t('role.displayText')"
                 />
               </v-col>
             </v-row>
@@ -118,14 +119,14 @@
             text
             @click="dialogVisible = false"
           >
-            取消
+            {{ t('cancel') }}
           </v-btn>
           <v-btn
             color="blue darken-1"
             text
             @click="submitRole"
           >
-            提交
+            {{ t('submit') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -135,6 +136,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import { CreateRoleDto, MenuTreeItem, ProfileService, Role, RolesService, UpdateRoleDto } from '@/service';
 import { useStore } from '@/use';
@@ -142,6 +144,7 @@ import { useStore } from '@/use';
 export default defineComponent({
   name: 'Roles',
   setup() {
+    const { t } = useI18n();
     const roleList: Ref<Array<Role>> = ref([]);
     const selectedRole = ref('');
     const authorizedOperations: Ref<Array<string>> = ref([]);
@@ -153,7 +156,9 @@ export default defineComponent({
       return !('id' in dto);
     }
 
-    const dialogTitle = computed(() => (isCreateRoleDto(roleModel.value) ? '新增角色' : '修改角色'));
+    const dialogTitle = computed(
+      () => `${isCreateRoleDto(roleModel.value) ? t('add') : t('update')} ${t('role.role')}`,
+    );
 
     async function refreshRoleList() {
       const { data } = await RolesService.getRoles();
@@ -223,6 +228,7 @@ export default defineComponent({
       dialogVisible,
       dialogTitle,
       roleModel,
+      ...useI18n(),
     };
   },
 });

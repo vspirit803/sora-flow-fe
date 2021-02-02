@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, PropType } from '@vue/composition-api';
 
 import DuplicateTreeNode from './DuplicateTreeNode.vue';
 
@@ -29,7 +29,7 @@ export default defineComponent({
       default: () => [],
     },
     items: {
-      type: Array,
+      type: Array as PropType<Array<any>>,
       default: () => [],
     },
     textKey: {

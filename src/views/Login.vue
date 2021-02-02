@@ -12,13 +12,13 @@
         <v-form class="login-form">
           <v-text-field
             v-model="name"
-            :label="t('username')"
+            :label="t('account.username')"
             required
           />
           <v-text-field
             v-model="password"
             type="password"
-            :label="t('password')"
+            :label="t('account.password')"
             required
           />
           <v-btn @click="submit">

@@ -5,14 +5,15 @@
       class="role-list-card flex-grow-0"
     >
       <v-card-title class="d-flex justify-space-between">
-        <span>版本列表</span>
+        <span>{{ t('version.versionList') }}</span>
         <v-btn
           color="primary"
           @click="onCreateVersion"
         >
           <v-icon class="mr-2">
             mdi-puzzle-plus
-          </v-icon>新增版本
+          </v-icon>
+          {{ t('add') }}
         </v-btn>
       </v-card-title>
       <v-list class="py-2 role-list">
@@ -31,21 +32,21 @@
               icon
               text
               color="primary"
-              title="编辑版本"
+              :title="t('update')"
               @click.stop="onUpdateVersion(eachVersion)"
             >
               <v-icon>mdi-puzzle-edit</v-icon>
             </v-btn>
             <Confirm
               v-slot="{ on, attrs }"
-              :message="`确认删除版本[${eachVersion.name}]吗`"
+              :message="t('role.confirmDelete', [eachVersion.name])"
               @confirm="onDeleteVersion(eachVersion)"
             >
               <v-btn
                 icon
                 text
                 color="error"
-                title="删除版本"
+                :title="t('delete')"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -61,13 +62,13 @@
       class="role-detail"
     >
       <v-card-title class="d-flex justify-space-between">
-        <span>版本权限</span>
+        <span>{{ t('version.versionPermissions') }}</span>
         <v-btn
           v-if="selectedVersionId"
           color="primary"
           @click="submitAuthorizedOperations"
         >
-          确定
+          {{ t('submit') }}
         </v-btn>
       </v-card-title>
       <div class="py-2 menu-tree">
@@ -98,7 +99,7 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="versionModel.name"
-                  label="名称"
+                  :label="t('version.name')"
                   required
                 />
               </v-col>
@@ -112,14 +113,14 @@
             text
             @click="dialogVisible = false"
           >
-            取消
+            {{ t('cancel') }}
           </v-btn>
           <v-btn
             color="blue darken-1"
             text
             @click="submitRole"
           >
-            提交
+            {{ t('submit') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -129,6 +130,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import {
   CreateVersionDto,
@@ -144,6 +146,7 @@ import { useStore } from '@/use';
 export default defineComponent({
   name: 'Versions',
   setup() {
+    const { t } = useI18n();
     const versionList: Ref<Array<Version>> = ref([]);
     const selectedVersionId = ref('');
     const authorizedOperations: Ref<Array<string>> = ref([]);
@@ -155,7 +158,9 @@ export default defineComponent({
       return !('id' in dto);
     }
 
-    const dialogTitle = computed(() => (isCreateVersionDto(versionModel.value) ? '新增版本' : '修改版本'));
+    const dialogTitle = computed(
+      () => `${isCreateVersionDto(versionModel.value) ? t('add') : t('update')} ${t('version.version')}`,
+    );
 
     async function refreshRoleList() {
       const { data } = await VersionsService.getVersions();
@@ -224,6 +229,7 @@ export default defineComponent({
       dialogVisible,
       dialogTitle,
       versionModel,
+      ...useI18n(),
     };
   },
 });

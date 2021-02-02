@@ -123,7 +123,7 @@ const routes: Array<RouteConfig> = [
       });
     },
   },
-  //应用数据收集任务
+  //测试
   {
     path: '/test',
     name: 'Test',

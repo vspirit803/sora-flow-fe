@@ -11,7 +11,7 @@
       <template #item.actions="{ item }">
         <IconButton
           color="primary"
-          :title="t('system.accounts.update')"
+          :title="t('update')"
           @click="onUpdateAccount(item)"
         >
           <v-icon>
@@ -20,14 +20,14 @@
         </IconButton>
         <Confirm
           v-slot="{ on, attrs }"
-          :message="t('system.accounts.confirmDelete', [item.nickname])"
+          :message="t('account.confirmDelete', [item.nickname])"
           @confirm="onDeleteAccount(item)"
         >
           <IconButton
             class="ml-2"
             color="error"
             v-bind="attrs"
-            :title="t('system.accounts.delete')"
+            :title="t('delete')"
             v-on="on"
           >
             <v-icon>mdi-account-remove</v-icon>
@@ -60,7 +60,7 @@
                 <v-icon class="mr-2">
                   mdi-account-plus
                 </v-icon>
-                {{ t('system.accounts.add') }}
+                {{ t('add') }}
               </v-btn>
             </template>
             <ValidationObserver
@@ -83,7 +83,7 @@
                           >
                             <v-text-field
                               v-model="accountModel.name"
-                              :label="t('system.accounts.name')"
+                              :label="t('account.username')"
                               :error-messages="errors"
                               :success="valid"
                               :readonly="!isCreateAccount"
@@ -98,7 +98,7 @@
                           >
                             <v-text-field
                               v-model="accountModel.nickname"
-                              :label="t('system.accounts.nickname')"
+                              :label="t('account.nickname')"
                               :error-messages="errors"
                               :success="valid"
                             />
@@ -112,7 +112,7 @@
                           >
                             <v-text-field
                               v-model="accountModel.password"
-                              label="密码"
+                              :label="t('account.password')"
                               :error-messages="errors"
                               :success="valid"
                               type="password"
@@ -130,7 +130,7 @@
                     text
                     @click="dialogVisible = false"
                   >
-                    {{ t('cancel' ) }}
+                    {{ t('cancel') }}
                   </v-btn>
                   <v-btn
                     color="primary"
@@ -138,7 +138,7 @@
                     :disabled="invalid || !validated"
                     @click="passes(submitAccount)"
                   >
-                    提交
+                    {{ t('submit') }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -151,7 +151,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { computed, defineComponent, nextTick, onMounted, Ref, ref } from '@vue/composition-api';
 import { useI18n } from 'vue-i18n-composable';
 
 import { Account, AccountsService, CreateAccountDto, MenuTreeItem, UpdateAccountDto } from '@/service';
@@ -163,7 +163,8 @@ type Obs = {
 
 export default defineComponent({
   name: 'Accounts',
-  setup(props, { root }) {
+  setup() {
+    const { t } = useI18n();
     const obs: Ref<Obs> = ref() as Ref<Obs>;
     const accountList: Ref<Array<Account>> = ref([]);
     const authorizedOperations: Ref<Array<string>> = ref([]);
@@ -175,16 +176,16 @@ export default defineComponent({
       password: '',
     });
     const headers = [
-      { text: '账号', value: 'name', divider: true },
-      { text: '昵称', value: 'nickname', divider: true },
-      { text: '操作', value: 'actions', width: 300 },
+      { text: t('account.username'), value: 'name', divider: true },
+      { text: t('account.nickname'), value: 'nickname', divider: true },
+      { text: t('actions'), value: 'actions', width: 300 },
     ];
     function isCreateAccountDto(dto: CreateAccountDto | UpdateAccountDto): dto is CreateAccountDto {
       return !('id' in dto);
     }
 
     const isCreateAccount = computed(() => isCreateAccountDto(accountModel.value));
-    const dialogTitle = computed(() => (isCreateAccount.value ? '新增账号' : '修改账号'));
+    const dialogTitle = computed(() => (isCreateAccount.value ? t('add') : t('update')));
 
     async function refreshAccountList() {
       const { data } = await AccountsService.getAccounts();
@@ -214,7 +215,7 @@ export default defineComponent({
     async function onUpdateAccount({ id, name, nickname }: { id: string; name: string; nickname: string }) {
       accountModel.value = { id, name, nickname };
       dialogVisible.value = true;
-      root.$nextTick().then(obs.value.validate);
+      nextTick().then(obs.value.validate);
     }
 
     async function onCreateAccount() {
@@ -227,6 +228,7 @@ export default defineComponent({
       await AccountsService.deleteAccount({ id });
       refreshAccountList();
     }
+
     return {
       accountList,
       accountModel,

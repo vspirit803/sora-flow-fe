@@ -14,7 +14,7 @@
       class="form-card flex-grow-1 flex-shrink-1 purple lighten-1 pa-2 form-preview"
     >
       <v-btn @click="onSubmit">
-        提交
+        {{ t('submit') }}
       </v-btn>
       <div
         v-for="eachRow of form.rows"
@@ -43,6 +43,7 @@
 
 <script lang="ts">
 import { defineComponent, provide, Ref, ref } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import { ApplicationRecordsService, ApplicationsService } from '@/service';
 import { useRouter } from '@/use';
@@ -74,6 +75,7 @@ export default defineComponent({
       formStatus,
       form,
       onSubmit,
+      ...useI18n(),
     };
   },
 });

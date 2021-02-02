@@ -21,7 +21,7 @@
       <template #item.actions="{ item }">
         <IconButton
           color="primary"
-          title="修改成员"
+          :title="t('update')"
           @click="onUpdateAccount(item)"
         >
           <v-icon>
@@ -30,14 +30,14 @@
         </IconButton>
         <Confirm
           v-slot="{ on, attrs }"
-          :message="`确认将[${item.nickname}]移出组织吗`"
+          :message="t('organization.confirmRemoveMember', [item.nickname])"
           @confirm="onDeleteAccount(item)"
         >
           <IconButton
             class="ml-2"
             color="error"
             v-bind="attrs"
-            title="移除成员"
+            :title="t('delete')"
             v-on="on"
           >
             <v-icon>mdi-account-remove</v-icon>
@@ -50,7 +50,7 @@
             icon
             text
             color="primary"
-            title="刷新列表"
+            :title="t('refresh')"
             @click="refreshAccountList"
           >
             <v-icon>mdi-refresh</v-icon>
@@ -92,7 +92,7 @@
                           >
                             <v-text-field
                               v-model="accountModel.name"
-                              label="账号"
+                              :label="t('account.username')"
                               :error-messages="errors"
                               :success="valid"
                               :readonly="!isCreateAccount"
@@ -107,7 +107,7 @@
                           >
                             <v-text-field
                               v-model="accountModel.nickname"
-                              label="昵称"
+                              :label="t('account.nickname')"
                               :error-messages="errors"
                               :success="valid"
                             />
@@ -121,7 +121,7 @@
                           >
                             <v-text-field
                               v-model="accountModel.password"
-                              label="密码"
+                              :label="t('account.password')"
                               :error-messages="errors"
                               :success="valid"
                               type="password"
@@ -141,7 +141,7 @@
                               :success="valid"
                               item-value="id"
                               :items="roleList"
-                              label="角色"
+                              :label="t('account.role')"
                               multiple
                             />
                           </ValidationProvider>
@@ -157,7 +157,7 @@
                     text
                     @click="dialogVisible = false"
                   >
-                    取消
+                    {{ t('cancel') }}
                   </v-btn>
                   <v-btn
                     color="primary"
@@ -165,7 +165,7 @@
                     :disabled="invalid || !validated"
                     @click="passes(submitAccount)"
                   >
-                    提交
+                    {{ t('submit') }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -178,7 +178,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { computed, defineComponent, nextTick, onMounted, Ref, ref } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import {
   Account,
@@ -198,7 +199,8 @@ type Obs = {
 
 export default defineComponent({
   name: 'Accounts',
-  setup(props, { root }) {
+  setup() {
+    const { t } = useI18n();
     const obs: Ref<Obs> = ref() as Ref<Obs>;
     const accountList: Ref<Array<Account>> = ref([]);
     const authorizedOperations: Ref<Array<string>> = ref([]);
@@ -212,17 +214,17 @@ export default defineComponent({
     });
     const roleList: Ref<Array<Role>> = ref([]);
     const headers = [
-      { text: '账号', value: 'name', divider: true },
-      { text: '昵称', value: 'nickname', divider: true },
-      { text: '角色', value: 'roles', divider: true },
-      { text: '操作', value: 'actions', width: 300 },
+      { text: t('account.username'), value: 'name', divider: true },
+      { text: t('account.nickname'), value: 'nickname', divider: true },
+      { text: t('account.role'), value: 'roles', divider: true },
+      { text: t('actions'), value: 'actions', width: 300 },
     ];
     function isCreateAccountDto(dto: CreateAccountDto | UpdateAccountDto): dto is CreateAccountDto {
       return !('id' in dto);
     }
 
     const isCreateAccount = computed(() => isCreateAccountDto(accountModel.value));
-    const dialogTitle = computed(() => (isCreateAccount.value ? '新增成员' : '修改成员'));
+    const dialogTitle = computed(() => `${isCreateAccount.value ? t('add') : t('update')} ${t('organization.member')}`);
 
     async function refreshAccountList() {
       const { data } = await ProfileService.getAccounts();
@@ -264,7 +266,7 @@ export default defineComponent({
     }) {
       accountModel.value = { id, name, nickname, roles: roles.map((each) => each.id) };
       dialogVisible.value = true;
-      root.$nextTick().then(obs.value.validate);
+      nextTick().then(obs.value.validate);
     }
 
     async function onCreateAccount() {
@@ -293,6 +295,7 @@ export default defineComponent({
       headers,
       isCreateAccount,
       refreshAccountList,
+      ...useI18n,
     };
   },
 });

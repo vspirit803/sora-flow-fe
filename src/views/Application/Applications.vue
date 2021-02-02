@@ -58,7 +58,7 @@
                   text
                   @click="dialogVisible = false"
                 >
-                  取消
+                  {{ t('cancel') }}
                 </v-btn>
                 <v-btn
                   color="primary"
@@ -66,7 +66,7 @@
                   :disabled="invalid || !validated"
                   @click="passes(submitCreateApplication)"
                 >
-                  提交
+                  {{ t('submit') }}
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -128,6 +128,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, inject, onMounted, Ref, ref, watch } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import { Application, ApplicationsService } from '@/service';
 import { useRouter, useStore } from '@/use';
@@ -202,6 +203,7 @@ export default defineComponent({
       applicationModel,
       onDeleteApplication,
       isPending,
+      ...useI18n(),
     };
   },
 });

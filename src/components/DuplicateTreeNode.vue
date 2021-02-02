@@ -54,11 +54,11 @@ export default defineComponent({
   props: {
     value: {
       type: Array,
-      default: () => [],
+      required: true,
     },
     item: {
       type: Object,
-      default: () => ({}),
+      required: true,
     },
     textKey: {
       type: String,

@@ -75,7 +75,7 @@
                   text
                   @click="visiblePuslishApplicationDialog = false"
                 >
-                  取消
+                  {{ t('cancel') }}
                 </v-btn>
                 <v-btn
                   color="primary"
@@ -167,7 +167,7 @@
               hide-default-footer
             >
               <template #item.finalTime="{ item }">
-                {{ new Date(item.finalTime).toLocaleDateString() }}
+                {{ d(new Date(item.finalTime)) }}
               </template>
               <template #item.progress="{ item }">
                 <v-tooltip
@@ -216,6 +216,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import {
   ApplicationRecordCollectionTask,
@@ -323,6 +324,7 @@ export default defineComponent({
       applicationRecordCollectionTasks,
       refreshApplicationRecordCollectionTasks,
       isLoading,
+      ...useI18n(),
     };
   },
 });

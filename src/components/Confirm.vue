@@ -38,7 +38,7 @@ import { useI18n } from 'vue-i18n-composable';
 
 export default defineComponent({
   name: 'Confirm',
-  props: { message: String },
+  props: { message: { type: String, default: '' } },
   setup(props, context) {
     const visible = ref(false);
 

@@ -64,7 +64,7 @@
               text
               @click="$emit('cancel')"
             >
-              取消
+              {{ t('cancel') }}
             </v-btn>
             <v-spacer />
             <v-btn
@@ -100,7 +100,7 @@
               text
               @click="$emit('cancel')"
             >
-              取消
+              {{ t('cancel') }}
             </v-btn>
             <v-spacer />
             <v-btn
@@ -138,7 +138,7 @@
               text
               @click="$emit('cancel')"
             >
-              取消
+              {{ t('cancel') }}
             </v-btn>
             <v-spacer />
             <v-btn
@@ -164,6 +164,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive, Ref, ref, UnwrapRef } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import DuplicateTree from '@/components/DuplicateTree.vue';
 import {
@@ -256,6 +257,7 @@ export default defineComponent({
       finalTime,
       visibleTimePicker,
       onFinalTimeChange,
+      ...useI18n(),
     };
   },
 });

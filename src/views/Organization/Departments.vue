@@ -5,11 +5,11 @@
       class="department-list-card flex-grow-0 flex-shrink-0 mr-2"
     >
       <v-card-title class="d-flex justify-space-between">
-        <span>部门列表</span>
+        <span>{{ t('organization.department.departmentList') }}</span>
         <v-btn
           color="primary"
           icon
-          title="添加部门"
+          :title="t('add')"
           @click="onCreateDepartment()"
         >
           <v-icon>mdi-domain-plus</v-icon>
@@ -26,7 +26,7 @@
             color="primary"
             class="mr-2"
             icon
-            title="编辑部门"
+            :title="t('update')"
             @click="onEditDepartment(item)"
           >
             <v-icon>mdi-square-edit-outline</v-icon>
@@ -35,7 +35,7 @@
             color="primary"
             class="mr-2"
             icon
-            title="添加部门"
+            :title="t('add')"
             @click="onCreateDepartment(item)"
           >
             <v-icon>mdi-domain-plus</v-icon>
@@ -48,7 +48,7 @@
       outlined
       class="department-detail"
     >
-      负责人: {{ selectedDepartment.supervisor.nickname }}
+      {{ t('organization.department.supervisor') }}: {{ selectedDepartment.supervisor.nickname }}
       <br>
       <v-data-table
         :headers="[
@@ -65,6 +65,7 @@
             v-if="item.id === selectedDepartment.supervisor.id"
             class="ml-4"
             color="primary"
+            :title="t('organization.department.supervisor')"
           >
             mdi-account-star
           </v-icon>
@@ -81,7 +82,7 @@
         </template>
         <template #item.actions="{ item }">
           <Confirm
-            v-if="item.id!==selectedDepartment.supervisor.id"
+            v-if="item.id !== selectedDepartment.supervisor.id"
             v-slot="{ on, attrs }"
             :message="`确认将[${item.nickname}]移出部门吗`"
             @confirm="onDeleteMember(item)"
@@ -90,14 +91,14 @@
               class="ml-2"
               color="error"
               v-bind="attrs"
-              title="移除成员"
+              :title="t('organization.department.removeMember')"
               v-on="on"
             >
               <v-icon>mdi-account-remove</v-icon>
             </IconButton>
           </Confirm>
           <Confirm
-            v-if="item.id!==selectedDepartment.supervisor.id"
+            v-if="item.id !== selectedDepartment.supervisor.id"
             v-slot="{ on, attrs }"
             :message="`确认将[${item.nickname}]设为部门负责人吗`"
             @confirm="onChangeSupervisor(item)"
@@ -106,10 +107,10 @@
               class="ml-2"
               color="primary"
               v-bind="attrs"
-              title="设为负责人"
+              :title="t('organization.department.setAsSupervisor')"
               v-on="on"
             >
-              <v-icon>mdi-account</v-icon>
+              <v-icon>mdi-account-star</v-icon>
             </IconButton>
           </Confirm>
         </template>
@@ -119,7 +120,7 @@
               icon
               text
               color="primary"
-              title="刷新列表"
+              :title="t('refresh')"
               @click="refreshSelectedDepartment"
             >
               <v-icon>mdi-refresh</v-icon>
@@ -130,7 +131,8 @@
             >
               <v-icon class="mr-2">
                 mdi-account-plus
-              </v-icon>新增成员
+              </v-icon>
+              {{ t('add') }}
             </v-btn>
           </v-toolbar>
         </template>
@@ -172,7 +174,7 @@
                   item-text="nickname"
                   item-value="id"
                   :items="accountList"
-                  label="负责人"
+                  :label="t('organization.department.supervisor')"
                 />
               </v-col>
             </v-row>
@@ -185,14 +187,14 @@
             text
             @click="dialogVisible = false"
           >
-            取消
+            {{ t('cancel') }}
           </v-btn>
           <v-btn
             color="blue darken-1"
             text
             @click="submit"
           >
-            提交
+            {{ t('submit') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -204,7 +206,7 @@
     >
       <v-card>
         <v-card-title>
-          <span class="headline">新增成员</span>
+          <span class="headline">{{ `${t('add')} ${t('organization.department.member')}` }}</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -230,14 +232,14 @@
             text
             @click="addMembersDialogVisible = false"
           >
-            取消
+            {{ t('cancel') }}
           </v-btn>
           <v-btn
             color="blue darken-1"
             text
             @click="onAddMembers"
           >
-            提交
+            {{ t('submit') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -247,6 +249,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, Ref, ref, watch } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import {
   CreateDepartmentDto,
@@ -265,6 +268,7 @@ interface Account {
 export default defineComponent({
   name: 'Department',
   setup() {
+    const { t } = useI18n();
     const departments: Ref<Array<DepartmentVo>> = ref([]);
     const departmentModel: Ref<CreateDepartmentDto | UpdateDepartmentDto> = ref({
       name: '',
@@ -279,7 +283,9 @@ export default defineComponent({
     const isCreateDepartment = computed(() => isCreateDepartmentDto(departmentModel.value));
 
     const dialogVisible = ref(false);
-    const dialogTitle = computed(() => (isCreateDepartment.value ? '新增部门' : '修改部门'));
+    const dialogTitle = computed(
+      () => `${isCreateDepartment.value ? t('add') : t('update')} ${t('organization.department.department')}`,
+    );
 
     async function refresh() {
       const { data } = await DepartmentsService.getDepartments();
@@ -388,6 +394,7 @@ export default defineComponent({
       addMembersDialogVisible,
       availableAccountList,
       isCreateDepartment,
+      ...useI18n(),
     };
   },
 });

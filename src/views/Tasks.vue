@@ -3,21 +3,17 @@
     <v-expansion-panels :value="0">
       <v-expansion-panel key="applicationRecordReportTasks">
         <v-expansion-panel-header>
-          待填表单
+          {{ t('task.reportTasks') }}
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-data-table
-            :headers="[
-              { text: '标题', value: 'metadata.title', divider: true, width: 200},
-              { text: '截止时间', value: 'finalTime', divider: true, width: 200},
-              { text: '操作', value: 'actions', width: 200 },
-            ]"
+            :headers="headers"
             fixed-header
             :items="applicationRecordReportTasks"
             hide-default-footer
           >
             <template #item.finalTime="{ item }">
-              {{ new Date(item.finalTime).toLocaleDateString() }}
+              {{ d(new Date(item.finalTime)) }}
             </template>
             <template #item.actions="{ item }">
               <v-btn
@@ -30,7 +26,7 @@
                   }
                 }"
               >
-                填报
+                {{ t('task.report') }}
               </v-btn>
             </template>
           </v-data-table>
@@ -42,6 +38,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref, watch } from '@vue/composition-api';
+import { useI18n } from 'vue-i18n-composable';
 
 import { Task, TasksService } from '@/service';
 import { useStore } from '@/use';
@@ -49,8 +46,15 @@ import { useStore } from '@/use';
 export default defineComponent({
   name: 'Tasks',
   setup() {
+    const { t } = useI18n();
     //所有待办
     const allTasks: Ref<Array<Task>> = ref([]);
+    const headers = [
+      { text: t('task.title'), value: 'metadata.title', divider: true, width: 200 },
+      { text: t('task.finalTime'), value: 'finalTime', divider: true, width: 200 },
+      { text: t('actions'), value: 'actions', width: 200 },
+    ];
+
     //应用记录采集待办
     const applicationRecordReportTasks = computed(() =>
       allTasks.value.filter((eachTask) => eachTask.type === 'ApplicationRecordReport'),
@@ -74,6 +78,8 @@ export default defineComponent({
     return {
       allTasks,
       applicationRecordReportTasks,
+      headers,
+      ...useI18n(),
     };
   },
 });
