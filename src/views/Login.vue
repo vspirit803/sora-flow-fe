@@ -9,46 +9,62 @@
         :md="6"
         :sm="12"
       >
-        <v-form
-          class="login-form"
-          @keyup.enter.native="submit"
+        <ValidationObserver
+          ref="obs"
+          v-slot="{ invalid, validated, passes }"
         >
-          <v-text-field
-            v-model="name"
-            :label="t('account.username')"
-            required
-          />
-          <v-text-field
-            v-model="password"
-            type="password"
-            :label="t('account.password')"
-            required
-          />
+          <v-form
+            class="login-form"
+            @keyup.enter.native="passes(submit)"
+          >
+            <ValidateVTextField
+              v-model="name"
+              name="name"
+              :label="t('account.username')"
+              rules="required"
+            />
+            <ValidateVTextField
+              v-model="password"
+              name="password"
+              type="password"
+              :label="t('account.password')"
+              rules="required"
+            />
+          </v-form>
           <v-btn
             color="primary"
+            :disabled="invalid || !validated"
             @click="submit"
           >
             {{ t('login') }}
           </v-btn>
-        </v-form>
+        </ValidationObserver>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from '@vue/composition-api';
+import { computed, defineComponent, Ref, ref } from '@vue/composition-api';
 import { useI18n } from 'vue-i18n-composable';
 
+import ValidateVTextField from '@/components/ValidateField/ValidateVTextField.vue';
 import { useRouter, useStore } from '@/use';
+
+type Obs = {
+  reset: () => void;
+  validate: () => Promise<boolean>;
+};
 
 export default defineComponent({
   name: 'Login',
+  components: { ValidateVTextField },
   setup() {
     const store = useStore();
     const name = ref('');
     const password = ref('');
     const router = useRouter();
+    const obs: Ref<Obs> = ref() as Ref<Obs>;
 
     const organizations = computed(() => {
       return store.state.organizations;
@@ -72,7 +88,7 @@ export default defineComponent({
       }
     }
 
-    return { submit, name, password, organizations, selectOrganization, ...useI18n() };
+    return { submit, name, password, organizations, selectOrganization, obs, ...useI18n() };
   },
 });
 </script>
