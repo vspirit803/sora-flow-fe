@@ -9,7 +9,10 @@
         :md="6"
         :sm="12"
       >
-        <v-form class="login-form">
+        <v-form
+          class="login-form"
+          @keyup.enter.native="submit"
+        >
           <v-text-field
             v-model="name"
             :label="t('account.username')"
@@ -21,7 +24,10 @@
             :label="t('account.password')"
             required
           />
-          <v-btn @click="submit">
+          <v-btn
+            color="primary"
+            @click="submit"
+          >
             {{ t('login') }}
           </v-btn>
         </v-form>
