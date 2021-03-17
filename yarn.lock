@@ -9854,10 +9854,10 @@ vuetify-loader@^1.6.0:
     file-loader "^4.0.0"
     loader-utils "^1.2.0"
 
-vuetify@^2.3.19:
-  version "2.4.2"
-  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.4.2.tgz#d37d160c1fc6b241fc166a32980b34590a017d6e"
-  integrity sha1-030WDB/GskH8FmoymAs0WQoBfW4=
+vuetify@^2.4.7:
+  version "2.4.7"
+  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.4.7.tgz#341f16950475466a7fa43f4cb507cc8c3ef170b9"
+  integrity sha1-NB8WlQR1Rmp/pD9MtQfMjD7xcLk=
 
 vuex-persistedstate@^3.1.0:
   version "3.2.0"
