@@ -1454,10 +1454,10 @@
   optionalDependencies:
     fork-ts-checker-webpack-plugin-v5 "npm:fork-ts-checker-webpack-plugin@^5.0.11"
 
-"@vue/cli-plugin-vuex@^4.5.10", "@vue/cli-plugin-vuex@~4.5.4":
-  version "4.5.10"
-  resolved "https://registry.npm.taobao.org/@vue/cli-plugin-vuex/download/@vue/cli-plugin-vuex-4.5.10.tgz?cache=0&sync_timestamp=1609924492231&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40vue%2Fcli-plugin-vuex%2Fdownload%2F%40vue%2Fcli-plugin-vuex-4.5.10.tgz#bad1fc538d09df0e67454594f707782d63667f39"
-  integrity sha1-utH8U40J3w5nRUWU9wd4LWNmfzk=
+"@vue/cli-plugin-vuex@^4.5.10", "@vue/cli-plugin-vuex@~4.5.12":
+  version "4.5.12"
+  resolved "https://registry.npm.taobao.org/@vue/cli-plugin-vuex/download/@vue/cli-plugin-vuex-4.5.12.tgz#f7fbe177ee7176f055b546e9e74472f9d9177626"
+  integrity sha1-9/vhd+5xdvBVtUbp50Ry+dkXdiY=
 
 "@vue/cli-service@~4.5.9":
   version "4.5.10"
