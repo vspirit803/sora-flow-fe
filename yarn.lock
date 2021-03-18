@@ -1429,12 +1429,12 @@
     webpack "^4.0.0"
     yorkie "^2.0.0"
 
-"@vue/cli-plugin-router@^4.5.10", "@vue/cli-plugin-router@~4.5.7":
-  version "4.5.10"
-  resolved "https://registry.npm.taobao.org/@vue/cli-plugin-router/download/@vue/cli-plugin-router-4.5.10.tgz?cache=0&sync_timestamp=1609924456776&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40vue%2Fcli-plugin-router%2Fdownload%2F%40vue%2Fcli-plugin-router-4.5.10.tgz#546eaf6295bb125ce2365fb6db83548979776b0d"
-  integrity sha1-VG6vYpW7ElziNl+224NUiXl3aw0=
+"@vue/cli-plugin-router@^4.5.10", "@vue/cli-plugin-router@~4.5.12":
+  version "4.5.12"
+  resolved "https://registry.npm.taobao.org/@vue/cli-plugin-router/download/@vue/cli-plugin-router-4.5.12.tgz#977c4b2b694cc03e9ef816112a5d58923493d0ac"
+  integrity sha1-l3xLK2lMwD6e+BYRKl1YkjST0Kw=
   dependencies:
-    "@vue/cli-shared-utils" "^4.5.10"
+    "@vue/cli-shared-utils" "^4.5.12"
 
 "@vue/cli-plugin-typescript@~4.5.9":
   version "4.5.10"
@@ -1522,10 +1522,10 @@
   optionalDependencies:
     vue-loader-v16 "npm:vue-loader@^16.1.0"
 
-"@vue/cli-shared-utils@^4.5.10":
-  version "4.5.10"
-  resolved "https://registry.npm.taobao.org/@vue/cli-shared-utils/download/@vue/cli-shared-utils-4.5.10.tgz?cache=0&sync_timestamp=1609925866673&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40vue%2Fcli-shared-utils%2Fdownload%2F%40vue%2Fcli-shared-utils-4.5.10.tgz#e3b84c38bba19c6d995278b15261da865790561c"
-  integrity sha1-47hMOLuhnG2ZUnixUmHahleQVhw=
+"@vue/cli-shared-utils@^4.5.10", "@vue/cli-shared-utils@^4.5.12":
+  version "4.5.12"
+  resolved "https://registry.npm.taobao.org/@vue/cli-shared-utils/download/@vue/cli-shared-utils-4.5.12.tgz#0e0693d488336d284ffa658ff33b1ea22927d065"
+  integrity sha1-DgaT1IgzbShP+mWP8zseoikn0GU=
   dependencies:
     "@hapi/joi" "^15.0.1"
     chalk "^2.4.2"
