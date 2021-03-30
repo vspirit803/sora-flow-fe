@@ -1556,12 +1556,12 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/composition-api@1.0.0-beta.26":
-  version "1.0.0-beta.26"
-  resolved "https://registry.npm.taobao.org/@vue/composition-api/download/@vue/composition-api-1.0.0-beta.26.tgz#7a6027aa4b62c3017cd5991d8bebc2cdb3f67ade"
-  integrity sha1-emAnqktiwwF81Zkdi+vCzbP2et4=
+"@vue/composition-api@1.0.0-rc.6":
+  version "1.0.0-rc.6"
+  resolved "https://registry.npm.taobao.org/@vue/composition-api/download/@vue/composition-api-1.0.0-rc.6.tgz#21ce2c169dd4ff17a5bf60c6e98863dff1a36540"
+  integrity sha1-Ic4sFp3U/xelv2DG6Yhj3/GjZUA=
   dependencies:
-    tslib "^2.0.3"
+    tslib "^2.1.0"
 
 "@vue/eslint-config-prettier@^6.0.0":
   version "6.0.0"
@@ -9393,9 +9393,9 @@ tslib@^1.10.0, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.14.1.tgz?cache=0&sync_timestamp=1609887446826&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha1-zy04vcNKE0vK8QkcQfZhni9nLQA=
 
-tslib@^2.0.3:
+tslib@^2.1.0:
   version "2.1.0"
-  resolved "https://registry.npm.taobao.org/tslib/download/tslib-2.1.0.tgz?cache=0&sync_timestamp=1609887446826&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
+  resolved "https://registry.npm.taobao.org/tslib/download/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
   integrity sha1-2mCGDxwuyqVwOrfTm8Bba/mIuXo=
 
 tslint@^5.20.1:
