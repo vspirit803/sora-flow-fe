@@ -6025,14 +6025,12 @@ launch-editor@^2.2.1:
     chalk "^2.3.0"
     shell-quote "^1.6.1"
 
-less-loader@^7.1.0:
-  version "7.2.1"
-  resolved "https://registry.npm.taobao.org/less-loader/download/less-loader-7.2.1.tgz?cache=0&sync_timestamp=1609160534017&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless-loader%2Fdownload%2Fless-loader-7.2.1.tgz#a923df8567256751b0ab4e0c3eecff10fd0a5876"
-  integrity sha1-qSPfhWclZ1Gwq04MPuz/EP0KWHY=
+less-loader@^8.1.1:
+  version "8.1.1"
+  resolved "https://registry.npm.taobao.org/less-loader/download/less-loader-8.1.1.tgz?cache=0&sync_timestamp=1618507671113&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless-loader%2Fdownload%2Fless-loader-8.1.1.tgz#ababe912580457ad00a4318146aac5b53e023f42"
+  integrity sha1-q6vpElgEV60ApDGBRqrFtT4CP0I=
   dependencies:
     klona "^2.0.4"
-    loader-utils "^2.0.0"
-    schema-utils "^3.0.0"
 
 less@^4.1.0:
   version "4.1.0"
