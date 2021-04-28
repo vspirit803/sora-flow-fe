@@ -1,0 +1,58 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: vuetify
+    versions:
+    - 2.4.11
+    - 2.4.3
+    - 2.4.4
+    - 2.4.5
+    - 2.4.6
+    - 2.4.7
+    - 2.4.8
+    - 2.4.9
+  - dependency-name: less-loader
+    versions:
+    - 7.3.0
+    - 8.0.0
+    - 8.1.0
+  - dependency-name: "@vue/composition-api"
+    versions:
+    - 1.0.0-rc.1
+    - 1.0.0-rc.2
+    - 1.0.0-rc.3
+    - 1.0.0-rc.4
+    - 1.0.0-rc.5
+    - 1.0.0-rc.6
+  - dependency-name: eslint-plugin-vue
+    versions:
+    - 7.5.0
+    - 7.6.0
+    - 7.7.0
+    - 7.8.0
+  - dependency-name: sass
+    versions:
+    - 1.32.5
+    - 1.32.6
+    - 1.32.7
+    - 1.32.8
+  - dependency-name: "@vue/cli-plugin-router"
+    versions:
+    - 4.5.11
+  - dependency-name: "@vue/cli-plugin-babel"
+    versions:
+    - 4.5.11
+  - dependency-name: "@vue/cli-plugin-vuex"
+    versions:
+    - 4.5.11
+  - dependency-name: "@vue/cli-plugin-eslint"
+    versions:
+    - 4.5.11
+  - dependency-name: "@vue/cli-service"
+    versions:
+    - 4.5.11
