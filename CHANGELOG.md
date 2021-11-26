@@ -1,3 +1,26 @@
+## [0.0.8](https://github.com/vspirit803/sora-flow-fe/compare/v0.0.7...v0.0.8) (2021-11-26)
+
+
+### Bug Fixes
+
+* **Accounts:** fix error return value of the setup function ([7e947df](https://github.com/vspirit803/sora-flow-fe/commit/7e947dff5b035f036615fe058feeafb80670937c))
+
+
+### Features
+
+* link the icp information to miit website ([cbaaf32](https://github.com/vspirit803/sora-flow-fe/commit/cbaaf3232367d96987b3b433fc22056e9c6814c9))
+* **App:** display the login button if not logged in ([6887f49](https://github.com/vspirit803/sora-flow-fe/commit/6887f49ad51ba19dcf788e224bd20f849e5281fc))
+* **i18n:** add more localized text ([4a785c1](https://github.com/vspirit803/sora-flow-fe/commit/4a785c1aae7d32ef8b674d45d3ac528c89282419))
+* **i18n:** add more localized text ([6093f0b](https://github.com/vspirit803/sora-flow-fe/commit/6093f0b660b9b7118a35d5421485bfbc7e0714be))
+* **i8n:** add types for localized configuration ([865ef9f](https://github.com/vspirit803/sora-flow-fe/commit/865ef9f699a312f30a89c669ca46dd541f9a41c5))
+* **Login:** add form validation ([b3527ff](https://github.com/vspirit803/sora-flow-fe/commit/b3527ff70d23f5ff5932be2262d6566192f84b22))
+* **Login:** submit when press enter ([c35cad1](https://github.com/vspirit803/sora-flow-fe/commit/c35cad129dee27da8f32a351674cfbbe5b451abb))
+* add i18n ([ff7c566](https://github.com/vspirit803/sora-flow-fe/commit/ff7c566bbe6538185e6d74a0153a40a988b44ef7))
+* update the introduction ([5cd6049](https://github.com/vspirit803/sora-flow-fe/commit/5cd60493bb346ce0c98e07c5b42879390fdd508b))
+* **i18n:** add more localized text and modular localization configuration ([992d474](https://github.com/vspirit803/sora-flow-fe/commit/992d474f2e72b7580b0adb68d8f33a77a64724e9))
+
+
+
 ## [0.0.7](https://github.com/vspirit803/sora-flow-fe/compare/v0.0.6...v0.0.7) (2020-11-26)
 
 
