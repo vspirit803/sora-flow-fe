@@ -3,7 +3,9 @@
     <Introduction />
     <v-footer app>
       <v-spacer />
-      <div>蜀ICP备20016613号-1</div>
+      <a href="https://beian.miit.gov.cn/">
+        蜀ICP备20016613号-1
+      </a>
     </v-footer>
   </div>
 </template>
